@@ -8,7 +8,8 @@ const TopNav = () => {
   const user = useSelector(state => state.usersReducer).currentUser;
   return (
     <TopBar>
-      <img src={logo} alt='Forget Me Not logo' />;<div>{`${user.firstName} ${user.lastName}`}</div>
+      <img src={logo} alt='Forget Me Not logo' />
+      <div>{`${user.firstName} ${user.lastName}`}</div>
     </TopBar>
   );
 };
