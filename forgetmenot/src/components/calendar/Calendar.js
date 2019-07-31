@@ -37,11 +37,22 @@ const Calendar = () => {
             dateClick={pickDate}
             selectable='true'
             handleWindowResize='true'
-            events={[
-              { start: new Date() },
-              { start: new Date("07/31/2019 10:00") },
-              { start: new Date("07/31/2019 14:00") }
+            eventSources={[
+              {
+                events: [
+                  { start: new Date() },
+                  { start: new Date("07/31/2019 10:00") },
+                  { start: new Date("07/31/2019 14:00") }
+                ],
+                color: "#4c688f",
+                textColor: "white"
+              }
             ]}
+            // events={[
+            //   { start: new Date() },
+            //   { start: new Date("07/31/2019 10:00") },
+            //   { start: new Date("07/31/2019 14:00") }
+            // ]}
           />
         </Cal>
         <MessagesList dates={dates} />
