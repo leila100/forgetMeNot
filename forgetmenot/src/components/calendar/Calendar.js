@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import moment from "moment";
+import timeGridPlugin from "@fullcalendar/timegrid";
 import "@fullcalendar/core/main.css";
 
 import FMN from "../../assets/images/FMN1.png";
@@ -11,12 +11,14 @@ import { CalendarPage, CalendarWrapper, Cal } from "../../styles/calendarStyles"
 import MessagesList from "../message/MessagesList";
 
 const Calendar = () => {
+  const [date, setDate] = useState(Date.now());
+
   const pickDate = arg => {
-    const date = arg.date;
-    console.log({ date });
+    const datePicked = arg.date;
+    setDate(datePicked);
   };
 
-  const dates = ["07/31/2019"];
+  const dates = [date];
   return (
     <CalendarPage>
       <Header>
@@ -31,11 +33,15 @@ const Calendar = () => {
         <Cal>
           <FullCalendar
             defaultView='dayGridMonth'
-            plugins={[dayGridPlugin, interactionPlugin]}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
             dateClick={pickDate}
             selectable='true'
             handleWindowResize='true'
-            events={{ title: "Event Now", start: new Date() }}
+            events={[
+              { start: new Date() },
+              { start: new Date("07/31/2019 10:00") },
+              { start: new Date("07/31/2019 14:00") }
+            ]}
           />
         </Cal>
         <MessagesList dates={dates} />

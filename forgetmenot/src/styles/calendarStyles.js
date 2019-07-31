@@ -15,6 +15,6 @@ export const CalendarWrapper = styled.div`
 `;
 
 export const Cal = styled.div`
-  width: 100%;
+  width: 65%;
   padding-right: 2%;
 `;
