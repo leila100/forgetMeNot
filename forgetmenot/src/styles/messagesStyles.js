@@ -26,7 +26,14 @@ export const MessageBody = styled.div`
 
 export const MessageType = styled.div`
   width: 5%;
-  background-color: ${props => (props.type === "family" ? "#b87a71" : props.type === "friend" ? "#4c688f" : "#666680")};
+  background-color: ${props =>
+    props.type === "family"
+      ? "#b87a71"
+      : props.type === "friend"
+      ? "#4c688f"
+      : props.type === "work"
+      ? "#666680"
+      : "#F3EEC3"};
 `;
 
 export const Date = styled.div`

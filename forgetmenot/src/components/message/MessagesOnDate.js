@@ -13,11 +13,25 @@ const MessagesOnDate = ({ date }) => {
       type: "friend"
     },
     {
-      recipient: "anissa",
+      recipient: "Anissa",
       email: "anissa@example.com",
       message: "Good Job!!!",
       time: "15:00",
       type: "family"
+    },
+    {
+      recipient: "coworker",
+      email: "worker@example.com",
+      message: "Congratulations for the promotion!!!",
+      time: "8:00",
+      type: "work"
+    },
+    {
+      recipient: "neighbor",
+      email: "neighbor@example.com",
+      message: "Welcome to the neighborhood!!!",
+      time: "9:00",
+      type: ""
     }
   ];
   return (

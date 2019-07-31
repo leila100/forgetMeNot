@@ -2,6 +2,8 @@ import styled from "styled-components";
 
 export const navBgColor = "#666680";
 export const headerBgColor = "#284243";
+export const btnBgColor = "#4c688f";
+export const btnBorder = "#b87a71";
 
 export const Container = styled.div`
   display: flex;
@@ -30,4 +32,14 @@ export const Header = styled.div`
   div {
     margin: 10px;
   }
+`;
+
+export const Button = styled.button`
+  width: 70%;
+  border-radius: 10px;
+  background-color: ${btnBgColor};
+  border: 1px solid ${btnBorder};
+  padding: 10px 12px;
+  color: white;
+  margin: auto;
 `;
