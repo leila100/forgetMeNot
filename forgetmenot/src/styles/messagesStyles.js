@@ -4,7 +4,9 @@ export const messageBgColor = "#284243";
 
 export const Messages = styled.ul`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${props => (props.row ? "row" : "column")};
+  justify-content: space-around;
+  width: 100%;
 `;
 
 export const MessageBox = styled.li`
@@ -22,6 +24,9 @@ export const MessageBody = styled.div`
   div {
     margin: 5px 0;
   }
+  span {
+    color: #f3eec3;
+  }
 `;
 
 export const MessageType = styled.div`
@@ -38,5 +43,5 @@ export const MessageType = styled.div`
 
 export const Date = styled.div`
   font-size: 1.6rem;
-  color: #4c688f;
+  color: ${props => (props.color ? "#4C688F" : "#F3EEC3")};
 `;

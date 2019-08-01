@@ -7,7 +7,8 @@ import "@fullcalendar/core/main.css";
 
 import FMN from "../../assets/images/FMN1.png";
 import { Header } from "../../styles/commonStyles";
-import { CalendarPage, CalendarWrapper, Cal } from "../../styles/calendarStyles";
+import { CalendarPage, CalendarWrapper, Cal, Day } from "../../styles/calendarStyles";
+import { Button } from "../../styles/commonStyles";
 import MessagesList from "../message/MessagesList";
 
 const Calendar = () => {
@@ -48,14 +49,12 @@ const Calendar = () => {
                 textColor: "white"
               }
             ]}
-            // events={[
-            //   { start: new Date() },
-            //   { start: new Date("07/31/2019 10:00") },
-            //   { start: new Date("07/31/2019 14:00") }
-            // ]}
           />
         </Cal>
-        <MessagesList dates={dates} />
+        <Day>
+          <MessagesList dates={dates} row />
+          <Button>Schedule a message</Button>
+        </Day>
       </CalendarWrapper>
     </CalendarPage>
   );

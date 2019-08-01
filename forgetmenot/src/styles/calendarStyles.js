@@ -9,12 +9,21 @@ export const CalendarPage = styled.div`
 
 export const CalendarWrapper = styled.div`
   display: flex;
+  flex-direction: column;
   margin-top: 10px;
   justify-content: space-between;
   align-content: center;
 `;
 
 export const Cal = styled.div`
-  width: 65%;
   padding-right: 2%;
+  background-color: white;
+`;
+
+export const Day = styled.div`
+  margin-top: 20px;
+  text-align: center;
+  ul {
+    text-align: left;
+  }
 `;

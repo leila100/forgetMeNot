@@ -7,13 +7,28 @@ export const TopBar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  img {
+    width: 20%;
+  }
 `;
 
 export const SideBar = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  align-items: flex-start;
   flex-direction: column;
   width: ${props => (props.right ? "30%" : "10%")};
   padding: 10px;
   background-color: ${navBgColor};
+  a {
+    text-decoration: none;
+    color: #f3eec3;
+    font-size: 1.8rem;
+    margin: 50px 5px;
+  }
+  h2 {
+    font-size: 2.2rem;
+    color: #f3eec3;
+    margin: 50px auto;
+  }
 `;

@@ -9,13 +9,14 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   max-width: 1200px;
-  padding: 0 2%;
   margin: 20px auto;
+  background-color: #d7d7d7;
 `;
 
 export const Header = styled.div`
   display: flex;
-  line-height: 2;
+  align-items: center;
+  line-height: 1.5;
   background-color: ${headerBgColor};
   color: white;
   h1 {
@@ -27,7 +28,6 @@ export const Header = styled.div`
   img {
     width: 20%;
     height: 80%;
-    margin: 10px;
   }
   div {
     margin: 10px;
@@ -35,11 +35,12 @@ export const Header = styled.div`
 `;
 
 export const Button = styled.button`
-  width: 70%;
+  width: 200px;
   border-radius: 10px;
   background-color: ${btnBgColor};
   border: 1px solid ${btnBorder};
   padding: 10px 12px;
   color: white;
-  margin: auto;
+  margin: 10px auto;
+  font-size: 1.4rem;
 `;

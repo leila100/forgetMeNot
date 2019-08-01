@@ -1,20 +1,16 @@
 import React from "react";
-import moment from "moment";
 
-import { Button } from "../../styles/commonStyles";
-import { Messages, Date } from "../../styles/messagesStyles";
+import { Messages } from "../../styles/messagesStyles";
 import MessagesOnDate from "./MessagesOnDate";
 
-const MessagesList = ({ dates }) => {
+const MessagesList = ({ dates, row }) => {
   return (
     <Messages>
       {dates.map(date => (
         <>
-          <Date>{moment(date).format("ddd, MMM DD YYYY")}</Date>
-          <MessagesOnDate date={date} />
+          <MessagesOnDate date={date} row={row} />
         </>
       ))}
-      <Button>Schedule a message</Button>
     </Messages>
   );
 };

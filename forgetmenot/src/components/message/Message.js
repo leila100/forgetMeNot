@@ -7,12 +7,20 @@ const Message = ({ message }) => {
     <MessageBox>
       <MessageType type={message.type} />
       <MessageBody>
-        <div>Recipient: {message.recipient}</div>
-        <div>Email: {message.email}</div>
         <div>
-          <p>Message: {message.message}</p>
+          <span>Recipient:</span> {message.recipient}
         </div>
-        <div>Time: {message.time}</div>
+        <div>
+          <span>Email:</span> {message.email}
+        </div>
+        <div>
+          <p>
+            <span>Message:</span> {message.message}
+          </p>
+        </div>
+        <div>
+          <span>Time:</span> {message.time}
+        </div>
       </MessageBody>
     </MessageBox>
   );
