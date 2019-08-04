@@ -10,13 +10,24 @@ import { Header } from "../../styles/commonStyles";
 import { CalendarPage, CalendarWrapper, Cal, Day } from "../../styles/calendarStyles";
 import { Button } from "../../styles/commonStyles";
 import MessagesList from "../message/MessagesList";
+import MessageModal from "../messageModal/MessageModal";
 
 const Calendar = () => {
   const [date, setDate] = useState(Date.now());
+  const [open, setOpen] = useState(false);
+
+  function handleClickOpen() {
+    setOpen(true);
+  }
+
+  function handleClose() {
+    setOpen(false);
+  }
 
   const pickDate = arg => {
     const datePicked = arg.date;
     setDate(datePicked);
+    handleClickOpen();
   };
 
   const dates = [date];
@@ -56,6 +67,7 @@ const Calendar = () => {
           <Button>Schedule a message</Button>
         </Day>
       </CalendarWrapper>
+      <MessageModal open={open} handleClose={handleClose} />
     </CalendarPage>
   );
 };

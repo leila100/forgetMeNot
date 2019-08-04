@@ -5,6 +5,7 @@ export const messageBgColor = "#284243";
 export const Messages = styled.ul`
   display: flex;
   flex-direction: ${props => (props.row ? "row" : "column")};
+  flex-wrap: wrap;
   justify-content: space-around;
   width: 100%;
 `;
@@ -12,6 +13,7 @@ export const Messages = styled.ul`
 export const MessageBox = styled.li`
   display: flex;
   margin: 10px 0;
+  width: ${props => (props.row ? "45%" : "100%")};
 `;
 
 export const MessageBody = styled.div`
@@ -21,6 +23,9 @@ export const MessageBody = styled.div`
   color: white;
   width: 100%;
   padding: 5px;
+  p {
+    overflow-wrap: break-word;
+  }
   div {
     margin: 5px 0;
   }
@@ -30,18 +35,36 @@ export const MessageBody = styled.div`
 `;
 
 export const MessageType = styled.div`
-  width: 5%;
+  width: 15px;
   background-color: ${props =>
     props.type === "family"
       ? "#b87a71"
       : props.type === "friend"
       ? "#4c688f"
       : props.type === "work"
-      ? "#666680"
+      ? "#ffff"
       : "#F3EEC3"};
 `;
 
 export const Date = styled.div`
   font-size: 1.6rem;
   color: ${props => (props.color ? "#4C688F" : "#F3EEC3")};
+`;
+
+export const MessageIcon = styled.div`
+  text-align: right;
+  i {
+    border-radius: 50%;
+    color: #284243;
+    padding: 10px;
+    font-size: 1.8rem;
+    background-color: ${props =>
+      props.type === "family"
+        ? "#b87a71"
+        : props.type === "friend"
+        ? "#4c688f"
+        : props.type === "work"
+        ? "#ffff"
+        : "#F3EEC3"};
+  }
 `;

@@ -1,12 +1,25 @@
 import React from "react";
 
-import { MessageBox, MessageType, MessageBody } from "../../styles/messagesStyles";
+import { MessageBox, MessageType, MessageBody, MessageIcon } from "../../styles/messagesStyles";
 
-const Message = ({ message }) => {
+const Message = ({ message, row }) => {
   return (
-    <MessageBox>
+    <MessageBox row={row}>
       <MessageType type={message.type} />
       <MessageBody>
+        <MessageIcon type={message.type}>
+          {message.type === "friend" ? (
+            <i className='fas fa-user-friends' />
+          ) : (
+            <>
+              {message.type === "family" ? (
+                <i className='fas fa-home' />
+              ) : (
+                <>{message.type === "work" ? <i className='fas fa-briefcase' /> : <i className='fas fa-envelope' />}</>
+              )}
+            </>
+          )}
+        </MessageIcon>
         <div>
           <span>Recipient:</span> {message.recipient}
         </div>

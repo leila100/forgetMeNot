@@ -25,6 +25,11 @@ export const SideBar = styled.div`
     color: #f3eec3;
     font-size: 1.8rem;
     margin: 50px 5px;
+    padding-bottom: 10px;
+  }
+  .active {
+    padding-bottom: 7px;
+    border-bottom: 3px solid #284243;
   }
   h2 {
     font-size: 2.2rem;

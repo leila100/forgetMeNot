@@ -20,21 +20,21 @@ const MessagesOnDate = ({ date, row }) => {
       message: "Good Job!!!",
       time: "15:00",
       type: "family"
+    },
+    {
+      recipient: "coworker",
+      email: "worker@example.com",
+      message: "Congratulations for the promotion!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
+      time: "8:00",
+      type: "work"
+    },
+    {
+      recipient: "neighbor",
+      email: "neighbor@example.com",
+      message: "Welcome to the neighborhood!!!",
+      time: "9:00",
+      type: ""
     }
-    // {
-    //   recipient: "coworker",
-    //   email: "worker@example.com",
-    //   message: "Congratulations for the promotion!!!",
-    //   time: "8:00",
-    //   type: "work"
-    // }
-    // {
-    //   recipient: "neighbor",
-    //   email: "neighbor@example.com",
-    //   message: "Welcome to the neighborhood!!!",
-    //   time: "9:00",
-    //   type: ""
-    // }
   ];
   return (
     <>
@@ -43,7 +43,7 @@ const MessagesOnDate = ({ date, row }) => {
           <Date color={row}>{moment(date).format("dddd, MMMM Do YYYY")}</Date>
           <Messages row={row}>
             {messages.map(message => (
-              <Message message={message} />
+              <Message message={message} row={row} />
             ))}
           </Messages>
         </>
