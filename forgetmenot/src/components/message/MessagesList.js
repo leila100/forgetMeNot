@@ -6,10 +6,8 @@ import MessagesOnDate from "./MessagesOnDate";
 const MessagesList = ({ dates, row }) => {
   return (
     <Messages>
-      {dates.map(date => (
-        <>
-          <MessagesOnDate date={date} row={row} />
-        </>
+      {dates.map((date, i) => (
+        <MessagesOnDate date={date} row={row} key={i} />
       ))}
     </Messages>
   );

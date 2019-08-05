@@ -27,7 +27,7 @@ const Calendar = () => {
   const pickDate = arg => {
     const datePicked = arg.date;
     setDate(datePicked);
-    handleClickOpen();
+    // handleClickOpen();
   };
 
   const dates = [date];
@@ -64,10 +64,10 @@ const Calendar = () => {
         </Cal>
         <Day>
           <MessagesList dates={dates} row />
-          <Button>Schedule a message</Button>
+          <Button onClick={handleClickOpen}>Schedule a message</Button>
         </Day>
       </CalendarWrapper>
-      <MessageModal open={open} handleClose={handleClose} />
+      <MessageModal open={open} handleClose={handleClose} date={date} />
     </CalendarPage>
   );
 };

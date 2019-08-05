@@ -48,7 +48,7 @@ export const MessageType = styled.div`
 
 export const Date = styled.div`
   font-size: 1.6rem;
-  color: ${props => (props.color ? "#4C688F" : "#F3EEC3")};
+  color: ${props => (props.textColor ? "#4C688F" : "#F3EEC3")};
 `;
 
 export const MessageIcon = styled.div`

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { flexRow, flexColumn } from "./commonStyles";
+import { flexColumn } from "./commonStyles";
 
 export const CalendarPage = styled(flexColumn)`
   width: 100%;

@@ -27,7 +27,6 @@ export const Container = styled(flexRow)`
 `;
 
 export const Header = styled(flexRow)`
-  /* display: flex; */
   align-items: center;
   line-height: 1.5;
   background-color: ${headerBgColor};
@@ -58,4 +57,5 @@ export const Button = styled.button`
   color: white;
   margin: 10px auto;
   font-size: 1.4rem;
+  outline: none;
 `;

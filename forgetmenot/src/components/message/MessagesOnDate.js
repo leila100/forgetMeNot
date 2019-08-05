@@ -40,10 +40,11 @@ const MessagesOnDate = ({ date, row }) => {
     <>
       {messages.length > 0 && (
         <>
-          <Date color={row}>{moment(date).format("dddd, MMMM Do YYYY")}</Date>
+          <Date textColor={row}>{moment(date).format("dddd, MMMM Do YYYY")}</Date>
           <Messages row={row}>
-            {messages.map(message => (
-              <Message message={message} row={row} />
+            {/* <Message message={message} row={row} key={message.id}/> */}
+            {messages.map((message, i) => (
+              <Message message={message} row={row} key={i} />
             ))}
           </Messages>
         </>
