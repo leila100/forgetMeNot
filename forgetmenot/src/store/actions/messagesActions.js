@@ -12,7 +12,7 @@ export function fetchMessages() {
         dispatch({ type: FETCHED, payload: response.data });
       })
       .catch(error => {
-        dispatch({ type: ERROR, payload: "Can't fetch your messages!" });
+        // dispatch({ type: ERROR, payload: "Can't fetch your messages!" });
       });
   };
 }

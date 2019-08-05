@@ -5,11 +5,11 @@ import logo from "../../assets/images/logo2.png";
 import { TopBar } from "../../styles/navBarStyles";
 
 const TopNav = () => {
-  const user = useSelector(state => state.usersReducer).currentUser;
+  const user = useSelector(state => state.usersReducer).currentUsername;
   return (
     <TopBar>
       <img src={logo} alt='Forget Me Not logo' />
-      <div>{`${user.firstName} ${user.lastName}`}</div>
+      <div>{`${user}`}</div>
     </TopBar>
   );
 };

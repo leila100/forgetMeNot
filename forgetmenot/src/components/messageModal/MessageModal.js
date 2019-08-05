@@ -132,7 +132,7 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
         TransitionComponent={Transition}
       >
         <DialogTitle id='form-dialog-title'>
-          <span className={classes.title}>Schedule a new message</span>
+          <span className={classes.title}>{message ? "Update Message" : "Schedule a new message"}</span>
         </DialogTitle>
         <DialogContent>
           <BtnGroup>
@@ -280,7 +280,7 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCancel}>Cancel</Button>
-          <Button onClick={handleSchedule}>Schedule</Button>
+          <Button onClick={handleSchedule}>{message ? "Update" : "Schedule"}</Button>
         </DialogActions>
       </Dialog>
     </div>
