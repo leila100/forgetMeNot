@@ -2,9 +2,9 @@ import React from "react";
 
 import { MessageBox, MessageType, MessageBody, MessageIcon } from "../../styles/messagesStyles";
 
-const Message = ({ message, row }) => {
+const Message = ({ message, row, handleOpen }) => {
   return (
-    <MessageBox row={row}>
+    <MessageBox row={row} onClick={() => handleOpen(message)}>
       <MessageType type={message.type} />
       <MessageBody>
         <MessageIcon type={message.type}>
@@ -28,7 +28,7 @@ const Message = ({ message, row }) => {
         </div>
         <div>
           <p>
-            <span>Message:</span> {message.message}
+            <span>Message:</span> {message.messageText}
           </p>
         </div>
         <div>

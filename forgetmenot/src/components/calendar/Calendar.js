@@ -23,15 +23,13 @@ const Calendar = () => {
   function handleClose() {
     setOpen(false);
   }
+  const handleSubmit = message => {
+    console.log("Creating message: ", { message });
+  };
 
   const pickDate = arg => {
     const datePicked = arg.date;
     setDate(datePicked);
-  };
-
-  const handleSubmit = message => {
-    console.log("Creating message: ", { message });
-    handleClose();
   };
 
   const dates = [date];

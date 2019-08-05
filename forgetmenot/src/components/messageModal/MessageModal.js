@@ -65,7 +65,7 @@ const styles = theme => ({
   }
 });
 
-const MessageModal = ({ open, handleClose, date, handleSubmit, classes }) => {
+const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes }) => {
   const [type, setType] = useState("other");
   const [recipient, setRecipient] = useState("");
   const [email, setEmail] = useState("");
@@ -78,6 +78,17 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, classes }) => {
   useEffect(() => {
     setNewDate(moment(date).format("YYYY-MM-DD"));
   }, [date]);
+
+  useEffect(() => {
+    if (message) {
+      setType(message.type);
+      setRecipient(message.recipient);
+      setEmail(message.email);
+      setText(message.messageText);
+      setNewDate(moment(message.date).format("YYYY-MM-DD"));
+      setTime(message.time);
+    }
+  }, [message]);
 
   const newMessage = { type, recipient, email, messageText, newDate, time };
 
@@ -95,6 +106,7 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, classes }) => {
       setError("");
       setErrorText("");
       handleSubmit(newMessage);
+      handleClose();
     }
   };
 

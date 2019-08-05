@@ -58,4 +58,8 @@ export const Button = styled.button`
   margin: 10px auto;
   font-size: 1.4rem;
   outline: none;
+  :hover {
+    color: #284243;
+    background-color: white;
+  }
 `;
