@@ -27,7 +27,11 @@ const Calendar = () => {
   const pickDate = arg => {
     const datePicked = arg.date;
     setDate(datePicked);
-    // handleClickOpen();
+  };
+
+  const handleSubmit = message => {
+    console.log("Creating message: ", { message });
+    handleClose();
   };
 
   const dates = [date];
@@ -63,11 +67,11 @@ const Calendar = () => {
           />
         </Cal>
         <Day>
-          <MessagesList dates={dates} row />
           <Button onClick={handleClickOpen}>Schedule a message</Button>
+          <MessagesList dates={dates} row />
         </Day>
       </CalendarWrapper>
-      <MessageModal open={open} handleClose={handleClose} date={date} />
+      <MessageModal open={open} handleClose={handleClose} date={date} handleSubmit={handleSubmit} />
     </CalendarPage>
   );
 };

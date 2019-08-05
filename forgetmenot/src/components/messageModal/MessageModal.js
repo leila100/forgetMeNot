@@ -32,13 +32,15 @@ const styles = theme => ({
   },
   textField: {
     paddingRight: 20,
-    width: "250px",
+    width: "276px",
     marginTop: 20,
-    fontSize: "1.6rem"
+    fontSize: "1.6rem",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%"
+    }
   },
   textAreaField: {
     paddingRight: 20,
-    width: "70%",
     marginTop: 20,
     fontSize: "1.6rem"
   },
@@ -57,21 +59,55 @@ const styles = theme => ({
   },
   formTextInput: {
     fontSize: "1.5rem"
+  },
+  errors: {
+    fontSize: "1.5rem"
   }
 });
 
-const MessageModal = ({ open, handleClose, date, classes }) => {
-  const [type, setType] = useState("");
+const MessageModal = ({ open, handleClose, date, handleSubmit, classes }) => {
+  const [type, setType] = useState("other");
   const [recipient, setRecipient] = useState("");
   const [email, setEmail] = useState("");
   const [messageText, setText] = useState("");
   const [newDate, setNewDate] = useState(moment(date).format("YYYY-MM-DD"));
   const [time, setTime] = useState("12:00");
+  const [error, setError] = useState("");
+  const [errorText, setErrorText] = useState("");
 
   useEffect(() => {
     setNewDate(moment(date).format("YYYY-MM-DD"));
   }, [date]);
 
+  const newMessage = { type, recipient, email, messageText, newDate, time };
+
+  const handleSchedule = () => {
+    if (!recipient.trim()) {
+      setError("recipient");
+      setErrorText("Please enter the name of the recipient of your message.");
+    } else if (!email) {
+      setError("email");
+      setErrorText("Please enter the email of the recipient of your message.");
+    } else if (!messageText.trim()) {
+      setError("text");
+      setErrorText("Please enter a valid message.");
+    } else {
+      setError("");
+      setErrorText("");
+      handleSubmit(newMessage);
+    }
+  };
+
+  const handleCancel = () => {
+    setError("");
+    setErrorText("");
+    setRecipient("");
+    setEmail("");
+    setText("");
+    setNewDate(moment(date).format("YYYY-MM-DD"));
+    setTime("12:00");
+    handleClose();
+  };
   return (
     <div>
       <Dialog
@@ -104,6 +140,8 @@ const MessageModal = ({ open, handleClose, date, classes }) => {
           <InputGroup>
             <TextField
               required
+              error={error === "recipient"}
+              helperText={error === "recipient" ? errorText : ""}
               autoFocus
               fullWidth
               margin='dense'
@@ -129,6 +167,8 @@ const MessageModal = ({ open, handleClose, date, classes }) => {
             />
             <TextField
               required
+              error={error === "email"}
+              helperText={error === "email" ? errorText : ""}
               autoFocus
               fullWidth
               margin='dense'
@@ -156,6 +196,8 @@ const MessageModal = ({ open, handleClose, date, classes }) => {
             <TextField
               required
               autoFocus
+              error={error === "text"}
+              helperText={error === "text" ? errorText : ""}
               fullWidth
               margin='dense'
               label='Message'
@@ -171,6 +213,11 @@ const MessageModal = ({ open, handleClose, date, classes }) => {
                   fontSize: "1.4rem",
                   color: "#4c688f",
                   marginBottom: 10
+                }
+              }}
+              FormHelperTextProps={{
+                classes: {
+                  error: classes.errors
                 }
               }}
               classes={{ root: classes.textAreaField }}
@@ -194,11 +241,6 @@ const MessageModal = ({ open, handleClose, date, classes }) => {
                   input: classes.formTextInput
                 }
               }}
-              FormHelperTextProps={{
-                classes: {
-                  error: classes.errors
-                }
-              }}
               classes={{ root: classes.textField }}
             />
             <TextField
@@ -220,18 +262,13 @@ const MessageModal = ({ open, handleClose, date, classes }) => {
                   input: classes.formTextInput
                 }
               }}
-              FormHelperTextProps={{
-                classes: {
-                  error: classes.errors
-                }
-              }}
               classes={{ root: classes.textField }}
             />
           </InputGroup>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose}>Schedule</Button>
+          <Button onClick={handleCancel}>Cancel</Button>
+          <Button onClick={handleSchedule}>Schedule</Button>
         </DialogActions>
       </Dialog>
     </div>
