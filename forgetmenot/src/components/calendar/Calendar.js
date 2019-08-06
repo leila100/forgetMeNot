@@ -14,6 +14,7 @@ import MessageModal from "../messageModal/MessageModal";
 import { Container } from "../../styles/commonStyles";
 import LeftBar from "../navbar/LeftBar";
 import RightBar from "../navbar/RightBar";
+import requireAuth from "../../hoc/requireAuth";
 
 const Calendar = () => {
   const [date, setDate] = useState(Date.now());
@@ -81,4 +82,4 @@ const Calendar = () => {
   );
 };
 
-export default Calendar;
+export default requireAuth(Calendar);

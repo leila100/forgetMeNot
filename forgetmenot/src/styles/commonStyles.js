@@ -65,8 +65,26 @@ export const Button = styled.button`
 `;
 
 export const Message = styled.div`
-  color: ${props => (props.error ? "palevioletred" : "rebeccapurple")};
+  color: ${props => (props.error ? "palevioletred" : "#284243")};
   font-size: 2.5rem;
   margin: 20px auto;
   text-align: center;
+  div {
+    margin-top: 10px;
+    a {
+      text-decoration: none;
+      border-radius: 10px;
+      background-color: ${btnBgColor};
+      border: 1px solid ${btnBorder};
+      padding: 10px 12px;
+      color: white;
+      margin: 10px auto;
+      font-size: 1.6rem;
+      outline: none;
+      :hover {
+        color: #284243;
+        background-color: white;
+      }
+    }
+  }
 `;

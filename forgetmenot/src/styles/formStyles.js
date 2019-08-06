@@ -21,41 +21,22 @@ export const FormGroup = styled.div`
   margin-top: 10px;
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   input {
     border: none;
     padding: 8px;
     width: 80%;
     outline: none;
-    color: #2779a5;
   }
   input:focus {
-    border-left: 3px solid #e74c3c;
+    border-left: 3px solid #b87a71;
     -webkit-transition: 0.4s ease;
   }
   i {
     border: none;
     padding-right: 5%;
-    color: #274759;
-  }
-`;
-
-export const Button = styled.button`
-  padding: 10px 5%;
-  width: 50%;
-  margin-left: 10%;
-  margin-top: 15px;
-  font-size: 1.5rem;
-  background-color: #274759;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  outline: none;
-  :hover {
-    background-color: ${props => (props.danger ? "#b21028" : "#abb4ba")};
-    /* background: #abb4ba; */
-    color: ${props => (props.danger ? "white" : "#2779a5")};
-    font-weight: bold;
+    color: #284243;
+    margin-bottom: 5px;
   }
 `;
 

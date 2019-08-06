@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 import { Message } from "../styles/commonStyles";
@@ -19,7 +20,14 @@ export default function(Component) {
   return class Authenticated extends React.Component {
     render() {
       const token = localStorage.getItem("jwt");
-      const notLoggedIn = <Message>Please login to access page.</Message>;
+      const notLoggedIn = (
+        <Message>
+          Please login to access page.{" "}
+          <div>
+            <Link to='/login'>LOGIN</Link>
+          </div>
+        </Message>
+      );
       return <>{token ? <Component {...this.pros} /> : notLoggedIn}</>;
     }
   };
