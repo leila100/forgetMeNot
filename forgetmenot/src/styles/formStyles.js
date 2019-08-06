@@ -44,10 +44,10 @@ export const Footer = styled.div`
   margin-top: 15px;
   margin-left: 10%;
   a {
-    color: #274759;
+    color: #284243;
     :hover {
       text-decoration: underline;
-      color: #2779a5;
+      color: #b87a71;
     }
   }
 `;

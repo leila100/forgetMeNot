@@ -10,7 +10,7 @@ export function addUser(user) {
       .post(endpoint, user)
       .then(response => {
         localStorage.setItem("jwt", response.data.token);
-        dispatch({ type: actionTypes.GOT_USER, payload: response.data.username });
+        dispatch({ type: actionTypes.GOT_USER, username: response.data.username, userId: response.data.userId });
       })
       .catch(error => {
         dispatch({ type: actionTypes.ERROR, payload: error.response.data.errorMessage });
@@ -26,7 +26,27 @@ export function logUser(user) {
       .post(endpoint, user)
       .then(response => {
         localStorage.setItem("jwt", response.data.token);
-        dispatch({ type: actionTypes.GOT_USER, payload: response.data.username });
+        dispatch({ type: actionTypes.GOT_USER, username: response.data.username, userId: response.data.userId });
+      })
+      .catch(error => {
+        dispatch({ type: actionTypes.ERROR, payload: error.response.data.errorMessage });
+      });
+  };
+}
+
+export function getCurrentUser() {
+  const endpoint = `${process.env.REACT_APP_API_URL}/api/user`;
+  return dispatch => {
+    dispatch({ type: actionTypes.GETTING_USER });
+    axios
+      .get(endpoint)
+      .then(response => {
+        console.log(response.data);
+        dispatch({
+          type: actionTypes.GOT_USER,
+          username: response.data.username,
+          userId: response.data.userId
+        });
       })
       .catch(error => {
         dispatch({ type: actionTypes.ERROR, payload: error.response.data.errorMessage });

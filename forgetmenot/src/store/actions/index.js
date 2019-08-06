@@ -1,3 +1,3 @@
-export { addUser, logUser } from "./userActions";
+export { addUser, logUser, getCurrentUser } from "./userActions";
 
 export { fetchMessages } from "./messagesActions";

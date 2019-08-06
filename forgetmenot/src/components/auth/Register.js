@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
+import { CircularProgress } from "@material-ui/core";
 
 import { Message, Button } from "../../styles/commonStyles";
 import { FormWrapper, FormGroup, Footer } from "../../styles/formStyles";
@@ -48,7 +49,8 @@ const Register = props => {
   const [email, setEmail] = useState("");
 
   useEffect(() => {
-    if (state.currentUsername) props.history.push("/");
+    const token = localStorage.getItem("jwt");
+    if (state.currentUsername && token) props.history.push("/");
   });
 
   const registerHandler = event => {
@@ -74,6 +76,7 @@ const Register = props => {
 
   return (
     <FormWrapper>
+      {state.adding && <CircularProgress />}
       <Message error>{state.errorMessage}</Message>
       <form onSubmit={registerHandler}>
         <FormGroup>

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
+import { CircularProgress } from "@material-ui/core";
 
 import { Message, Button } from "../../styles/commonStyles";
 import { FormWrapper, FormGroup, Footer } from "../../styles/formStyles";
@@ -43,7 +44,8 @@ const Login = props => {
   const [password, setPassword] = useState("");
 
   useEffect(() => {
-    if (state.currentUsername) props.history.push("/");
+    const token = localStorage.getItem("jwt");
+    if (state.currentUsername && token) props.history.push("/");
   });
 
   const loginHandler = event => {
@@ -63,6 +65,7 @@ const Login = props => {
 
   return (
     <FormWrapper>
+      {state.adding && <CircularProgress />}
       <Message error>{state.errorMessage}</Message>
       <form onSubmit={loginHandler}>
         <FormGroup>
@@ -99,6 +102,7 @@ const Login = props => {
           <i className='fas fa-lock' />
           <TextField
             required
+            type='password'
             error={error === "password"}
             helperText={error === "password" ? errorText : ""}
             autoFocus

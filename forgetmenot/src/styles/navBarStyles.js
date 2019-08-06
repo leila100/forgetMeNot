@@ -8,7 +8,13 @@ export const TopBar = styled.div`
   justify-content: space-between;
   align-items: center;
   img {
-    width: 20%;
+    width: 200px;
+  }
+  span {
+    margin-right: 10px;
+  }
+  button {
+    width: 100px;
   }
 `;
 
