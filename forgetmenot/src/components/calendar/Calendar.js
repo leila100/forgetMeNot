@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -11,12 +11,9 @@ import { CalendarPage, CalendarWrapper, Cal, Day } from "../../styles/calendarSt
 import { Button } from "../../styles/commonStyles";
 import MessagesList from "../message/MessagesList";
 import MessageModal from "../messageModal/MessageModal";
-import { Container } from "../../styles/commonStyles";
-import LeftBar from "../navbar/LeftBar";
-import RightBar from "../navbar/RightBar";
 import requireAuth from "../../hoc/requireAuth";
 
-const Calendar = () => {
+const Calendar = props => {
   const [date, setDate] = useState(Date.now());
   const [open, setOpen] = useState(false);
 
@@ -28,7 +25,9 @@ const Calendar = () => {
     setOpen(false);
   }
   const handleSubmit = message => {
-    console.log("Creating message: ", { message });
+    // dispatch add message
+    props.addMessageHandler(message);
+    // addMessage(message)(dispatch);
   };
 
   const pickDate = arg => {
@@ -38,47 +37,43 @@ const Calendar = () => {
 
   const dates = [date];
   return (
-    <Container>
-      <LeftBar />
-      <CalendarPage>
-        <Header>
-          <img src={FMN} alt='Forget Me Not Flower' />
-          <div>
-            <h1>Welcome to Forget Me Not</h1>
-            <h2>See all your messages.</h2>
-            <h2>Create new ones.</h2>
-          </div>
-        </Header>
-        <CalendarWrapper>
-          <Cal>
-            <FullCalendar
-              defaultView='dayGridMonth'
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              dateClick={pickDate}
-              selectable='true'
-              handleWindowResize='true'
-              eventSources={[
-                {
-                  events: [
-                    { start: new Date() },
-                    { start: new Date("07/31/2019 10:00") },
-                    { start: new Date("07/31/2019 14:00") }
-                  ],
-                  color: "#4c688f",
-                  textColor: "white"
-                }
-              ]}
-            />
-          </Cal>
-          <Day>
-            <Button onClick={handleClickOpen}>Schedule a message</Button>
-            <MessagesList dates={dates} row />
-          </Day>
-        </CalendarWrapper>
-        <MessageModal open={open} handleClose={handleClose} date={date} handleSubmit={handleSubmit} />
-      </CalendarPage>
-      <RightBar />
-    </Container>
+    <CalendarPage>
+      <Header>
+        <img src={FMN} alt='Forget Me Not Flower' />
+        <div>
+          <h1>Welcome to Forget Me Not</h1>
+          <h2>See all your messages.</h2>
+          <h2>Create new ones.</h2>
+        </div>
+      </Header>
+      <CalendarWrapper>
+        <Cal>
+          <FullCalendar
+            defaultView='dayGridMonth'
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            dateClick={pickDate}
+            selectable='true'
+            handleWindowResize='true'
+            eventSources={[
+              {
+                events: [
+                  { start: new Date() },
+                  { start: new Date("07/31/2019 10:00") },
+                  { start: new Date("07/31/2019 14:00") }
+                ],
+                color: "#4c688f",
+                textColor: "white"
+              }
+            ]}
+          />
+        </Cal>
+        <Day>
+          <Button onClick={handleClickOpen}>Schedule a message</Button>
+          <MessagesList dates={dates} row />
+        </Day>
+      </CalendarWrapper>
+      <MessageModal open={open} handleClose={handleClose} date={date} handleSubmit={handleSubmit} />
+    </CalendarPage>
   );
 };
 

@@ -28,7 +28,7 @@ export default function(Component) {
           </div>
         </Message>
       );
-      return <>{token ? <Component {...this.pros} /> : notLoggedIn}</>;
+      return <>{token ? <Component {...this.props} /> : notLoggedIn}</>;
     }
   };
 }

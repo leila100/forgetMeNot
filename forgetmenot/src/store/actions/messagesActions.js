@@ -1,18 +1,34 @@
 import axios from "axios";
 
-export const FETCHING = "FETCHING";
-export const FETCHED = "FETCHED";
+import * as actionTypes from "./actionTypes";
 
-export function fetchMessages() {
+export const fetchMessages = () => {
+  const endpoint = `${process.env.REACT_APP_API_URL}/api/reminders`;
   return dispatch => {
-    dispatch({ type: FETCHING });
+    dispatch({ type: actionTypes.FETCHING });
     axios
-      .get("http://localhost:5000/api/messages")
+      .get(endpoint)
       .then(response => {
-        dispatch({ type: FETCHED, payload: response.data });
+        dispatch({ type: actionTypes.FETCHED, payload: response.data });
       })
       .catch(error => {
-        // dispatch({ type: ERROR, payload: "Can't fetch your messages!" });
+        dispatch({ type: actionTypes.ERROR, payload: "Can't fetch your messages!" });
       });
   };
-}
+};
+
+export const addMessage = message => {
+  const endpoint = `${process.env.REACT_APP_API_URL}/api/reminders`;
+  return dispatch => {
+    dispatch({ type: actionTypes.ADDING });
+    axios
+      .post(endpoint, message)
+      .then(response => {
+        console.log(response.data);
+        dispatch({ type: actionTypes.ADDED, payload: response.data });
+      })
+      .catch(error => {
+        dispatch({ type: actionTypes.ERROR, payload: "Can't fetch your messages!" });
+      });
+  };
+};

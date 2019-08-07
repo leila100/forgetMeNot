@@ -5,7 +5,7 @@ import { SideBar } from "../../styles/navBarStyles";
 import { Button } from "../../styles/commonStyles";
 import MessagesList from "../message/MessagesList";
 
-const LeftBar = () => {
+const RightBar = () => {
   const dates = [];
   dates.push(Date.now());
   for (let i = 0; i < 2; i++) dates.push(moment().add(1 + i, "days"));
@@ -19,4 +19,4 @@ const LeftBar = () => {
   );
 };
 
-export default LeftBar;
+export default RightBar;

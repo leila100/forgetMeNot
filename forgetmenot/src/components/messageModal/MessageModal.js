@@ -67,8 +67,8 @@ const styles = theme => ({
 
 const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes }) => {
   const [type, setType] = useState("other");
-  const [recipient, setRecipient] = useState("");
-  const [email, setEmail] = useState("");
+  const [recipientName, setRecipient] = useState("");
+  const [recipientEmail, setEmail] = useState("");
   const [messageText, setText] = useState("");
   const [newDate, setNewDate] = useState(moment(date).format("YYYY-MM-DD"));
   const [time, setTime] = useState("12:00");
@@ -90,13 +90,13 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
     }
   }, [message]);
 
-  const newMessage = { type, recipient, email, messageText, newDate, time };
-
   const handleSchedule = () => {
-    if (!recipient.trim()) {
+    const messageDate = new Date(newDate + "T" + time);
+    const newMessage = { type, recipientName, recipientEmail, messageText, date: messageDate };
+    if (!recipientName.trim()) {
       setError("recipient");
       setErrorText("Please enter the name of the recipient of your message.");
-    } else if (!email) {
+    } else if (!recipientEmail) {
       setError("email");
       setErrorText("Please enter the email of the recipient of your message.");
     } else if (!messageText.trim()) {
@@ -158,7 +158,7 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
               fullWidth
               margin='dense'
               label='Name of Recipient'
-              value={recipient}
+              value={recipientName}
               onChange={e => setRecipient(e.target.value)}
               InputLabelProps={{
                 classes: {
@@ -186,7 +186,7 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
               margin='dense'
               type='email'
               label='Email of Recipient'
-              value={email}
+              value={recipientEmail}
               onChange={e => setEmail(e.target.value)}
               InputLabelProps={{
                 classes: {
