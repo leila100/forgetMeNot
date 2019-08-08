@@ -7,56 +7,16 @@ import { Date } from "../../styles/messagesStyles";
 import Message from "./Message";
 import MessageModal from "../messageModal/MessageModal";
 
-const MessagesOnDate = ({ date, row }) => {
+const MessagesOnDate = ({ date, row, updateMessage }) => {
   const messagesList = useSelector(state => state.messagesReducer).messages;
   const messages = messagesList.filter(
     message => moment(message.date).format("YYYY-MM-DD") === moment(date).format("YYYY-MM-DD")
   );
-  console.log({ messages });
 
-  // const messages = [
-  //   {
-  //     id: 1,
-  //     recipient: "Lamia",
-  //     email: "lamia@example.com",
-  //     messageText: "Happy Birthday Lamia!!!",
-  //     date: "08/04/2019",
-  //     time: "10:00",
-  //     type: "friend"
-  //   },
-  //   {
-  //     id: 2,
-  //     recipient: "Anissa",
-  //     email: "anissa@example.com",
-  //     messageText: "Good Job!!!",
-  //     date: "08/04/2019",
-  //     time: "15:00",
-  //     type: "family"
-  //   },
-  //   {
-  //     id: 3,
-  //     recipient: "coworker",
-  //     email: "worker@example.com",
-  //     messageText: "Congratulations for the promotion!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",
-  //     date: "08/04/2019",
-  //     time: "08:00",
-  //     type: "work"
-  //   },
-  //   {
-  //     id: 4,
-  //     recipient: "neighbor",
-  //     email: "neighbor@example.com",
-  //     messageText: "Welcome to the neighborhood!!!",
-  //     date: "08/04/2019",
-  //     time: "09:00",
-  //     type: ""
-  //   }
-  // ];
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState(null);
 
   function handleClickOpen(message) {
-    console.log("OPEN", message);
     setOpen(true);
     setMessage(message);
   }
@@ -65,8 +25,8 @@ const MessagesOnDate = ({ date, row }) => {
     setOpen(false);
     setMessage(null);
   }
-  const handleSubmit = message => {
-    console.log("Updating message: ", { message });
+  const handleUpdate = updatedMessage => {
+    updateMessage(message.id, updatedMessage);
   };
 
   return (
@@ -83,7 +43,7 @@ const MessagesOnDate = ({ date, row }) => {
             open={open}
             handleClose={handleClose}
             date={date}
-            handleSubmit={handleSubmit}
+            handleSubmit={handleUpdate}
             message={message}
           />
         </>

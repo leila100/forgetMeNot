@@ -7,5 +7,7 @@ export const FETCHING = "FETCHING";
 export const FETCHED = "FETCHED";
 export const ADDING = "ADDING";
 export const ADDED = "ADDED";
+export const UPDATING = "UPDATING";
+export const UPDATED = "UPDATED";
 
 export const ERROR = "ERROR";

@@ -8,8 +8,6 @@ import Login from "./components/auth/Login";
 
 require("dotenv").config();
 
-console.log(process.env);
-
 function App() {
   return (
     <div>

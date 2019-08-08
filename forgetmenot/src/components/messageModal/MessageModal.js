@@ -82,11 +82,11 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
   useEffect(() => {
     if (message) {
       setType(message.type);
-      setRecipient(message.recipient);
-      setEmail(message.email);
+      setRecipient(message.recipientName);
+      setEmail(message.recipientEmail);
       setText(message.messageText);
       setNewDate(moment(message.date).format("YYYY-MM-DD"));
-      setTime(message.time);
+      setTime(moment(message.date).format("HH:mm"));
     }
   }, [message]);
 

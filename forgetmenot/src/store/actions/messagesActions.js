@@ -24,8 +24,22 @@ export const addMessage = message => {
     axios
       .post(endpoint, message)
       .then(response => {
-        console.log(response.data);
         dispatch({ type: actionTypes.ADDED, payload: response.data });
+      })
+      .catch(error => {
+        dispatch({ type: actionTypes.ERROR, payload: "Can't fetch your messages!" });
+      });
+  };
+};
+
+export const updateMessage = (messageId, message) => {
+  const endpoint = `${process.env.REACT_APP_API_URL}/api/reminders/${messageId}`;
+  return dispatch => {
+    dispatch({ type: actionTypes.UPDATING });
+    axios
+      .put(endpoint, message)
+      .then(response => {
+        dispatch({ type: actionTypes.UPDATED, messageId, message });
       })
       .catch(error => {
         dispatch({ type: actionTypes.ERROR, payload: "Can't fetch your messages!" });

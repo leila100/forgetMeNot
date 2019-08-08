@@ -12,7 +12,7 @@ import { Button } from "../../styles/commonStyles";
 import MessagesList from "../message/MessagesList";
 import MessageModal from "../messageModal/MessageModal";
 
-const Calendar = props => {
+const Calendar = ({ addMessage, updateMessage }) => {
   const [date, setDate] = useState(Date.now());
   const [open, setOpen] = useState(false);
 
@@ -23,10 +23,9 @@ const Calendar = props => {
   function handleClose() {
     setOpen(false);
   }
-  const handleSubmit = message => {
+  const handleAdd = message => {
     // dispatch add message
-    props.addMessageHandler(message);
-    // addMessage(message)(dispatch);
+    addMessage(message);
   };
 
   const pickDate = arg => {
@@ -68,10 +67,10 @@ const Calendar = props => {
         </Cal>
         <Day>
           <Button onClick={handleClickOpen}>Schedule a message</Button>
-          <MessagesList dates={dates} row />
+          <MessagesList dates={dates} row updateMessage={updateMessage} />
         </Day>
       </CalendarWrapper>
-      <MessageModal open={open} handleClose={handleClose} date={date} handleSubmit={handleSubmit} />
+      <MessageModal open={open} handleClose={handleClose} date={date} handleSubmit={handleAdd} />
     </CalendarPage>
   );
 };
