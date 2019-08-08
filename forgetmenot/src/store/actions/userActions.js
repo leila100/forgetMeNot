@@ -48,7 +48,8 @@ export function getCurrentUser() {
         });
       })
       .catch(error => {
-        dispatch({ type: actionTypes.ERROR, payload: error.response.data.errorMessage });
+        localStorage.removeItem("jwt");
+        dispatch({ type: actionTypes.ERROR, payload: error.response ? error.response.data.errorMessage : error });
       });
   };
 }

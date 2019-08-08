@@ -10,7 +10,7 @@ export const messagesReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCHING:
       return {
-        messages: [],
+        messages: [...state.messages],
         fetching: true,
         adding: false
       };
@@ -22,13 +22,13 @@ export const messagesReducer = (state = initialState, action) => {
       };
     case ADDING:
       return {
-        messages: [],
+        messages: [...state.messages],
         fetching: false,
         adding: true
       };
     case ADDED:
       return {
-        messages: [...state.messages],
+        messages: [...state.messages, action.payload],
         fetching: false,
         adding: false
       };

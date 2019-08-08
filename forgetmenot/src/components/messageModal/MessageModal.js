@@ -106,7 +106,7 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
       setError("");
       setErrorText("");
       handleSubmit(newMessage);
-      handleClose();
+      handleCancel();
     }
   };
 
@@ -116,6 +116,7 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
     setRecipient("");
     setEmail("");
     setText("");
+    setType("other");
     setNewDate(moment(date).format("YYYY-MM-DD"));
     setTime("12:00");
     handleClose();

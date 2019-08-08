@@ -7,7 +7,7 @@ import MessagesList from "../message/MessagesList";
 
 const RightBar = () => {
   const dates = [];
-  dates.push(Date.now());
+  dates.push(moment());
   for (let i = 0; i < 2; i++) dates.push(moment().add(1 + i, "days"));
   console.log({ dates });
   return (

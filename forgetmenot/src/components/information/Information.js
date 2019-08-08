@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import requireAuth from "../../hoc/requireAuth";
 
 import { Container } from "../../styles/commonStyles";
 import LeftBar from "../navbar/LeftBar";
@@ -10,12 +10,12 @@ import { addMessage, fetchMessages } from "../../store/actions/index";
 
 const Information = () => {
   const dispatch = useDispatch();
-  const state = useSelector(state => state.messagesReducer);
+  const { messages } = useSelector(state => state.messagesReducer);
+
   useEffect(() => {
     fetchMessages()(dispatch);
   }, [dispatch]);
 
-  console.log(state.messages);
   const handleAddMessage = message => {
     addMessage(message)(dispatch);
   };
@@ -29,4 +29,4 @@ const Information = () => {
   );
 };
 
-export default Information;
+export default requireAuth(Information);

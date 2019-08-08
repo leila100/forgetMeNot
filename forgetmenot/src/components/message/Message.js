@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 
 import { MessageBox, MessageType, MessageBody, MessageIcon } from "../../styles/messagesStyles";
 
@@ -21,10 +22,10 @@ const Message = ({ message, row, handleOpen }) => {
           )}
         </MessageIcon>
         <div>
-          <span>Recipient:</span> {message.recipient}
+          <span>Recipient:</span> {message.recipientName}
         </div>
         <div>
-          <span>Email:</span> {message.email}
+          <span>Email:</span> {message.recipientEmail}
         </div>
         <div>
           <p>
@@ -32,7 +33,7 @@ const Message = ({ message, row, handleOpen }) => {
           </p>
         </div>
         <div>
-          <span>Time:</span> {message.time}
+          <span>Time:</span> {moment(message.date).format("hh:mm a")}
         </div>
       </MessageBody>
     </MessageBox>

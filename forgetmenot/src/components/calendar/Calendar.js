@@ -11,7 +11,6 @@ import { CalendarPage, CalendarWrapper, Cal, Day } from "../../styles/calendarSt
 import { Button } from "../../styles/commonStyles";
 import MessagesList from "../message/MessagesList";
 import MessageModal from "../messageModal/MessageModal";
-import requireAuth from "../../hoc/requireAuth";
 
 const Calendar = props => {
   const [date, setDate] = useState(Date.now());
@@ -77,4 +76,4 @@ const Calendar = props => {
   );
 };
 
-export default requireAuth(Calendar);
+export default Calendar;
