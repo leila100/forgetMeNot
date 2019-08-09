@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import moment from "moment";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { Messages } from "../../styles/messagesStyles";
 import { Date } from "../../styles/messagesStyles";

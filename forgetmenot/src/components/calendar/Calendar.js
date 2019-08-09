@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -13,8 +14,19 @@ import MessagesList from "../message/MessagesList";
 import MessageModal from "../messageModal/MessageModal";
 
 const Calendar = ({ addMessage, updateMessage, deleteMessage }) => {
+  const { messages } = useSelector(state => state.messagesReducer);
+
   const [date, setDate] = useState(Date.now());
   const [open, setOpen] = useState(false);
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    setEvents(
+      messages.map(message => {
+        return { start: message.date };
+      })
+    );
+  }, [messages]);
 
   function handleClickOpen() {
     setOpen(true);
@@ -54,11 +66,7 @@ const Calendar = ({ addMessage, updateMessage, deleteMessage }) => {
             handleWindowResize='true'
             eventSources={[
               {
-                events: [
-                  { start: new Date() },
-                  { start: new Date("07/31/2019 10:00") },
-                  { start: new Date("07/31/2019 14:00") }
-                ],
+                events: events,
                 color: "#4c688f",
                 textColor: "white"
               }

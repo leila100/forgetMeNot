@@ -22,6 +22,7 @@ export const Cal = styled.div`
 export const Day = styled.div`
   margin-top: 20px;
   text-align: center;
+  width: 100%;
   ul {
     text-align: left;
   }
