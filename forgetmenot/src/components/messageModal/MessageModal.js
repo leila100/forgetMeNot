@@ -219,7 +219,7 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
               onChange={e => setText(e.target.value)}
               inputProps={{
                 name: "message",
-                style: { fontSize: "1.6rem", padding: "5px 0" }
+                style: { fontSize: "1.6rem", padding: "5px 0", height: "80px", lineHeight: "1.5" }
               }}
               InputLabelProps={{
                 style: {

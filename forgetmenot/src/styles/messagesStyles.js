@@ -14,7 +14,7 @@ export const Messages = styled.ul`
 export const MessageBox = styled.li`
   display: flex;
   margin: 10px 0;
-  width: ${props => (props.row ? "45%" : "100%")};
+  width: ${props => (props.row ? "48%" : "100%")};
 `;
 
 export const MessageBody = styled.div`
@@ -22,9 +22,10 @@ export const MessageBody = styled.div`
   flex-direction: column;
   background-color: ${messageBgColor};
   color: white;
-  width: 100%;
+  width: 95%;
   padding: 5px;
   p {
+    line-height: 1.5;
     overflow-wrap: break-word;
   }
   div {
@@ -36,7 +37,7 @@ export const MessageBody = styled.div`
 `;
 
 export const MessageType = styled.div`
-  width: 15px;
+  width: 4%;
   background-color: ${props =>
     props.type === "family"
       ? "#b87a71"
