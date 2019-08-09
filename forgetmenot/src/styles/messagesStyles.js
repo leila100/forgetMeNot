@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { flexRow } from "./commonStyles";
 
 export const messageBgColor = "#284243";
 
@@ -27,7 +28,7 @@ export const MessageBody = styled.div`
     overflow-wrap: break-word;
   }
   div {
-    margin: 5px 0;
+    margin: 5px;
   }
   span {
     color: #f3eec3;
@@ -49,6 +50,18 @@ export const MessageType = styled.div`
 export const Date = styled.div`
   font-size: 1.6rem;
   color: ${props => (props.textColor ? "#4C688F" : "#F3EEC3")};
+`;
+
+export const IconGroup = styled(flexRow)`
+  justify-content: space-between;
+  #delete {
+    cursor: pointer;
+    :hover {
+      i {
+        background-color: red;
+      }
+    }
+  }
 `;
 
 export const MessageIcon = styled.div`

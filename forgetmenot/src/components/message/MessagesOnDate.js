@@ -7,7 +7,7 @@ import { Date } from "../../styles/messagesStyles";
 import Message from "./Message";
 import MessageModal from "../messageModal/MessageModal";
 
-const MessagesOnDate = ({ date, row, updateMessage }) => {
+const MessagesOnDate = ({ date, row, updateMessage, deleteMessage }) => {
   const messagesList = useSelector(state => state.messagesReducer).messages;
   const messages = messagesList.filter(
     message => moment(message.date).format("YYYY-MM-DD") === moment(date).format("YYYY-MM-DD")
@@ -36,7 +36,13 @@ const MessagesOnDate = ({ date, row, updateMessage }) => {
           <Date textColor={row}>{moment(date).format("dddd, MMMM Do YYYY")}</Date>
           <Messages row={row}>
             {messages.map(message => (
-              <Message message={message} row={row} handleOpen={handleClickOpen} key={message.id} />
+              <Message
+                message={message}
+                row={row}
+                handleOpen={handleClickOpen}
+                deleteMessage={deleteMessage}
+                key={message.id}
+              />
             ))}
           </Messages>
           <MessageModal

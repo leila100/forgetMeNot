@@ -9,5 +9,7 @@ export const ADDING = "ADDING";
 export const ADDED = "ADDED";
 export const UPDATING = "UPDATING";
 export const UPDATED = "UPDATED";
+export const DELETING = "DELETING";
+export const DELETED = "DELETED";
 
 export const ERROR = "ERROR";

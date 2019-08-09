@@ -46,3 +46,18 @@ export const updateMessage = (messageId, message) => {
       });
   };
 };
+
+export const deleteMessage = messageId => {
+  const endpoint = `${process.env.REACT_APP_API_URL}/api/reminders/${messageId}`;
+  return dispatch => {
+    dispatch({ type: actionTypes.DELETING });
+    axios
+      .delete(endpoint)
+      .then(response => {
+        dispatch({ type: actionTypes.DELETED, messageId });
+      })
+      .catch(error => {
+        dispatch({ type: actionTypes.ERROR, payload: "Can't fetch your messages!" });
+      });
+  };
+};

@@ -7,7 +7,7 @@ import { Container } from "../../styles/commonStyles";
 import LeftBar from "../navbar/LeftBar";
 import RightBar from "../navbar/RightBar";
 import Calendar from "../calendar/Calendar";
-import { addMessage, fetchMessages, updateMessage } from "../../store/actions/index";
+import { addMessage, fetchMessages, updateMessage, deleteMessage } from "../../store/actions/index";
 
 const Information = () => {
   const dispatch = useDispatch();
@@ -26,13 +26,21 @@ const Information = () => {
     fetchMessages()(dispatch);
   };
 
+  const deleteMessageHandler = messageId => {
+    deleteMessage(messageId)(dispatch);
+  };
+
   return (
     <>
       {(fetching || adding || updating) && <CircularProgress />}
       <Container>
         <LeftBar />
-        <Calendar addMessage={addMessageHandler} updateMessage={updateMessageHandler} />
-        <RightBar updateMessage={updateMessageHandler} />
+        <Calendar
+          addMessage={addMessageHandler}
+          updateMessage={updateMessageHandler}
+          deleteMessage={deleteMessageHandler}
+        />
+        <RightBar updateMessage={updateMessageHandler} deleteMessage={deleteMessageHandler} />
       </Container>
     </>
   );

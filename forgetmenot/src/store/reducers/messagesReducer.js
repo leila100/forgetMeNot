@@ -1,10 +1,11 @@
-import { FETCHING, FETCHED, ADDING, ADDED, UPDATING, UPDATED } from "../actions/actionTypes";
+import { FETCHING, FETCHED, ADDING, ADDED, UPDATING, UPDATED, DELETING, DELETED } from "../actions/actionTypes";
 
 const initialState = {
   messages: [],
   fetching: false,
   adding: false,
-  updating: false
+  updating: false,
+  deleting: false
 };
 
 export const messagesReducer = (state = initialState, action) => {
@@ -14,28 +15,32 @@ export const messagesReducer = (state = initialState, action) => {
         messages: [...state.messages],
         fetching: true,
         adding: false,
-        updating: false
+        updating: false,
+        deleting: false
       };
     case FETCHED:
       return {
         messages: action.payload,
         fetching: false,
         adding: false,
-        updating: false
+        updating: false,
+        deleting: false
       };
     case ADDING:
       return {
         messages: [...state.messages],
         fetching: false,
         adding: true,
-        updating: false
+        updating: false,
+        deleting: false
       };
     case ADDED:
       return {
         messages: [...state.messages, action.payload],
         fetching: false,
         adding: false,
-        updating: false
+        updating: false,
+        deleting: false
       };
 
     case UPDATING:
@@ -43,14 +48,33 @@ export const messagesReducer = (state = initialState, action) => {
         messages: [...state.messages],
         fetching: false,
         adding: false,
-        updating: true
+        updating: true,
+        deleting: false
       };
     case UPDATED:
       return {
         messages: [...state.messages],
         fetching: false,
         adding: false,
-        updating: false
+        updating: false,
+        deleting: false
+      };
+    case DELETING:
+      return {
+        messages: [...state.messages],
+        fetching: false,
+        adding: false,
+        updating: false,
+        deleting: true
+      };
+    case DELETED:
+      const messages = state.messages.filter(message => message.id !== action.messageId);
+      return {
+        messages: messages,
+        fetching: false,
+        adding: false,
+        updating: false,
+        deleting: true
       };
 
     default:

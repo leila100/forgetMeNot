@@ -12,7 +12,7 @@ import { Button } from "../../styles/commonStyles";
 import MessagesList from "../message/MessagesList";
 import MessageModal from "../messageModal/MessageModal";
 
-const Calendar = ({ addMessage, updateMessage }) => {
+const Calendar = ({ addMessage, updateMessage, deleteMessage }) => {
   const [date, setDate] = useState(Date.now());
   const [open, setOpen] = useState(false);
 
@@ -67,7 +67,7 @@ const Calendar = ({ addMessage, updateMessage }) => {
         </Cal>
         <Day>
           <Button onClick={handleClickOpen}>Schedule a message</Button>
-          <MessagesList dates={dates} row updateMessage={updateMessage} />
+          <MessagesList dates={dates} row updateMessage={updateMessage} deleteMessage={deleteMessage} />
         </Day>
       </CalendarWrapper>
       <MessageModal open={open} handleClose={handleClose} date={date} handleSubmit={handleAdd} />
