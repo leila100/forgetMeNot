@@ -72,9 +72,9 @@ const Login = props => {
           <i className='fas fa-user' />
           <TextField
             required
+            autoFocus
             error={error === "username"}
             helperText={error === "username" ? errorText : ""}
-            autoFocus
             fullWidth
             margin='dense'
             label='Username'
@@ -105,7 +105,6 @@ const Login = props => {
             type='password'
             error={error === "password"}
             helperText={error === "password" ? errorText : ""}
-            autoFocus
             fullWidth
             margin='dense'
             label='Password'
