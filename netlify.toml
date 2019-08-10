@@ -1,8 +1,9 @@
 [build]
 base = "forgetmenot/"
-
+publish = "forgetmenot/build/"
+command = "yarn build"
 
 [[redirects]]
-from ="/*"
-to = "/index.html"
-status = 200
+  from = "/*"
+  to = "/index.html"
+  status = 200
