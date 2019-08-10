@@ -71,7 +71,7 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
   const [recipientEmail, setEmail] = useState("");
   const [messageText, setText] = useState("");
   const [newDate, setNewDate] = useState(moment(date).format("YYYY-MM-DD"));
-  const [time, setTime] = useState("12:00");
+  const [time, setTime] = useState("00:00");
   const [error, setError] = useState("");
   const [errorText, setErrorText] = useState("");
 
@@ -91,7 +91,7 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
   }, [message]);
 
   const handleSchedule = () => {
-    const messageDate = new Date(newDate + "T" + time);
+    const messageDate = new Date(newDate + " " + time);
     const newMessage = { type, recipientName, recipientEmail, messageText, date: messageDate };
     if (!recipientName.trim()) {
       setError("recipient");
@@ -118,7 +118,7 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
     setText("");
     setType("other");
     setNewDate(moment(date).format("YYYY-MM-DD"));
-    setTime("12:00");
+    setTime("00:00");
     handleClose();
   };
   return (

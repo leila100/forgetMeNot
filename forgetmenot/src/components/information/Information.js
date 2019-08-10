@@ -23,7 +23,7 @@ const Information = () => {
 
   const updateMessageHandler = (messageId, message) => {
     updateMessage(messageId, message)(dispatch);
-    fetchMessages()(dispatch);
+    // fetchMessages()(dispatch);
   };
 
   const deleteMessageHandler = messageId => {

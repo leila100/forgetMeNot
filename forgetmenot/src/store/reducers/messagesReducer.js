@@ -52,8 +52,11 @@ export const messagesReducer = (state = initialState, action) => {
         deleting: false
       };
     case UPDATED:
+      const updatedMessages = [...state.messages];
+      const index = updatedMessages.findIndex(message => message.id === action.messageId);
+      updatedMessages[index] = { ...updatedMessages[index], ...action.message };
       return {
-        messages: [...state.messages],
+        messages: updatedMessages,
         fetching: false,
         adding: false,
         updating: false,

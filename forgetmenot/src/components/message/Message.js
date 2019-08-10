@@ -5,9 +5,9 @@ import { MessageBox, MessageType, MessageBody, MessageIcon, IconGroup } from "..
 
 const Message = ({ message, row, handleOpen, deleteMessage }) => {
   return (
-    <MessageBox row={row} onClick={() => handleOpen(message)}>
+    <MessageBox row={row} onClick={() => handleOpen(message)} disabled={message.sent}>
       <MessageType type={message.type} />
-      <MessageBody>
+      <MessageBody sent={message.sent}>
         <IconGroup>
           <MessageIcon
             id='delete'

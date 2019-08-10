@@ -15,12 +15,14 @@ export const MessageBox = styled.li`
   display: flex;
   margin: 10px 0;
   width: ${props => (props.row ? "48%" : "100%")};
+  cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
 `;
 
 export const MessageBody = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${messageBgColor};
+  opacity: ${props => (props.sent ? "0.4" : "1")};
   color: white;
   width: 95%;
   padding: 5px;
