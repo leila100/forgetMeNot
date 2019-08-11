@@ -102,6 +102,9 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
     } else if (!messageText.trim()) {
       setError("text");
       setErrorText("Please enter a valid message.");
+    } else if (messageDate.getTime() < new Date().getTime()) {
+      setError("date");
+      setErrorText("Please enter a valid date in the future.");
     } else {
       setError("");
       setErrorText("");
@@ -236,6 +239,8 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
             <TextField
               required
               fullWidth
+              error={error === "date"}
+              helperText={error === "date" ? errorText : ""}
               margin='dense'
               type='date'
               label='Date'
@@ -249,6 +254,12 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
               InputProps={{
                 classes: {
                   input: classes.formTextInput
+                },
+                min: moment(Date.now()).format("YYYY-MM-DD")
+              }}
+              FormHelperTextProps={{
+                classes: {
+                  error: classes.errors
                 }
               }}
               classes={{ root: classes.textField }}
@@ -256,6 +267,8 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
             <TextField
               required
               fullWidth
+              error={error === "date"}
+              helperText={error === "date" ? errorText : ""}
               margin='dense'
               type='time'
               label='Time'
@@ -269,6 +282,11 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
               InputProps={{
                 classes: {
                   input: classes.formTextInput
+                }
+              }}
+              FormHelperTextProps={{
+                classes: {
+                  error: classes.errors
                 }
               }}
               classes={{ root: classes.textField }}
