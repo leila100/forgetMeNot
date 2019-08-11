@@ -12,6 +12,7 @@ import { CalendarPage, CalendarWrapper, Cal, Day } from "../../styles/calendarSt
 import { Button } from "../../styles/commonStyles";
 import MessagesList from "../message/MessagesList";
 import MessageModal from "../messageModal/MessageModal";
+import RightBar from "../navbar/RightBar";
 
 const Calendar = ({ addMessage, updateMessage, deleteMessage }) => {
   const { messages } = useSelector(state => state.messagesReducer);
@@ -47,39 +48,42 @@ const Calendar = ({ addMessage, updateMessage, deleteMessage }) => {
 
   const dates = [date];
   return (
-    <CalendarPage>
-      <Header>
-        <img src={FMN} alt='Forget Me Not Flower' />
-        <div>
-          <h1>Welcome to Forget Me Not</h1>
-          <h2>See all your messages.</h2>
-          <h2>Create new ones.</h2>
-        </div>
-      </Header>
-      <CalendarWrapper>
-        <Cal>
-          <FullCalendar
-            defaultView='dayGridMonth'
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            dateClick={pickDate}
-            selectable='true'
-            handleWindowResize='true'
-            eventSources={[
-              {
-                events: events,
-                color: "#4c688f",
-                textColor: "white"
-              }
-            ]}
-          />
-        </Cal>
-        <Day>
-          <Button onClick={handleClickOpen}>Schedule a message</Button>
-          <MessagesList dates={dates} row updateMessage={updateMessage} deleteMessage={deleteMessage} />
-        </Day>
-      </CalendarWrapper>
-      <MessageModal open={open} handleClose={handleClose} date={date} handleSubmit={handleAdd} />
-    </CalendarPage>
+    <>
+      <CalendarPage>
+        <Header>
+          <img src={FMN} alt='Forget Me Not Flower' />
+          <div>
+            <h1>Welcome to Forget Me Not</h1>
+            <h2>See all your messages.</h2>
+            <h2>Create new ones.</h2>
+          </div>
+        </Header>
+        <CalendarWrapper>
+          <Cal>
+            <FullCalendar
+              defaultView='dayGridMonth'
+              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+              dateClick={pickDate}
+              selectable='true'
+              handleWindowResize='true'
+              eventSources={[
+                {
+                  events: events,
+                  color: "#4c688f",
+                  textColor: "white"
+                }
+              ]}
+            />
+          </Cal>
+          <Day>
+            <Button onClick={handleClickOpen}>Schedule a message</Button>
+            <MessagesList dates={dates} row updateMessage={updateMessage} deleteMessage={deleteMessage} />
+          </Day>
+        </CalendarWrapper>
+        <MessageModal open={open} handleClose={handleClose} date={date} handleSubmit={handleAdd} />
+      </CalendarPage>
+      <RightBar updateMessage={updateMessage} deleteMessage={deleteMessage} />
+    </>
   );
 };
 

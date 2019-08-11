@@ -14,7 +14,7 @@ export const Messages = styled.ul`
 export const MessageBox = styled.li`
   display: flex;
   margin: 10px 0;
-  width: ${props => (props.row ? "48%" : "100%")};
+  width: ${props => (props.row ? "80%" : "100%")};
   cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
 `;
 
@@ -83,4 +83,10 @@ export const MessageIcon = styled.div`
         ? "#ffff"
         : "#F3EEC3"};
   }
+`;
+
+export const MessagesContainer = styled.div`
+  margin-top: 50px;
+  padding: 10px;
+  width: 100%;
 `;
