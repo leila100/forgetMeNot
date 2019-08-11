@@ -1,8 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import axios from "axios";
-
-import { Message } from "../styles/commonStyles";
 
 axios.defaults.baseURL = `${process.env.REACT_APP_API_URL}/api`;
 
@@ -20,14 +18,7 @@ export default function(Component) {
   return class Authenticated extends React.Component {
     render() {
       const token = localStorage.getItem("jwt");
-      const notLoggedIn = (
-        <Message>
-          Please login to access page.{" "}
-          <div>
-            <Link to='/login'>LOGIN</Link>
-          </div>
-        </Message>
-      );
+      const notLoggedIn = <Redirect to='/login' />;
       return <>{token ? <Component {...this.props} /> : notLoggedIn}</>;
     }
   };

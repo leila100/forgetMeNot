@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Route } from "react-router-dom";
 import requireAuth from "../../hoc/requireAuth";
@@ -11,6 +11,7 @@ import LeftBar from "../navbar/LeftBar";
 import Calendar from "../calendar/Calendar";
 import MessagesList from "../message/MessagesList";
 import { addMessage, fetchMessages, updateMessage, deleteMessage } from "../../store/actions/index";
+import TopNavBar from "../navbar/TopNav";
 
 const Information = ({ match }) => {
   console.log({ match });
@@ -46,6 +47,7 @@ const Information = ({ match }) => {
 
   return (
     <>
+      <TopNavBar />
       {(fetching || adding || updating) && <CircularProgress />}
       <Container>
         <LeftBar />
