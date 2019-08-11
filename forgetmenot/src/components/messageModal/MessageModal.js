@@ -182,7 +182,6 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
               required
               error={error === "email"}
               helperText={error === "email" ? errorText : ""}
-              autoFocus
               fullWidth
               margin='dense'
               type='email'
@@ -208,7 +207,6 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
             />
             <TextField
               required
-              autoFocus
               error={error === "text"}
               helperText={error === "text" ? errorText : ""}
               fullWidth
@@ -237,7 +235,6 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
             />
             <TextField
               required
-              autoFocus
               fullWidth
               margin='dense'
               type='date'
@@ -258,7 +255,6 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
             />
             <TextField
               required
-              autoFocus
               fullWidth
               margin='dense'
               type='time'

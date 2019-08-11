@@ -116,7 +116,6 @@ const Register = props => {
             type='password'
             error={error === "password"}
             helperText={error === "password" ? errorText : ""}
-            autoFocus
             fullWidth
             margin='dense'
             label='Password'
@@ -143,7 +142,6 @@ const Register = props => {
         <FormGroup>
           <i className='far fa-address-card' />
           <TextField
-            autoFocus
             fullWidth
             margin='dense'
             label='Full Name'
@@ -166,7 +164,6 @@ const Register = props => {
           <i className='fas fa-at' />
           <TextField
             type='email'
-            autoFocus
             fullWidth
             margin='dense'
             label='Email'
