@@ -14,7 +14,6 @@ import { addMessage, fetchMessages, updateMessage, deleteMessage } from "../../s
 import TopNavBar from "../navbar/TopNav";
 
 const Information = ({ match }) => {
-  console.log({ match });
   const dispatch = useDispatch();
   const { fetching, adding, updating, messages } = useSelector(state => state.messagesReducer);
 

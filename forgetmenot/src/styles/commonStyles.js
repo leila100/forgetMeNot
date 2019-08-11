@@ -88,3 +88,17 @@ export const Message = styled.div`
     }
   }
 `;
+
+export const Group = styled(flexRow)`
+  width: 30%;
+  align-items: center;
+  justify-content: space-around;
+  font-size: 1.8rem;
+  color: #4c688f;
+  i {
+    cursor: pointer;
+    :hover {
+      color: #b87a71;
+    }
+  }
+`;

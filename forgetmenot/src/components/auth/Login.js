@@ -45,7 +45,7 @@ const Login = props => {
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
-    if (state.currentUsername && token) props.history.push("/");
+    if (state.currentUser && token) props.history.push("/");
   });
 
   const loginHandler = event => {

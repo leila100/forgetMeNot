@@ -10,7 +10,7 @@ export function addUser(user) {
       .post(endpoint, user)
       .then(response => {
         localStorage.setItem("jwt", response.data.token);
-        dispatch({ type: actionTypes.GOT_USER, username: response.data.username, userId: response.data.userId });
+        dispatch({ type: actionTypes.GOT_USER, user: response.data.user, userId: response.data.userId });
       })
       .catch(error => {
         dispatch({ type: actionTypes.ERROR, payload: error.response.data.errorMessage });
@@ -26,7 +26,7 @@ export function logUser(user) {
       .post(endpoint, user)
       .then(response => {
         localStorage.setItem("jwt", response.data.token);
-        dispatch({ type: actionTypes.GOT_USER, username: response.data.username, userId: response.data.userId });
+        dispatch({ type: actionTypes.GOT_USER, user: response.data.user, userId: response.data.userId });
       })
       .catch(error => {
         dispatch({ type: actionTypes.ERROR, payload: error.response.data.errorMessage });
@@ -43,13 +43,28 @@ export function getCurrentUser() {
       .then(response => {
         dispatch({
           type: actionTypes.GOT_USER,
-          username: response.data.username,
+          user: response.data.user,
           userId: response.data.userId
         });
       })
       .catch(error => {
         localStorage.removeItem("jwt");
         dispatch({ type: actionTypes.ERROR, payload: error.response ? error.response.data.errorMessage : error });
+      });
+  };
+}
+
+export function updateUser(userId, user) {
+  const endpoint = `${process.env.REACT_APP_API_URL}/api/user/${userId}`;
+  return dispatch => {
+    dispatch({ type: actionTypes.UPDATING_USER });
+    axios
+      .put(endpoint, user)
+      .then(response => {
+        dispatch({ type: actionTypes.UPDATED_USER, userId, user });
+      })
+      .catch(error => {
+        dispatch({ type: actionTypes.ERROR, payload: "Can't update user!" });
       });
   };
 }

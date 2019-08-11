@@ -1,34 +1,54 @@
-import { GETTING_USER, GOT_USER, ERROR } from "../actions/actionTypes";
+import { GETTING_USER, GOT_USER, ERROR, UPDATED_USER, UPDATING_USER } from "../actions/actionTypes";
 
 const initialState = {
-  currentUsername: null,
+  currentUser: null,
   currentUserId: null,
   adding: false,
-  errorMessage: ""
+  errorMessage: "",
+  updating: false
 };
 
 export const usersReducer = (state = initialState, action) => {
   switch (action.type) {
     case GETTING_USER:
       return {
-        currentUsername: null,
+        currentUser: null,
         currentUserId: null,
         adding: true,
-        errorMessage: ""
+        errorMessage: "",
+        updating: false
       };
     case GOT_USER:
       return {
-        currentUsername: action.username,
+        currentUser: action.user,
         currentUserId: action.userId,
         adding: false,
-        errorMessage: ""
+        errorMessage: "",
+        updating: false
+      };
+    case UPDATING_USER:
+      return {
+        currentUser: state.currentUser,
+        currentUserId: state.currentUserId,
+        adding: false,
+        errorMessage: "",
+        updating: true
+      };
+    case UPDATED_USER:
+      return {
+        currentUser: action.user,
+        currentUserId: action.userId,
+        adding: false,
+        errorMessage: "",
+        updating: false
       };
     case ERROR:
       return {
-        currentUsername: null,
+        currentUser: null,
         currentUserId: null,
         adding: false,
-        errorMessage: action.payload
+        errorMessage: action.payload,
+        updating: false
       };
     default:
       return state;
