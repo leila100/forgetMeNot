@@ -24,7 +24,7 @@ const Calendar = ({ addMessage, updateMessage, deleteMessage }) => {
   useEffect(() => {
     setEvents(
       messages.map(message => {
-        return { start: message.date };
+        return { start: message.date, end: message.date };
       })
     );
   }, [messages]);

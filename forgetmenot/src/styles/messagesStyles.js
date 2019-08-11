@@ -14,13 +14,20 @@ export const Messages = styled.ul`
 export const MessageBox = styled.li`
   display: flex;
   margin: 10px 0;
-  width: ${props => (props.row ? "80%" : "100%")};
+  width: ${props => (props.row ? "95%" : "100%")};
   cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
+`;
+
+export const Info = styled.div`
+  margin: 5px;
+  ${props => props.row && `width: 25%; margin-left: 10px; text-align: center;`}
 `;
 
 export const MessageBody = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${props => (props.row === true ? "row" : "column")};
+  justify-content: space-between;
+  align-items: ${props => props.row && "center"};
   background-color: ${messageBgColor};
   opacity: ${props => (props.sent ? "0.4" : "1")};
   color: white;
@@ -29,12 +36,13 @@ export const MessageBody = styled.div`
   p {
     line-height: 1.5;
     overflow-wrap: break-word;
-  }
-  div {
     margin: 5px;
+    ${props =>
+      props.row && `text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 20%; padding-left: 10px`}
   }
   span {
     color: #f3eec3;
+    ${props => props.row && `display: none;`}
   }
 `;
 
