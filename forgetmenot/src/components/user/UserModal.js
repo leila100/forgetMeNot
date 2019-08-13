@@ -8,6 +8,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { withStyles } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme } from "@material-ui/core/styles";
 
 import { FormWrapper, FormGroup } from "../../styles/formStyles";
 import { Message, Button } from "../../styles/commonStyles";
@@ -48,6 +50,9 @@ const styles = theme => ({
 });
 
 const UserModal = ({ open, handleClose, update, classes }) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
+
   const state = useSelector(state => state.usersReducer);
   const user = state.currentUser;
   const [name, setName] = useState("");
@@ -81,6 +86,7 @@ const UserModal = ({ open, handleClose, update, classes }) => {
     <>
       {user && (
         <Dialog
+          fullScreen={fullScreen}
           classes={{ root: classes.root }}
           fullWidth
           maxWidth='sm'
@@ -90,7 +96,7 @@ const UserModal = ({ open, handleClose, update, classes }) => {
           TransitionComponent={Transition}
         >
           <DialogTitle id='form-dialog-title'>
-            <span className={classes.title}>Update User {user.username} Settings</span>
+            <span className={classes.title}>Settings - {user.username}</span>
           </DialogTitle>
           <DialogContent>
             <FormWrapper style={{ margin: "auto" }}>

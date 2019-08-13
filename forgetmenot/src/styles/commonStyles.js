@@ -93,12 +93,43 @@ export const Group = styled(flexRow)`
   width: 30%;
   align-items: center;
   justify-content: space-around;
+  flex-wrap: wrap;
   font-size: 1.8rem;
   color: #4c688f;
   i {
     cursor: pointer;
+    padding-bottom: 7px;
     :hover {
       color: #b87a71;
+    }
+  }
+
+  #links {
+    display: none;
+  }
+  @media (max-width: 1000px) {
+    padding: 15px 0;
+    width: 100%;
+    background-color: #666680;
+    color: #f3eec3;
+    #links {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 10px;
+      a {
+        margin: 0 10px;
+        text-decoration: none;
+        color: #f3eec3;
+        padding-bottom: 7px;
+        :hover {
+          color: #b87a71;
+        }
+      }
+      .active {
+        padding-bottom: 4px;
+        border-bottom: 3px solid #284243;
+      }
     }
   }
 `;

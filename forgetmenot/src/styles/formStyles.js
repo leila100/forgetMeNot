@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const FormWrapper = styled.div`
   max-width: 500px;
-  min-width: 400px;
+  /* min-width: 400px; */
   margin: 100px auto;
   font-size: 2.3rem;
   form {

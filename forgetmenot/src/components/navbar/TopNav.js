@@ -31,8 +31,9 @@ const TopNav = props => {
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
+    if (!token) props.history.push("/login");
     if (!user && token) getCurrentUser()(dispatch);
-  }, [user, token, dispatch]);
+  }, [user, token, dispatch, props.history]);
 
   const updateHandler = ({ name, email }) => {
     const updatedUser = {
@@ -48,11 +49,23 @@ const TopNav = props => {
       <>
         <img src={logo} alt='Forget Me Not logo' />
         {user && token ? (
-          <Group>
-            <span>{`${user.username}`}</span>
-            <i className='fas fa-edit' onClick={handleOpen} />
-            <Button onClick={logout}>Logout</Button>
-          </Group>
+          <>
+            <Group>
+              <div id='links'>
+                <NavLink exact to='/'>
+                  Calendar
+                </NavLink>
+                <NavLink exact to='/messages'>
+                  Messages
+                </NavLink>
+              </div>
+              <div>
+                <span>{`${user.username}`}</span>
+                <i className='fas fa-edit' onClick={handleOpen} />
+              </div>
+              <Button onClick={logout}>Logout</Button>
+            </Group>
+          </>
         ) : (
           <NavLink to='/login'>Login</NavLink>
         )}
