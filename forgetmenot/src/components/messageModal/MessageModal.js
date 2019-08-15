@@ -101,7 +101,12 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
   }, [message]);
 
   const handleSchedule = () => {
-    const messageDate = new Date(newDate + " " + time);
+    const year = moment(date).format("YYYY");
+    const month = moment(date).format("MM");
+    const day = moment(date).format("DD");
+    const [hour, minutes] = time.split(":");
+    // const messageDate = new Date(newDate + " " + time);
+    const messageDate = new Date(year, Number(month) - 1, day, hour, minutes);
     const newMessage = { type, recipientName, recipientEmail, messageText, date: messageDate };
     if (!recipientName.trim()) {
       setError("recipient");

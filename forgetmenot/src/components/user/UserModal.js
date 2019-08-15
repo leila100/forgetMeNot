@@ -131,7 +131,7 @@ const UserModal = ({ open, handleClose, update, classes }) => {
                         input: classes.formTextInput
                       }
                     }}
-                    classes={{ input: classes.textField }}
+                    classes={{ root: classes.textField }}
                   />
                 </FormGroup>
                 <FormGroup>

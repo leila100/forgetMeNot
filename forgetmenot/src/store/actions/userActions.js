@@ -41,6 +41,7 @@ export function getCurrentUser() {
     axios
       .get(endpoint)
       .then(response => {
+        console.log(response.data.userId);
         dispatch({
           type: actionTypes.GOT_USER,
           user: response.data.user,
@@ -49,18 +50,21 @@ export function getCurrentUser() {
       })
       .catch(error => {
         localStorage.removeItem("jwt");
-        // dispatch({ type: actionTypes.ERROR, payload: error.response ? error.response.data.errorMessage : error });
+        dispatch({ type: actionTypes.ERROR, payload: error.response ? error.response.data.errorMessage : error });
       });
   };
 }
 
 export function updateUser(userId, user) {
+  console.log({ userId });
+  console.log({ user });
   const endpoint = `${process.env.REACT_APP_API_URL}/api/user/${userId}`;
   return dispatch => {
     dispatch({ type: actionTypes.UPDATING_USER });
     axios
       .put(endpoint, user)
       .then(response => {
+        console.log({ response });
         dispatch({ type: actionTypes.UPDATED_USER, userId, user });
       })
       .catch(error => {
