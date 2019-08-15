@@ -8,7 +8,7 @@ import "@fullcalendar/core/main.css";
 
 import FMN from "../../assets/images/FMN1.png";
 import { Header } from "../../styles/commonStyles";
-import { CalendarPage, CalendarWrapper, Cal, Day } from "../../styles/calendarStyles";
+import { CalendarPage, CalendarWrapper, Cal, WeekCal, Day } from "../../styles/calendarStyles";
 import { Button } from "../../styles/commonStyles";
 import MessagesList from "../message/MessagesList";
 import MessageModal from "../messageModal/MessageModal";
@@ -75,6 +75,23 @@ const Calendar = ({ addMessage, updateMessage, deleteMessage }) => {
               ]}
             />
           </Cal>
+          <WeekCal>
+            <FullCalendar
+              defaultView='dayGridWeek'
+              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+              dateClick={pickDate}
+              selectable='true'
+              height='auto'
+              handleWindowResize='true'
+              eventSources={[
+                {
+                  events: events,
+                  color: "#4c688f",
+                  textColor: "white"
+                }
+              ]}
+            />
+          </WeekCal>
           <Day>
             <Button onClick={handleClickOpen}>Schedule a message</Button>
             <MessagesList dates={dates} row updateMessage={updateMessage} deleteMessage={deleteMessage} />

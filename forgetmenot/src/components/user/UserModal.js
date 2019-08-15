@@ -23,6 +23,11 @@ const styles = theme => ({
     backgroundColor: "#284243",
     fontSize: "1.6rem"
   },
+  dialogContent: {
+    [theme.breakpoints.down("sm")]: {
+      flexGrow: 0
+    }
+  },
   title: {
     fontFamily: "Arimo",
     fontSize: "3rem",
@@ -42,7 +47,11 @@ const styles = theme => ({
     color: "#4c688f"
   },
   formTextInput: {
-    fontSize: "1.5rem"
+    fontSize: "1.5rem",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+      padding: 0
+    }
   },
   errors: {
     fontSize: "1.5rem"
@@ -98,7 +107,7 @@ const UserModal = ({ open, handleClose, update, classes }) => {
           <DialogTitle id='form-dialog-title'>
             <span className={classes.title}>Settings - {user.username}</span>
           </DialogTitle>
-          <DialogContent>
+          <DialogContent classes={{ root: classes.dialogContent }}>
             <FormWrapper style={{ margin: "auto" }}>
               {state.updating && <CircularProgress />}
               <Message error>{user.errorMessage}</Message>
@@ -122,7 +131,7 @@ const UserModal = ({ open, handleClose, update, classes }) => {
                         input: classes.formTextInput
                       }
                     }}
-                    classes={{ root: classes.textField }}
+                    classes={{ input: classes.textField }}
                   />
                 </FormGroup>
                 <FormGroup>

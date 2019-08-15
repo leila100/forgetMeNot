@@ -28,7 +28,7 @@ export const SideBar = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
-  width: ${props => (props.right ? "45%" : "15%")};
+  width: ${props => (props.right ? "30%" : "15%")};
   padding: 10px;
   background-color: ${navBgColor};
   a {

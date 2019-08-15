@@ -46,6 +46,14 @@ export const Header = styled(flexRow)`
   div {
     margin: 10px;
   }
+  @media (max-width: 550px) {
+    h1 {
+      font-size: 1.8rem;
+    }
+    h2 {
+      font-size: 1.4rem;
+    }
+  }
 `;
 
 export const Button = styled.button`

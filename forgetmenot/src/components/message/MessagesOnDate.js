@@ -18,6 +18,7 @@ const MessagesOnDate = ({ date, row, updateMessage, deleteMessage, showSent }) =
   if (!showSent) messages = messages.filter(message => !message.sent);
 
   function handleClickOpen(message) {
+    if (message && message.sent) return; //If message was sent, can't edit it
     setOpen(true);
     setMessage(message);
   }

@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const FormWrapper = styled.div`
   max-width: 500px;
-  /* min-width: 400px; */
   margin: 100px auto;
   font-size: 2.3rem;
   form {
@@ -27,6 +26,10 @@ export const FormGroup = styled.div`
     padding: 8px;
     width: 80%;
     outline: none;
+    @media (max-width: 1000px) {
+      width: 100%;
+      padding: 0;
+    }
   }
   input:focus {
     border-left: 3px solid #b87a71;

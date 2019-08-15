@@ -20,7 +20,7 @@ export const MessageBox = styled.li`
 
 export const Info = styled.div`
   margin: 5px;
-  ${props => props.row && `width: 25%; margin-left: 10px; text-align: start;`}
+  ${props => props.row && `width: 100%; margin-left: 10px; text-align: start;`}
 `;
 
 export const MessageBody = styled.div`
@@ -38,7 +38,7 @@ export const MessageBody = styled.div`
     overflow-wrap: break-word;
     margin: 5px;
     ${props =>
-      props.row && `text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 20%; padding-left: 10px`}
+      props.row && `text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 50%; padding-left: 10px`}
   }
   span {
     color: #f3eec3;

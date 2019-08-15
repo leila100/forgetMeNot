@@ -49,7 +49,7 @@ export function getCurrentUser() {
       })
       .catch(error => {
         localStorage.removeItem("jwt");
-        dispatch({ type: actionTypes.ERROR, payload: error.response ? error.response.data.errorMessage : error });
+        // dispatch({ type: actionTypes.ERROR, payload: error.response ? error.response.data.errorMessage : error });
       });
   };
 }
