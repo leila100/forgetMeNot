@@ -7,6 +7,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { withStyles } from "@material-ui/core/styles";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme } from "@material-ui/core/styles";
 
 import { Button } from "../../styles/commonStyles";
 import { BtnGroup, TypeBtn, InputGroup } from "../../styles/modalStyles";
@@ -18,6 +20,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const styles = theme => ({
   root: {
     backgroundColor: "#284243"
+  },
+  dialogContent: {
+    [theme.breakpoints.down("sm")]: {
+      flexGrow: 0
+    }
   },
   title: {
     fontFamily: "Arimo",
@@ -66,6 +73,9 @@ const styles = theme => ({
 });
 
 const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes }) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
+
   const [type, setType] = useState("other");
   const [recipientName, setRecipient] = useState("");
   const [recipientEmail, setEmail] = useState("");
@@ -128,6 +138,7 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
     <div>
       <Dialog
         classes={{ root: classes.root }}
+        fullScreen={fullScreen}
         fullWidth
         maxWidth='sm'
         open={open}
@@ -138,7 +149,7 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
         <DialogTitle id='form-dialog-title'>
           <span className={classes.title}>{message ? "Update Message" : "Schedule a new message"}</span>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent classes={{ root: classes.dialogContent }}>
           <BtnGroup>
             <TypeBtn className={classes.family} onClick={() => setType("family")} clicked={type === "family"}>
               <i className='fas fa-home' /> Family
