@@ -70,6 +70,10 @@ export const Button = styled.button`
     color: #284243;
     background-color: white;
   }
+  #button {
+    margin: 0;
+    padding: 0;
+  }
 `;
 
 export const Message = styled.div`

@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import { Link } from "react-router-dom";
 
 import { SideBar } from "../../styles/navBarStyles";
 import { Button } from "../../styles/commonStyles";
@@ -13,7 +14,11 @@ const RightBar = ({ updateMessage, deleteMessage }) => {
     <SideBar right>
       <h2>Messages</h2>
       <MessagesList dates={dates} updateMessage={updateMessage} deleteMessage={deleteMessage} />
-      <Button>See more messages</Button>
+      <Button>
+        <Link to='/messages' id='button'>
+          See more messages
+        </Link>
+      </Button>
     </SideBar>
   );
 };
