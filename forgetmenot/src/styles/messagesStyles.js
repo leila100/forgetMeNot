@@ -19,7 +19,7 @@ export const MessageBox = styled.li`
 `;
 
 export const Info = styled.div`
-  margin: 5px;
+  margin-bottom: 10px;
   ${props => props.row && `width: 100%; margin-left: 10px; text-align: start;`}
 `;
 
@@ -36,7 +36,7 @@ export const MessageBody = styled.div`
   p {
     line-height: 1.5;
     overflow-wrap: break-word;
-    margin: 5px;
+    margin-bottom: 10px;
     ${props =>
       props.row && `text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 50%; padding-left: 10px`}
   }
@@ -65,6 +65,8 @@ export const DateFormat = styled.div`
 
 export const IconGroup = styled(flexRow)`
   justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
   #delete {
     cursor: pointer;
     :hover {

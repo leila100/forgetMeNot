@@ -37,17 +37,10 @@ const Message = ({ message, row, handleOpen, deleteMessage }) => {
           )}
         </IconGroup>
         <Info row={row}>
-          <span>Recipient:</span> {message.recipientName}
+          <span>To:</span> {message.recipientName} ({message.recipientEmail})
         </Info>
-        <Info row={row}>
-          <span>Email:</span> {message.recipientEmail}
-        </Info>
-        <p>
-          <span>Message:</span> {message.messageText}
-        </p>
-        <Info row={row}>
-          <span>Time:</span> {moment(message.date).format("hh:mm a")}
-        </Info>
+        <p>{message.messageText}</p>
+        <Info row={row}>{moment(message.date).format("hh:mm a")}</Info>
       </MessageBody>
     </MessageBox>
   );
