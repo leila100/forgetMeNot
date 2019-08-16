@@ -28,12 +28,10 @@ const Information = ({ match }) => {
     }
   });
   if (uniqueDates.length > 0) {
-    console.log({ uniqueDates });
     uniqueDates.sort((a, b) => {
       if (moment(new Date(a)).isSameOrBefore(new Date(b))) return -1;
       else return 1;
     });
-    console.log({ uniqueDates });
   }
   useEffect(() => {
     fetchMessages()(dispatch);

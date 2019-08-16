@@ -41,7 +41,6 @@ export function getCurrentUser() {
     axios
       .get(endpoint)
       .then(response => {
-        console.log(response.data.userId);
         dispatch({
           type: actionTypes.GOT_USER,
           user: response.data.user,
