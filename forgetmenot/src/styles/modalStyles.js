@@ -4,6 +4,7 @@ import { flexRow, Button } from "./commonStyles";
 
 export const BtnGroup = styled(flexRow)`
   flex-wrap: wrap;
+  margin-bottom: 10px;
   button {
     width: 120px;
     border-radius: 20px;

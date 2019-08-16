@@ -31,12 +31,6 @@ const styles = theme => ({
     fontSize: "3rem",
     color: "#666680"
   },
-  family: {
-    backgroundColor: "#b87a71",
-    "&:clicked": {
-      backgroundColor: "#284243"
-    }
-  },
   textField: {
     paddingRight: 20,
     width: "276px",
@@ -50,6 +44,12 @@ const styles = theme => ({
     paddingRight: 20,
     marginTop: 20,
     fontSize: "1.6rem"
+  },
+  family: {
+    backgroundColor: "#b87a71",
+    "&:clicked": {
+      backgroundColor: "#284243"
+    }
   },
   friend: {
     backgroundColor: "#4c688f"

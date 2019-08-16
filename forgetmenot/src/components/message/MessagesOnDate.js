@@ -7,7 +7,7 @@ import { DateFormat } from "../../styles/messagesStyles";
 import Message from "./Message";
 import MessageModal from "../messageModal/MessageModal";
 
-const MessagesOnDate = ({ date, row, updateMessage, deleteMessage, showSent }) => {
+const MessagesOnDate = ({ date, row, updateMessage, deleteMessage, showSent, showType }) => {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState(null);
 
@@ -16,6 +16,7 @@ const MessagesOnDate = ({ date, row, updateMessage, deleteMessage, showSent }) =
     message => moment(message.date).format("YYYY-MM-DD") === moment(date).format("YYYY-MM-DD")
   );
   if (!showSent) messages = messages.filter(message => !message.sent);
+  if (showType !== "all") messages = messages.filter(message => message.type === showType);
   if (messages.length > 0)
     messages.sort((a, b) => {
       const d1 = new Date(a.date);
