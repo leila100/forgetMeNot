@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { NavLink, withRouter } from "react-router-dom";
+import { NavLink, withRouter, Link } from "react-router-dom";
 
 import logo from "../../assets/images/logo2.png";
 import { TopBar } from "../../styles/navBarStyles";
@@ -47,7 +47,9 @@ const TopNav = props => {
   return (
     <TopBar>
       <>
-        <img src={logo} alt='Forget Me Not logo' />
+        <Link to='/'>
+          <img src={logo} alt='Forget Me Not logo' />
+        </Link>
         {user && token ? (
           <>
             <Group>
