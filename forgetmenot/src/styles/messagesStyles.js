@@ -58,7 +58,7 @@ export const MessageType = styled.div`
       : "#F3EEC3"};
 `;
 
-export const Date = styled.div`
+export const DateFormat = styled.div`
   font-size: 1.6rem;
   color: ${props => (props.textColor ? "#4C688F" : "#F3EEC3")};
 `;
