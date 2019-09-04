@@ -47,7 +47,7 @@ More technologies are planned to be used but are not yet implemented in current 
 
 To run this project, install it locally using yarn:
 
-    $ cd client/
+    $ cd forgetmenot/
     $ yarn install
     $ yarn start
 
