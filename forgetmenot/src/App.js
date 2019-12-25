@@ -12,8 +12,8 @@ function App() {
   return (
     <div>
       <Switch>
-        {/* <Route path='/register' component={Register} />
-        <Route path='/login' component={Login} /> */}
+        <Route path='/register' component={Register} />
+        <Route path='/login' component={Login} />
         {/* <Route path='/' component={Information} /> */}
         <Route exact path='/' component={NewMessage} />
       </Switch>

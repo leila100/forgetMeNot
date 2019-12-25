@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { flexRow } from "./commonStyles";
+import { flexRow, Container } from "./commonStyles";
 
 export const messageBgColor = "#284243";
 
@@ -7,6 +7,31 @@ export const NewMessageContainer = styled(flexRow)`
   max-width: 800px;
   margin: auto;
   flex-direction: column;
+`;
+
+export const MessageContainer = styled(Container)`
+  padding: 10px;
+  align-content: start;
+`;
+
+export const Preview = styled.div`
+  margin-left: 10px;
+  border-left: 1px solid black;
+  padding: 5px;
+  width: 100%;
+  p {
+    margin-top: 10px;
+    font-size: 1.7rem;
+    font-family: Trocchi;
+  }
+  img {
+    margin-bottom: 10px;
+    width: 100%;
+    height: 200px;
+  }
+  div {
+    margin: 10px 0;
+  }
 `;
 
 export const Type = styled(flexRow)`
