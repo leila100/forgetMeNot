@@ -31,7 +31,7 @@ const TopNav = props => {
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
-    if (!token) props.history.push("/login");
+    // if (!token) props.history.push("/login");
     if (!user && token) getCurrentUser()(dispatch);
   }, [user, token, dispatch, props.history]);
 

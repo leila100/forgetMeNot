@@ -10,6 +10,7 @@ export const NewMessageContainer = styled(flexRow)`
 `;
 
 export const MessageContainer = styled(Container)`
+  width: 100%;
   padding: 10px;
   align-content: start;
 `;
@@ -40,9 +41,8 @@ export const Type = styled(flexRow)`
 `;
 
 export const MessageType = styled.img`
-  width: 100px;
-  height: 100px;
-  /* background: url(${props => props.img}) no-repeat; */
+  width: 125px;
+  height: 125px;
   background-size: 100% 100%;
   border: ${props => props.clicked && "6px solid #284243"};
   cursor: pointer;
@@ -69,6 +69,8 @@ export const BtnGroup = styled(flexRow)`
 `;
 
 export const InputGroup = styled(flexRow)`
+  width: 100%;
+  flex-direction: column;
   flex-wrap: wrap;
   justify-content: flex-start;
 `;

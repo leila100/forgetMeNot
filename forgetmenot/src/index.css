@@ -89,6 +89,7 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
+
 html,
 body {
   margin: 0;
@@ -112,17 +113,21 @@ nav,
 section {
   display: block;
 }
+
 body {
   line-height: 1;
 }
+
 ol,
 ul {
   list-style: none;
 }
+
 blockquote,
 q {
   quotes: none;
 }
+
 blockquote:before,
 blockquote:after,
 q:before,
@@ -130,10 +135,12 @@ q:after {
   content: "";
   content: none;
 }
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 /* !!!!!!!!!!!!!!!! DO NOT EDIT CODE ABOVE !!!!!!!!!!!!!!!! */
 
 * {
@@ -143,8 +150,32 @@ table {
 html {
   font-size: 62.5%;
   font-family: Roboto, sans-serif;
+  height: 100%
 }
 
 body {
   font-size: 1.5rem;
+  height: 100%
+}
+
+#root {
+  height: 100%;
+}
+
+.App {
+  height: 100%;
+  position: relative;
+}
+
+.App::after {
+  content: "";
+  background: url("./assets/images/fmn2.jpg");
+  background-size: cover;
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
 }

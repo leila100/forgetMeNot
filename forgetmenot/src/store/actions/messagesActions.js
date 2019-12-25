@@ -2,6 +2,17 @@ import axios from "axios";
 
 import * as actionTypes from "./actionTypes";
 
+axios.interceptors.request.use(
+  options => {
+    options.headers.authorization = localStorage.getItem("jwt");
+    return options;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
+
 export const fetchMessages = () => {
   const endpoint = `${process.env.REACT_APP_API_URL}/api/reminders`;
   return dispatch => {

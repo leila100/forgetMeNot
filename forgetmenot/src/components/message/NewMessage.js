@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import * as moment from "moment";
 import TextField from "@material-ui/core/TextField";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { addMessage, getCurrentUser } from "../../store/actions/index";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -50,7 +51,8 @@ const styles = theme => ({
   }
 });
 
-const NewMessage = ({ classes }) => {
+const NewMessage = ({ classes, history }) => {
+  const dispatch = useDispatch();
   const user = useSelector(state => state.usersReducer).currentUser;
   const [type, setType] = useState("other");
   const [recipientName, setRecipient] = useState("");
@@ -76,45 +78,49 @@ const NewMessage = ({ classes }) => {
   //   }
   // }, [message]);
 
-  //     const handleSchedule = () => {
-  //       const year = moment(date).format("YYYY");
-  //       const month = moment(date).format("MM");
-  //       const day = moment(date).format("DD");
-  //       const [hour, minutes] = time.split(":");
-  //       // const messageDate = new Date(newDate + " " + time);
-  //       const messageDate = new Date(year, Number(month) - 1, day, hour, minutes);
-  //       const newMessage = { type, recipientName, recipientEmail, messageText, date: messageDate };
-  //       if (!recipientName.trim()) {
-  //         setError("recipient");
-  //         setErrorText("Please enter the name of the recipient of your message.");
-  //       } else if (!recipientEmail) {
-  //         setError("email");
-  //         setErrorText("Please enter the email of the recipient of your message.");
-  //       } else if (!messageText.trim()) {
-  //         setError("text");
-  //         setErrorText("Please enter a valid message.");
-  //       } else if (messageDate.getTime() < new Date().getTime()) {
-  //         setError("date");
-  //         setErrorText("Please enter a valid date in the future.");
-  //       } else {
-  //         setError("");
-  //         setErrorText("");
-  //         handleSubmit(newMessage);
-  //         handleCancel();
-  //       }
-  //     };
+  const handleSchedule = () => {
+    const token = localStorage.getItem("jwt");
+    if (!token) history.push("/login");
+    if (!user && token) getCurrentUser()(dispatch);
+    const year = moment(newDate).format("YYYY");
+    const month = moment(newDate).format("MM");
+    const day = moment(newDate).format("DD");
+    const [hour, minutes] = time.split(":");
+    const messageDate = new Date(year, Number(month) - 1, day, hour, minutes);
+    const newMessage = { type, recipientName, recipientEmail, messageText, date: messageDate };
+    if (!recipientName.trim()) {
+      setError("recipient");
+      setErrorText("Please enter the name of the recipient of your message.");
+    } else if (!recipientEmail) {
+      setError("email");
+      setErrorText("Please enter the email of the recipient of your message.");
+    } else if (!messageText.trim()) {
+      setError("text");
+      setErrorText("Please enter a valid message.");
+    } else if (messageDate.getTime() < new Date().getTime()) {
+      setError("date");
+      setErrorText("Please enter a valid date in the future.");
+    } else {
+      setError("");
+      setErrorText("");
+      addMessage(newMessage)(dispatch);
+      // handleSubmit(newMessage);
+      handleCancel();
+      history.push("/messages");
+    }
+  };
 
-  //     const handleCancel = () => {
-  //     setError("");
-  //     setErrorText("");
-  //     setRecipient("");
-  //     setEmail("");
-  //     setText("");
-  //     setType("other");
-  //     setNewDate(moment(date).format("YYYY-MM-DD"));
-  //     setTime("00:00");
-  //     handleClose();
-  //   };
+  const handleCancel = () => {
+    setError("");
+    setErrorText("");
+    setRecipient("");
+    setEmail("");
+    setText("");
+    setType("other");
+    setNewDate(moment(newDate).format("YYYY-MM-DD"));
+    setTime("00:00");
+  };
+
   var imgSource = messageImage;
   if (type == "love") imgSource = loveImage;
   else if (type == "birthday") imgSource = birthdayImage;
@@ -311,6 +317,7 @@ const NewMessage = ({ classes }) => {
               }}
               classes={{ root: classes.textField }}
             />
+            <Button onClick={handleSchedule}>Schedule</Button>
           </InputGroup>
           <Preview>
             <img src={imgSource} alt={`Theme ${type}`} />

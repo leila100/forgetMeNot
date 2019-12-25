@@ -2,6 +2,16 @@ import axios from "axios";
 
 import * as actionTypes from "./actionTypes";
 
+axios.interceptors.request.use(
+  options => {
+    options.headers.authorization = localStorage.getItem("jwt");
+    return options;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+);
+
 export function addUser(user) {
   const endpoint = `${process.env.REACT_APP_API_URL}/api/register`;
   return dispatch => {
