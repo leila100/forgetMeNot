@@ -3,6 +3,51 @@ import { flexRow } from "./commonStyles";
 
 export const messageBgColor = "#284243";
 
+export const NewMessageContainer = styled(flexRow)`
+  max-width: 800px;
+  margin: auto;
+  flex-direction: column;
+`;
+
+export const Type = styled(flexRow)`
+  flex-direction: column;
+  margin: 0px 1%;
+`;
+
+export const MessageType = styled.img`
+  width: 100px;
+  height: 100px;
+  /* background: url(${props => props.img}) no-repeat; */
+  background-size: 100% 100%;
+  border: ${props => props.clicked && "6px solid #284243"};
+  cursor: pointer;
+`;
+
+export const TypeLabel = styled.div`
+  font-size: 1.7rem;
+  text-align: center;
+  margin-top: 5px;
+`;
+
+export const BtnGroup = styled(flexRow)`
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  button {
+    width: 120px;
+    border-radius: 20px;
+    color: #132021;
+    background-color: ${props => props.clicked && "#284243"};
+    i {
+      margin-right: 5px;
+    }
+  }
+`;
+
+export const InputGroup = styled(flexRow)`
+  flex-wrap: wrap;
+  justify-content: flex-start;
+`;
+
 export const Messages = styled.ul`
   display: flex;
   flex-direction: ${props => (props.row ? "row" : "column")};
@@ -46,17 +91,17 @@ export const MessageBody = styled.div`
   }
 `;
 
-export const MessageType = styled.div`
-  width: 4%;
-  background-color: ${props =>
-    props.type === "family"
-      ? "#b87a71"
-      : props.type === "friend"
-      ? "#4c688f"
-      : props.type === "work"
-      ? "#ffff"
-      : "#F3EEC3"};
-`;
+// export const MessageType = styled.div`
+//   width: 4%;
+//   background-color: ${props =>
+//     props.type === "family"
+//       ? "#b87a71"
+//       : props.type === "friend"
+//       ? "#4c688f"
+//       : props.type === "work"
+//       ? "#ffff"
+//       : "#F3EEC3"};
+// `;
 
 export const DateFormat = styled.div`
   font-size: 1.6rem;
