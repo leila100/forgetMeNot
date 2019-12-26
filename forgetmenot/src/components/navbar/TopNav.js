@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { NavLink, withRouter, Link } from "react-router-dom";
 
-import logo from "../../assets/images/logo2.png";
-import { TopBar } from "../../styles/navBarStyles";
+import logo from "../../assets/images/logo.png";
+import { TopBar, Logo } from "../../styles/navBarStyles";
 import { Button, Group } from "../../styles/commonStyles";
 import { getCurrentUser } from "../../store/actions/index";
 import UserModal from "../user/UserModal";
@@ -48,7 +48,10 @@ const TopNav = props => {
     <TopBar>
       <>
         <Link to='/'>
-          <img src={logo} alt='Forget Me Not logo' />
+          <Logo>
+            <img src={logo} alt='Forget Me Not logo' />
+            <div>ForgetMeNot</div>
+          </Logo>
         </Link>
         {user && token ? (
           <>
