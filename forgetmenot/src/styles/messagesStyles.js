@@ -1,11 +1,17 @@
 import styled from "styled-components";
 import { flexRow, Container } from "./commonStyles";
 
+import loveImage from "../assets/images/love.jpg";
+import getWellImage from "../assets/images/getWell.jpg";
+import birthdayImage from "../assets/images/birthday.jpg";
+import messageImage from "../assets/images/message.jpg";
+import thankImage from "../assets/images/thankYou.jpg";
+
 export const messageBgColor = "#284243";
 
 export const NewMessageContainer = styled(flexRow)`
   max-width: 800px;
-  margin: auto;
+  margin: 20px auto;
   flex-direction: column;
 `;
 
@@ -45,6 +51,14 @@ export const MessageType = styled.img`
   height: 125px;
   background-size: 100% 100%;
   border: ${props => props.clicked && "6px solid #284243"};
+  content: url(${props => {
+    var imgSource = messageImage;
+    if (props.type === "love") imgSource = loveImage;
+    else if (props.type === "birthday") imgSource = birthdayImage;
+    else if (props.type === "getWell") imgSource = getWellImage;
+    else if (props.type === "thank") imgSource = thankImage;
+    return imgSource;
+  }});
   cursor: pointer;
 `;
 
@@ -88,6 +102,10 @@ export const MessageBox = styled.li`
   margin: 10px 0;
   width: ${props => (props.row ? "95%" : "100%")};
   cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
+  img {
+    width: 50px;
+    height: 100%;
+  }
 `;
 
 export const Info = styled.div`
@@ -100,9 +118,12 @@ export const MessageBody = styled.div`
   flex-direction: ${props => (props.row === true ? "row" : "column")};
   justify-content: space-between;
   align-items: ${props => props.row && "center"};
-  background-color: ${messageBgColor};
+  :hover {
+    background-color: ${messageBgColor};
+    color: white;
+  }
   opacity: ${props => (props.sent ? "0.4" : "1")};
-  color: white;
+  /* color: white; */
   width: 95%;
   padding: 5px;
   p {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as moment from "moment";
 import TextField from "@material-ui/core/TextField";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,7 +22,7 @@ import {
   MessageContainer,
   Preview
 } from "../../styles/messagesStyles";
-import { Button } from "../../styles/commonStyles";
+import { Button, Error } from "../../styles/commonStyles";
 
 const styles = theme => ({
   textField: {
@@ -54,6 +54,7 @@ const styles = theme => ({
 const NewMessage = ({ classes, history }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.usersReducer).currentUser;
+  const savedMessage = useSelector(state => state.messagesReducer).currentMessage;
   const [type, setType] = useState("other");
   const [recipientName, setRecipient] = useState("");
   const [recipientEmail, setEmail] = useState("");
@@ -63,20 +64,25 @@ const NewMessage = ({ classes, history }) => {
   const [error, setError] = useState("");
   const [errorText, setErrorText] = useState("");
 
+  console.log("current Message: ", savedMessage);
   // useEffect(() => {
   //   setNewDate(moment(date).format("YYYY-MM-DD"));
   // }, [date]);
 
-  // useEffect(() => {
-  //   if (message) {
-  //     setType(message.type);
-  //     setRecipient(message.recipientName);
-  //     setEmail(message.recipientEmail);
-  //     setText(message.messageText);
-  //     setNewDate(moment(message.date).format("YYYY-MM-DD"));
-  //     setTime(moment(message.date).format("HH:mm"));
-  //   }
-  // }, [message]);
+  useEffect(() => {
+    if (savedMessage) {
+      setType(savedMessage.type);
+      setRecipient(savedMessage.recipientName);
+      setEmail(savedMessage.recipientEmail);
+      setText(savedMessage.messageText);
+      setNewDate(moment(savedMessage.date).format("YYYY-MM-DD"));
+      setTime(moment(savedMessage.date).format("HH:mm"));
+      if (savedMessage.sent) {
+        setErrorText("This message was already sent!");
+        setError("update");
+      }
+    }
+  }, [savedMessage]);
 
   const handleSchedule = () => {
     const token = localStorage.getItem("jwt");
@@ -105,12 +111,12 @@ const NewMessage = ({ classes, history }) => {
       setErrorText("");
       addMessage(newMessage)(dispatch);
       // handleSubmit(newMessage);
-      handleCancel();
+      handleReset();
       history.push("/messages");
     }
   };
 
-  const handleCancel = () => {
+  const handleReset = () => {
     setError("");
     setErrorText("");
     setRecipient("");
@@ -122,10 +128,10 @@ const NewMessage = ({ classes, history }) => {
   };
 
   var imgSource = messageImage;
-  if (type == "love") imgSource = loveImage;
-  else if (type == "birthday") imgSource = birthdayImage;
-  else if (type == "getWell") imgSource = getWellImage;
-  else if (type == "thank") imgSource = thankImage;
+  if (type === "love") imgSource = loveImage;
+  else if (type === "birthday") imgSource = birthdayImage;
+  else if (type === "getWell") imgSource = getWellImage;
+  else if (type === "thank") imgSource = thankImage;
 
   return (
     <>
@@ -134,7 +140,7 @@ const NewMessage = ({ classes, history }) => {
         <BtnGroup>
           <Type>
             <MessageType
-              src={loveImage}
+              type='love'
               alt='Love Message'
               onClick={() => setType("love")}
               clicked={type === "love"}
@@ -143,7 +149,7 @@ const NewMessage = ({ classes, history }) => {
           </Type>
           <Type>
             <MessageType
-              src={birthdayImage}
+              type='birthday'
               alt='Birthday Message'
               onClick={() => setType("birthday")}
               clicked={type === "birthday"}
@@ -152,7 +158,7 @@ const NewMessage = ({ classes, history }) => {
           </Type>
           <Type>
             <MessageType
-              src={getWellImage}
+              type='getWell'
               alt='Get Well Message'
               onClick={() => setType("getWell")}
               clicked={type === "getWell"}
@@ -161,7 +167,7 @@ const NewMessage = ({ classes, history }) => {
           </Type>
           <Type>
             <MessageType
-              src={messageImage}
+              type='message'
               alt='Message'
               onClick={() => setType("other")}
               clicked={type === "other"}
@@ -170,7 +176,7 @@ const NewMessage = ({ classes, history }) => {
           </Type>
           <Type>
             <MessageType
-              src={thankImage}
+              type='thank'
               alt='Thank You Message'
               onClick={() => setType("thank")}
               clicked={type === "thank"}
@@ -178,6 +184,7 @@ const NewMessage = ({ classes, history }) => {
             <TypeLabel>Thank You</TypeLabel>
           </Type>
         </BtnGroup>
+        {error === "update" && errorText && <Error>{errorText}</Error>}
         <MessageContainer>
           <InputGroup>
             <TextField

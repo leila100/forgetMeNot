@@ -1,7 +1,18 @@
-import { FETCHING, FETCHED, ADDING, ADDED, UPDATING, UPDATED, DELETING, DELETED } from "../actions/actionTypes";
+import {
+  FETCHING,
+  FETCHED,
+  ADDING,
+  ADDED,
+  UPDATING,
+  UPDATED,
+  DELETING,
+  DELETED,
+  SAVECURRENT
+} from "../actions/actionTypes";
 
 const initialState = {
   messages: [],
+  currentMessage: {},
   fetching: false,
   adding: false,
   updating: false,
@@ -13,6 +24,7 @@ export const messagesReducer = (state = initialState, action) => {
     case FETCHING:
       return {
         messages: [...state.messages],
+        currentMessage: {},
         fetching: true,
         adding: false,
         updating: false,
@@ -21,6 +33,7 @@ export const messagesReducer = (state = initialState, action) => {
     case FETCHED:
       return {
         messages: action.payload,
+        currentMessage: {},
         fetching: false,
         adding: false,
         updating: false,
@@ -29,6 +42,7 @@ export const messagesReducer = (state = initialState, action) => {
     case ADDING:
       return {
         messages: [...state.messages],
+        currentMessage: {},
         fetching: false,
         adding: true,
         updating: false,
@@ -37,6 +51,17 @@ export const messagesReducer = (state = initialState, action) => {
     case ADDED:
       return {
         messages: [...state.messages, action.payload],
+        currentMessage: {},
+        fetching: false,
+        adding: false,
+        updating: false,
+        deleting: false
+      };
+
+    case SAVECURRENT:
+      return {
+        messages: [...state.messages],
+        currentMessage: action.payload,
         fetching: false,
         adding: false,
         updating: false,
@@ -46,6 +71,7 @@ export const messagesReducer = (state = initialState, action) => {
     case UPDATING:
       return {
         messages: [...state.messages],
+        currentMessage: {},
         fetching: false,
         adding: false,
         updating: true,
@@ -57,6 +83,7 @@ export const messagesReducer = (state = initialState, action) => {
       updatedMessages[index] = { ...updatedMessages[index], ...action.message };
       return {
         messages: updatedMessages,
+        currentMessage: {},
         fetching: false,
         adding: false,
         updating: false,
@@ -65,6 +92,7 @@ export const messagesReducer = (state = initialState, action) => {
     case DELETING:
       return {
         messages: [...state.messages],
+        currentMessage: {},
         fetching: false,
         adding: false,
         updating: false,
@@ -74,6 +102,7 @@ export const messagesReducer = (state = initialState, action) => {
       const messages = state.messages.filter(message => message.id !== action.messageId);
       return {
         messages: messages,
+        currentMessage: {},
         fetching: false,
         adding: false,
         updating: false,

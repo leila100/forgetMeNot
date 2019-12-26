@@ -102,7 +102,7 @@ export const Message = styled.div`
 `;
 
 export const Group = styled(flexRow)`
-  width: 30%;
+  width: 100%;
   align-items: center;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -117,31 +117,28 @@ export const Group = styled(flexRow)`
   }
 
   #links {
-    display: none;
-  }
-  @media (max-width: 1000px) {
-    padding: 15px 0;
-    width: 100%;
-    background-color: #666680;
-    color: #f3eec3;
-    #links {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 10px;
+    a {
       margin: 0 10px;
-      a {
-        margin: 0 10px;
-        text-decoration: none;
-        color: #f3eec3;
-        padding-bottom: 7px;
-        :hover {
-          color: #b87a71;
-        }
-      }
-      .active {
-        padding-bottom: 4px;
-        border-bottom: 3px solid #284243;
+      text-decoration: none;
+      color: #4c688f;
+      padding-bottom: 7px;
+      :hover {
+        color: #b87a71;
       }
     }
+    .active {
+      padding-bottom: 4px;
+      border-bottom: 3px solid #284243;
+    }
   }
+`;
+
+export const Error = styled.div`
+  color: red;
+  font-size: 1.7rem;
+  text-align: center;
 `;

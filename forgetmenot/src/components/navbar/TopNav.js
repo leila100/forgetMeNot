@@ -55,7 +55,7 @@ const TopNav = props => {
             <Group>
               <div id='links'>
                 <NavLink exact to='/'>
-                  Calendar
+                  Write a message
                 </NavLink>
                 <NavLink exact to='/messages'>
                   Messages

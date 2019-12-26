@@ -5,7 +5,7 @@ import { CircularProgress } from "@material-ui/core";
 
 import requireAuth from "../../hoc/requireAuth";
 import TopNavBar from "../navbar/TopNav";
-import { fetchMessages } from "../../store/actions/index";
+import { fetchMessages, deleteMessage, saveCurrentMessage } from "../../store/actions/index";
 import { Container } from "../../styles/commonStyles";
 import { MessagesContainer } from "../../styles/messagesStyles";
 import MessagesList from "../message/MessagesList";
@@ -13,7 +13,6 @@ import MessagesList from "../message/MessagesList";
 const Messages = () => {
   const dispatch = useDispatch();
   const { fetching, adding, updating, messages } = useSelector(state => state.messagesReducer);
-
   // Store all the dates in a unique array
   const dates = messages.map(message => message.date);
   const uniqueDates = [];
@@ -34,6 +33,14 @@ const Messages = () => {
     fetchMessages()(dispatch);
   }, [dispatch]);
 
+  const deleteMessageHandler = messageId => {
+    deleteMessage(messageId)(dispatch);
+  };
+
+  const handleSetUpdate = message => {
+    saveCurrentMessage(message)(dispatch);
+  };
+
   return (
     <>
       <TopNavBar />
@@ -44,7 +51,8 @@ const Messages = () => {
             dates={uniqueDates}
             row
             //   updateMessage={updateMessageHandler}
-            //   deleteMessage={deleteMessageHandler}
+            deleteMessage={deleteMessageHandler}
+            setUpdate={handleSetUpdate}
           />
         </MessagesContainer>
       </Container>

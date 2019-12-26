@@ -12,7 +12,6 @@ axios.interceptors.request.use(
   }
 );
 
-
 export const fetchMessages = () => {
   const endpoint = `${process.env.REACT_APP_API_URL}/api/reminders`;
   return dispatch => {
@@ -41,6 +40,10 @@ export const addMessage = message => {
         dispatch({ type: actionTypes.ERROR, payload: "Can't fetch your messages!" });
       });
   };
+};
+
+export const saveCurrentMessage = message => {
+  return dispatch => dispatch({ type: actionTypes.SAVECURRENT, payload: message });
 };
 
 export const updateMessage = (messageId, message) => {

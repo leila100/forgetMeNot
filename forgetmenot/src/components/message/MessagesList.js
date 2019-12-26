@@ -6,7 +6,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { Messages } from "../../styles/messagesStyles";
 import MessagesOnDate from "./MessagesOnDate";
-import { BtnGroup, TypeBtn } from "../../styles/modalStyles";
 
 const SentSwitch = withStyles({
   switchBase: {
@@ -54,9 +53,9 @@ const styles = theme => ({
   }
 });
 
-const MessagesList = ({ dates, row, updateMessage, deleteMessage, classes }) => {
+const MessagesList = ({ dates, row, setUpdate, deleteMessage, classes }) => {
   const [sent, setSent] = useState(true);
-  const [typeFilter, setTypeFilter] = useState("all");
+  const [typeFilter] = useState("all");
 
   const handleSwitchChange = e => {
     setSent(e.target.checked);
@@ -71,32 +70,13 @@ const MessagesList = ({ dates, row, updateMessage, deleteMessage, classes }) => 
           classes={{ root: classes.root, label: row ? classes.label : classes.otherLabel }}
         />
       </FormGroup>
-      <FormGroup>
-        <BtnGroup>
-          <TypeBtn className={classes.all} onClick={() => setTypeFilter("all")} clicked={typeFilter === "all"}>
-            <i className='fas fa-users' /> All
-          </TypeBtn>
-          <TypeBtn className={classes.family} onClick={() => setTypeFilter("family")} clicked={typeFilter === "family"}>
-            <i className='fas fa-home' /> Family
-          </TypeBtn>
-          <TypeBtn className={classes.friend} onClick={() => setTypeFilter("friend")} clicked={typeFilter === "friend"}>
-            <i className='fas fa-user-friends' /> Friend
-          </TypeBtn>
-          <TypeBtn className={classes.work} onClick={() => setTypeFilter("work")} clicked={typeFilter === "work"}>
-            <i className='fas fa-briefcase' /> Work
-          </TypeBtn>
-          <TypeBtn className={classes.other} onClick={() => setTypeFilter("other")} clicked={typeFilter === "other"}>
-            <i className='fas fa-envelope' /> Other
-          </TypeBtn>
-        </BtnGroup>
-      </FormGroup>
       <Messages>
         {dates.map((date, i) => (
           <MessagesOnDate
             date={date}
             row={row}
             key={i}
-            updateMessage={updateMessage}
+            setUpdate={setUpdate}
             deleteMessage={deleteMessage}
             showSent={sent}
             showType={typeFilter}
