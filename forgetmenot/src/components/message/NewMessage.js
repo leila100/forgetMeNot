@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import * as moment from "moment";
 import TextField from "@material-ui/core/TextField";
 import { useSelector, useDispatch } from "react-redux";
-import { addMessage, getCurrentUser } from "../../store/actions/index";
+import { addMessage, getCurrentUser, updateMessage } from "../../store/actions/index";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -55,7 +55,7 @@ const NewMessage = ({ classes, history }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.usersReducer).currentUser;
   const savedMessage = useSelector(state => state.messagesReducer).currentMessage;
-  const [type, setType] = useState("other");
+  const [type, setType] = useState("general");
   const [recipientName, setRecipient] = useState("");
   const [recipientEmail, setEmail] = useState("");
   const [messageText, setText] = useState("");
@@ -63,14 +63,15 @@ const NewMessage = ({ classes, history }) => {
   const [time, setTime] = useState("00:00");
   const [error, setError] = useState("");
   const [errorText, setErrorText] = useState("");
-
-  console.log("current Message: ", savedMessage);
-  // useEffect(() => {
-  //   setNewDate(moment(date).format("YYYY-MM-DD"));
-  // }, [date]);
+  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
-    if (savedMessage) {
+    if (savedMessage.date) {
+      setNewDate(moment(savedMessage.date).format("YYYY-MM-DD"));
+      setTime(moment(savedMessage.date).format("HH:mm"));
+    }
+    if (savedMessage.type) {
+      console.log("here");
       setType(savedMessage.type);
       setRecipient(savedMessage.recipientName);
       setEmail(savedMessage.recipientEmail);
@@ -80,7 +81,8 @@ const NewMessage = ({ classes, history }) => {
       if (savedMessage.sent) {
         setErrorText("This message was already sent!");
         setError("update");
-      }
+        setUpdate(false);
+      } else setUpdate(true);
     }
   }, [savedMessage]);
 
@@ -109,8 +111,8 @@ const NewMessage = ({ classes, history }) => {
     } else {
       setError("");
       setErrorText("");
-      addMessage(newMessage)(dispatch);
-      // handleSubmit(newMessage);
+      if (update) updateMessage(savedMessage.id, newMessage)(dispatch);
+      else addMessage(newMessage)(dispatch);
       handleReset();
       history.push("/messages");
     }
@@ -125,6 +127,7 @@ const NewMessage = ({ classes, history }) => {
     setType("other");
     setNewDate(moment(newDate).format("YYYY-MM-DD"));
     setTime("00:00");
+    setUpdate(false);
   };
 
   var imgSource = messageImage;

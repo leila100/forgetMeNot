@@ -17,6 +17,11 @@ const Messages = () => {
   const dates = messages.map(message => message.date);
   const uniqueDates = [];
   const dt = [];
+
+  useEffect(() => {
+    if (messages.length === 0) fetchMessages()(dispatch);
+  }, []);
+
   dates.forEach(d => {
     if (dt.indexOf(moment(d).format("YYYY-MM-DD")) === -1) {
       dt.push(moment(d).format("YYYY-MM-DD"));
@@ -29,9 +34,6 @@ const Messages = () => {
       else return 1;
     });
   }
-  useEffect(() => {
-    fetchMessages()(dispatch);
-  }, [dispatch]);
 
   const deleteMessageHandler = messageId => {
     deleteMessage(messageId)(dispatch);
@@ -47,13 +49,7 @@ const Messages = () => {
       {(fetching || adding || updating) && <CircularProgress />}
       <Container>
         <MessagesContainer>
-          <MessagesList
-            dates={uniqueDates}
-            row
-            //   updateMessage={updateMessageHandler}
-            deleteMessage={deleteMessageHandler}
-            setUpdate={handleSetUpdate}
-          />
+          <MessagesList dates={uniqueDates} row deleteMessage={deleteMessageHandler} setUpdate={handleSetUpdate} />
         </MessagesContainer>
       </Container>
     </>

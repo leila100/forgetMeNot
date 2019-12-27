@@ -4,22 +4,21 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import moment from "moment";
 import "@fullcalendar/core/main.css";
 
 import TopNavBar from "../navbar/TopNav";
-import { fetchMessages } from "../../store/actions/index";
+import { fetchMessages, deleteMessage, saveCurrentMessage } from "../../store/actions/index";
 
 import { CalendarPage, CalendarWrapper, Cal, WeekCal, Day } from "../../styles/calendarStyles";
 import { Button } from "../../styles/commonStyles";
 import MessagesList from "../message/MessagesList";
-import MessageModal from "../messageModal/MessageModal";
 
-const Calendar = ({ addMessage, updateMessage, deleteMessage }) => {
+const Calendar = ({ history }) => {
   const dispatch = useDispatch();
   const { messages } = useSelector(state => state.messagesReducer);
 
   const [date, setDate] = useState(Date.now());
-  const [open, setOpen] = useState(false);
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -34,21 +33,25 @@ const Calendar = ({ addMessage, updateMessage, deleteMessage }) => {
     );
   }, [messages]);
 
-  function handleClickOpen() {
-    setOpen(true);
-  }
-
-  function handleClose() {
-    setOpen(false);
-  }
-  const handleAdd = message => {
-    // dispatch add message
-    addMessage(message);
-  };
-
   const pickDate = arg => {
     const datePicked = arg.date;
     setDate(datePicked);
+  };
+
+  const deleteMessageHandler = messageId => {
+    deleteMessage(messageId)(dispatch);
+  };
+
+  const handleSetUpdate = message => {
+    saveCurrentMessage(message)(dispatch);
+  };
+
+  const handleNewMessage = () => {
+    const message = {
+      date: moment(date).format("YYYY-MM-DD")
+    };
+    handleSetUpdate(message);
+    history.push("/");
   };
 
   const dates = [date];
@@ -91,11 +94,10 @@ const Calendar = ({ addMessage, updateMessage, deleteMessage }) => {
             />
           </WeekCal>
           <Day>
-            <Button onClick={handleClickOpen}>Schedule a message</Button>
-            <MessagesList dates={dates} row updateMessage={updateMessage} deleteMessage={deleteMessage} />
+            <Button onClick={handleNewMessage}>Schedule a message</Button>
+            <MessagesList dates={dates} row deleteMessage={deleteMessageHandler} setUpdate={handleSetUpdate} />
           </Day>
         </CalendarWrapper>
-        <MessageModal open={open} handleClose={handleClose} date={date} handleSubmit={handleAdd} />
       </CalendarPage>
     </>
   );
