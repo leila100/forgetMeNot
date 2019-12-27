@@ -63,13 +63,17 @@ const MessagesList = ({ dates, row, setUpdate, deleteMessage, classes }) => {
 
   return (
     <>
-      <FormGroup>
-        <FormControlLabel
-          control={<SentSwitch checked={sent} onChange={handleSwitchChange} value='sent' />}
-          label='Show sent messages'
-          classes={{ root: classes.root, label: row ? classes.label : classes.otherLabel }}
-        />
-      </FormGroup>
+      {dates.length === 0 ? (
+        <div>No Message scheduled</div>
+      ) : (
+        <FormGroup>
+          <FormControlLabel
+            control={<SentSwitch checked={sent} onChange={handleSwitchChange} value='sent' />}
+            label='Show sent messages'
+            classes={{ root: classes.root, label: row ? classes.label : classes.otherLabel }}
+          />
+        </FormGroup>
+      )}
       <Messages>
         {dates.map((date, i) => (
           <MessagesOnDate

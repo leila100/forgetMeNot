@@ -23,7 +23,7 @@ const MessagesOnDate = ({ date, row, setUpdate, deleteMessage, showSent, showTyp
 
   return (
     <>
-      {messages.length > 0 && (
+      {messages.length > 0 ? (
         <>
           <DateFormat textColor={row}>{moment(date).format("dddd, MMMM Do YYYY")}</DateFormat>
           <Messages row={row}>
@@ -38,6 +38,8 @@ const MessagesOnDate = ({ date, row, setUpdate, deleteMessage, showSent, showTyp
             ))}
           </Messages>
         </>
+      ) : (
+        <div>No message scheduled on {moment(date).format("dddd, MMMM Do YYYY")}</div>
       )}
     </>
   );

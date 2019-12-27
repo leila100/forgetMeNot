@@ -1,16 +1,17 @@
 import styled from "styled-components";
 
-import { flexColumn } from "./commonStyles";
+import { flexRow } from "./commonStyles";
 
-export const CalendarPage = styled(flexColumn)`
-  width: 60%;
-  justify-content: flex-start;
+export const CalendarPage = styled(flexRow)`
+  width: 95%;
+  max-width: 1200px;
+  margin: 20px auto;
   @media (max-width: 1000px) {
     width: 100%;
   }
 `;
 
-export const CalendarWrapper = styled(flexColumn)`
+export const CalendarWrapper = styled(flexRow)`
   margin-top: 10px;
   justify-content: space-between;
   align-items: center;
@@ -37,7 +38,7 @@ export const WeekCal = styled(Cal)`
 `;
 
 export const Day = styled.div`
-  margin-top: 20px;
+  margin-left: 40px;
   text-align: center;
   width: 95%;
   ul {

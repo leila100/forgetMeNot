@@ -5,6 +5,7 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import NewMessage from "./components/message/NewMessage";
 import Messages from "./components/message/Messages";
+import Calendar from "./components/calendar/Calendar";
 
 require("dotenv").config();
 
@@ -16,6 +17,7 @@ function App() {
         <Route path='/login' component={Login} />
         <Route exact path='/' component={NewMessage} />
         <Route path='/messages' component={Messages} />
+        <Route path='/calendar' component={Calendar} />
       </Switch>
     </div>
   );
