@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { CircularProgress } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -12,7 +11,7 @@ import { withStyles } from "@material-ui/core/styles";
 import requireAuth from "../../hoc/requireAuth";
 import TopNavBar from "../navbar/TopNav";
 import { fetchMessages, deleteMessage, saveCurrentMessage } from "../../store/actions/index";
-import { Container } from "../../styles/commonStyles";
+import { Container, Button } from "../../styles/commonStyles";
 import { MessagesContainer } from "../../styles/messagesStyles";
 import MessagesList from "../message/MessagesList";
 
@@ -97,10 +96,8 @@ const Messages = ({ classes }) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} classes={{ root: classes.cancel }}>
-            Cancel
-          </Button>
-          <Button onClick={deleteMessageHandler} autoFocus classes={{ root: classes.delete }}>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={deleteMessageHandler} autoFocus delete>
             Delete
           </Button>
         </DialogActions>

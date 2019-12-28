@@ -39,6 +39,9 @@ export const Preview = styled.div`
   div {
     margin: 10px 0;
   }
+  @media (max-width: 450px) {
+    display: none;
+  }
 `;
 
 export const Type = styled(flexRow)`
@@ -51,15 +54,30 @@ export const MessageType = styled.img`
   height: 125px;
   background-size: 100% 100%;
   border: ${props => props.clicked && "6px solid #284243"};
-  content: url(${props => {
-    var imgSource = messageImage;
-    if (props.type === "love") imgSource = loveImage;
-    else if (props.type === "birthday") imgSource = birthdayImage;
-    else if (props.type === "getWell") imgSource = getWellImage;
-    else if (props.type === "thank") imgSource = thankImage;
-    return imgSource;
-  }});
+  content: url(${props =>
+    props.type === "love"
+      ? loveImage
+      : props.type === "birthday"
+      ? birthdayImage
+      : props.type === "getWell"
+      ? getWellImage
+      : props.type === "thank"
+      ? thankImage
+      : messageImage});
   cursor: pointer;
+  @media (max-width: 700px) {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+  }
+  @media (max-width: 600px) {
+    width: 80px;
+    height: 80px;
+  }
+  @media (max-width: 500px) {
+    width: 70px;
+    height: 70px;
+  }
 `;
 
 export const TypeLabel = styled.div`
@@ -109,8 +127,8 @@ export const MessageBox = styled.li`
 `;
 
 export const Info = styled.div`
-  /* margin-bottom: 10px; */
-  ${props => props.row && `width: 100%; margin-left: 10px; text-align: start;`}
+  margin-left: 10px;
+  text-align: start;
 `;
 
 export const MessageBody = styled.div`
@@ -123,13 +141,11 @@ export const MessageBody = styled.div`
     color: white;
   }
   opacity: ${props => (props.sent ? "0.4" : "1")};
-  /* color: white; */
   width: 95%;
   padding: 5px;
   p {
     line-height: 1.5;
     overflow-wrap: break-word;
-    /* margin-bottom: 10px; */
     ${props =>
       props.row && `text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 50%; padding-left: 10px`}
   }

@@ -4,6 +4,11 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import { withStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import "@fullcalendar/core/main.css";
 
@@ -11,16 +16,24 @@ import requireAuth from "../../hoc/requireAuth";
 import TopNavBar from "../navbar/TopNav";
 import { fetchMessages, deleteMessage, saveCurrentMessage } from "../../store/actions/index";
 
-import { CalendarPage, CalendarWrapper, Cal, WeekCal, Day } from "../../styles/calendarStyles";
+import { CalendarPage, Cal, WeekCal, Day } from "../../styles/calendarStyles";
 import { Button } from "../../styles/commonStyles";
 import MessagesList from "../message/MessagesList";
 
-const Calendar = ({ history }) => {
+const styles = theme => ({
+  root: {
+    fontSize: "1.7rem"
+  }
+});
+
+const Calendar = ({ history, classes }) => {
   const dispatch = useDispatch();
   const { messages } = useSelector(state => state.messagesReducer);
 
   const [date, setDate] = useState(Date.now());
   const [events, setEvents] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [id, setId] = React.useState(null);
 
   useEffect(() => {
     fetchMessages()(dispatch);
@@ -39,8 +52,9 @@ const Calendar = ({ history }) => {
     setDate(datePicked);
   };
 
-  const deleteMessageHandler = messageId => {
-    deleteMessage(messageId)(dispatch);
+  const deleteMessageHandler = () => {
+    deleteMessage(id)(dispatch);
+    handleClose();
   };
 
   const handleSetUpdate = message => {
@@ -53,6 +67,15 @@ const Calendar = ({ history }) => {
     };
     handleSetUpdate(message);
     history.push("/");
+  };
+
+  const handleClickOpen = messageId => {
+    setOpen(true);
+    setId(messageId);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const dates = [date];
@@ -95,11 +118,29 @@ const Calendar = ({ history }) => {
         </WeekCal>
         <Day>
           <Button onClick={handleNewMessage}>Schedule a message</Button>
-          <MessagesList dates={dates} row deleteMessage={deleteMessageHandler} setUpdate={handleSetUpdate} />
+          <MessagesList dates={dates} row deleteMessage={handleClickOpen} setUpdate={handleSetUpdate} />
         </Day>
       </CalendarPage>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogContent>
+          <DialogContentText id='alert-dialog-description' classes={{ root: classes.root }}>
+            Are you sure you want to delete this message?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={deleteMessageHandler} autoFocus delete>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
 
-export default requireAuth(Calendar);
+export default withStyles(styles)(requireAuth(Calendar));

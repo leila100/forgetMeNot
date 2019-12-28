@@ -19,40 +19,10 @@ export const Container = styled(flexRow)`
   font-family: "Arimo", sans-serif;
 `;
 
-export const Header = styled(flexRow)`
-  align-items: center;
-  line-height: 1.5;
-  background-color: ${headerBgColor};
-  color: white;
-  h1 {
-    font-size: 3rem;
-    font-family: "Trocchi", serif;
-  }
-  h2 {
-    font-size: 2.5rem;
-    font-family: "Arimo", sans-serif;
-  }
-  img {
-    width: 20%;
-    height: 80%;
-  }
-  div {
-    margin: 10px;
-  }
-  @media (max-width: 550px) {
-    h1 {
-      font-size: 1.8rem;
-    }
-    h2 {
-      font-size: 1.4rem;
-    }
-  }
-`;
-
 export const Button = styled.button`
   width: 200px;
   border-radius: 10px;
-  background-color: ${btnBgColor};
+  background-color: ${props => (props.delete ? "red" : btnBgColor)};
   border: 1px solid ${btnBorder};
   padding: 10px 12px;
   color: white;
@@ -125,7 +95,7 @@ export const Group = styled(flexRow)`
     }
     .active {
       padding-bottom: 4px;
-      border-bottom: 3px solid #284243;
+      border-bottom: 3px solid #b87a71;
     }
   }
 `;

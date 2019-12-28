@@ -15,11 +15,11 @@ const Message = ({ message, row, setUpdate, deleteMessage, history }) => {
     >
       <MessageType type={message.type} />
       <MessageBody sent={message.sent} row={row}>
-        <Info row={row}>
-          <span>To:</span> {message.recipientName} ({message.recipientEmail})
+        <Info>
+          <span>To:</span> {message.recipientName}
         </Info>
         <p>{message.messageText}</p>
-        <Info row={row}>{moment(message.date).format("hh:mm a")}</Info>
+        <Info>{moment(message.date).format("hh:mm a")}</Info>
         <MessageIcon
           id='delete'
           onClick={e => {
