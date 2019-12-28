@@ -34,7 +34,7 @@ export const Preview = styled.div`
   img {
     margin-bottom: 10px;
     width: 100%;
-    height: 200px;
+    height: 225px;
   }
   div {
     margin: 10px 0;
