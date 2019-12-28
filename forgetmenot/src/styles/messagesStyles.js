@@ -77,6 +77,7 @@ export const MessageType = styled.img`
   @media (max-width: 500px) {
     width: 70px;
     height: 70px;
+    margin: 0;
   }
 `;
 
@@ -152,6 +153,9 @@ export const MessageBody = styled.div`
   span {
     color: #f3eec3;
     ${props => props.row && `display: none;`}
+  }
+  @media (max-width: 500px) {
+    width: 80%;
   }
 `;
 

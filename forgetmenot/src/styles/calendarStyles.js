@@ -6,7 +6,7 @@ export const CalendarPage = styled(flexRow)`
   width: 95%;
   max-width: 1200px;
   margin: 20px auto;
-  @media (max-width: 800px) {
+  @media (max-width: 750px) {
     flex-direction: column;
   }
 `;
@@ -25,15 +25,27 @@ export const Cal = styled.div`
   a {
     margin-bottom: 10px;
   }
-  @media (max-width: 550px) {
+  @media (max-width: 750px) {
     display: none;
   }
 `;
 
 export const WeekCal = styled(Cal)`
   display: none;
-  @media (max-width: 550px) {
+  .fc-content-skeleton {
+    height: 50px;
+  }
+  .fc-left {
+    font-size: 1.2rem;
+  }
+  .fc-right {
+    width: 60%;
+  }
+  @media (max-width: 750px) {
     display: block;
+    margin: 0;
+    margin-bottom: 10px;
+    width: 100%;
   }
 `;
 
@@ -44,5 +56,9 @@ export const Day = styled.div`
   background-color: #d7d7d7;
   ul {
     text-align: left;
+  }
+  @media (max-width: 800px) {
+    width: 100%;
+    padding: 0;
   }
 `;
