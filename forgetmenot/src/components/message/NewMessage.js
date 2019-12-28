@@ -1,36 +1,30 @@
 import React, { useState, useEffect } from "react";
 import * as moment from "moment";
 import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Slide from "@material-ui/core/Slide";
+import { useSelector, useDispatch } from "react-redux";
+import { addMessage, getCurrentUser, updateMessage } from "../../store/actions/index";
+
 import { withStyles } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useTheme } from "@material-ui/core/styles";
 
-import { Button } from "../../styles/commonStyles";
-import { BtnGroup, TypeBtn, InputGroup } from "../../styles/modalStyles";
-
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction='up' ref={ref} {...props} />;
-});
+import loveImage from "../../assets/images/love.jpg";
+import getWellImage from "../../assets/images/getWell.jpg";
+import birthdayImage from "../../assets/images/birthday.jpg";
+import messageImage from "../../assets/images/message.jpg";
+import thankImage from "../../assets/images/thankYou.jpg";
+import TopNav from "../navbar/TopNav";
+import {
+  NewMessageContainer,
+  BtnGroup,
+  InputGroup,
+  MessageType,
+  Type,
+  TypeLabel,
+  MessageContainer,
+  Preview
+} from "../../styles/messagesStyles";
+import { Button, Error } from "../../styles/commonStyles";
 
 const styles = theme => ({
-  root: {
-    backgroundColor: "#284243"
-  },
-  dialogContent: {
-    [theme.breakpoints.down("sm")]: {
-      flexGrow: 0
-    }
-  },
-  title: {
-    fontFamily: "Arimo",
-    fontSize: "3rem",
-    color: "#666680"
-  },
   textField: {
     paddingRight: 20,
     width: "276px",
@@ -45,21 +39,6 @@ const styles = theme => ({
     marginTop: 20,
     fontSize: "1.6rem"
   },
-  family: {
-    backgroundColor: "#b87a71",
-    "&:clicked": {
-      backgroundColor: "#284243"
-    }
-  },
-  friend: {
-    backgroundColor: "#4c688f"
-  },
-  work: {
-    backgroundColor: "#ffff"
-  },
-  other: {
-    backgroundColor: "#F3EEC3"
-  },
   formTextLabel: {
     fontSize: "1.5rem",
     color: "#4c688f"
@@ -72,40 +51,49 @@ const styles = theme => ({
   }
 });
 
-const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes }) => {
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
-
-  const [type, setType] = useState("other");
+const NewMessage = ({ classes, history }) => {
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.usersReducer).currentUser;
+  const savedMessage = useSelector(state => state.messagesReducer).currentMessage;
+  const [type, setType] = useState("general");
   const [recipientName, setRecipient] = useState("");
   const [recipientEmail, setEmail] = useState("");
   const [messageText, setText] = useState("");
-  const [newDate, setNewDate] = useState(moment(date).format("YYYY-MM-DD"));
+  const [newDate, setNewDate] = useState(moment(Date.now()).format("YYYY-MM-DD"));
   const [time, setTime] = useState("00:00");
   const [error, setError] = useState("");
   const [errorText, setErrorText] = useState("");
+  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
-    setNewDate(moment(date).format("YYYY-MM-DD"));
-  }, [date]);
-
-  useEffect(() => {
-    if (message) {
-      setType(message.type);
-      setRecipient(message.recipientName);
-      setEmail(message.recipientEmail);
-      setText(message.messageText);
-      setNewDate(moment(message.date).format("YYYY-MM-DD"));
-      setTime(moment(message.date).format("HH:mm"));
+    if (savedMessage.date) {
+      setNewDate(moment(savedMessage.date).format("YYYY-MM-DD"));
+      setTime(moment(savedMessage.date).format("HH:mm"));
     }
-  }, [message]);
+    if (savedMessage.type) {
+      console.log("here");
+      setType(savedMessage.type);
+      setRecipient(savedMessage.recipientName);
+      setEmail(savedMessage.recipientEmail);
+      setText(savedMessage.messageText);
+      setNewDate(moment(savedMessage.date).format("YYYY-MM-DD"));
+      setTime(moment(savedMessage.date).format("HH:mm"));
+      if (savedMessage.sent) {
+        setErrorText("This message was already sent!");
+        setError("update");
+        setUpdate(false);
+      } else setUpdate(true);
+    }
+  }, [savedMessage]);
 
   const handleSchedule = () => {
-    const year = moment(date).format("YYYY");
-    const month = moment(date).format("MM");
-    const day = moment(date).format("DD");
+    const token = localStorage.getItem("jwt");
+    if (!token) history.push("/login");
+    if (!user && token) getCurrentUser()(dispatch);
+    const year = moment(newDate).format("YYYY");
+    const month = moment(newDate).format("MM");
+    const day = moment(newDate).format("DD");
     const [hour, minutes] = time.split(":");
-    // const messageDate = new Date(newDate + " " + time);
     const messageDate = new Date(year, Number(month) - 1, day, hour, minutes);
     const newMessage = { type, recipientName, recipientEmail, messageText, date: messageDate };
     if (!recipientName.trim()) {
@@ -123,52 +111,84 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
     } else {
       setError("");
       setErrorText("");
-      handleSubmit(newMessage);
-      handleCancel();
+      if (update) updateMessage(savedMessage.id, newMessage)(dispatch);
+      else addMessage(newMessage)(dispatch);
+      handleReset();
+      history.push("/messages");
     }
   };
 
-  const handleCancel = () => {
+  const handleReset = () => {
     setError("");
     setErrorText("");
     setRecipient("");
     setEmail("");
     setText("");
     setType("other");
-    setNewDate(moment(date).format("YYYY-MM-DD"));
+    setNewDate(moment(newDate).format("YYYY-MM-DD"));
     setTime("00:00");
-    handleClose();
+    setUpdate(false);
   };
+
+  var imgSource = messageImage;
+  if (type === "love") imgSource = loveImage;
+  else if (type === "birthday") imgSource = birthdayImage;
+  else if (type === "getWell") imgSource = getWellImage;
+  else if (type === "thank") imgSource = thankImage;
+
   return (
-    <div>
-      <Dialog
-        classes={{ root: classes.root }}
-        fullScreen={fullScreen}
-        fullWidth
-        maxWidth='sm'
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='form-dialog-title'
-        TransitionComponent={Transition}
-      >
-        <DialogTitle id='form-dialog-title'>
-          <span className={classes.title}>{message ? "Update Message" : "Schedule a new message"}</span>
-        </DialogTitle>
-        <DialogContent classes={{ root: classes.dialogContent }}>
-          <BtnGroup>
-            <TypeBtn className={classes.family} onClick={() => setType("family")} clicked={type === "family"}>
-              <i className='fas fa-home' /> Family
-            </TypeBtn>
-            <TypeBtn className={classes.friend} onClick={() => setType("friend")} clicked={type === "friend"}>
-              <i className='fas fa-user-friends' /> Friend
-            </TypeBtn>
-            <TypeBtn className={classes.work} onClick={() => setType("work")} clicked={type === "work"}>
-              <i className='fas fa-briefcase' /> Work
-            </TypeBtn>
-            <TypeBtn className={classes.other} onClick={() => setType("other")} clicked={type === "other"}>
-              <i className='fas fa-envelope' /> Other
-            </TypeBtn>
-          </BtnGroup>
+    <>
+      <TopNav />
+      <NewMessageContainer>
+        <BtnGroup>
+          <Type>
+            <MessageType
+              type='love'
+              alt='Love Message'
+              onClick={() => setType("love")}
+              clicked={type === "love"}
+            ></MessageType>
+            <TypeLabel>Love</TypeLabel>
+          </Type>
+          <Type>
+            <MessageType
+              type='birthday'
+              alt='Birthday Message'
+              onClick={() => setType("birthday")}
+              clicked={type === "birthday"}
+            ></MessageType>
+            <TypeLabel>Birthday</TypeLabel>
+          </Type>
+          <Type>
+            <MessageType
+              type='getWell'
+              alt='Get Well Message'
+              onClick={() => setType("getWell")}
+              clicked={type === "getWell"}
+            ></MessageType>
+            <TypeLabel>Get Well</TypeLabel>
+          </Type>
+          <Type>
+            <MessageType
+              type='message'
+              alt='Message'
+              onClick={() => setType("other")}
+              clicked={type === "other"}
+            ></MessageType>
+            <TypeLabel>General</TypeLabel>
+          </Type>
+          <Type>
+            <MessageType
+              type='thank'
+              alt='Thank You Message'
+              onClick={() => setType("thank")}
+              clicked={type === "thank"}
+            ></MessageType>
+            <TypeLabel>Thank You</TypeLabel>
+          </Type>
+        </BtnGroup>
+        {error === "update" && errorText && <Error>{errorText}</Error>}
+        <MessageContainer>
           <InputGroup>
             <TextField
               required
@@ -307,15 +327,20 @@ const MessageModal = ({ open, handleClose, date, handleSubmit, message, classes 
               }}
               classes={{ root: classes.textField }}
             />
+            <Button onClick={handleSchedule}>Schedule</Button>
           </InputGroup>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancel}>Cancel</Button>
-          <Button onClick={handleSchedule}>{message ? "Update" : "Schedule"}</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+          <Preview>
+            <img src={imgSource} alt={`Theme ${type}`} />
+            <div>
+              <div>To: {recipientName}</div>
+              {user && <div>From: {user.username}</div>}
+              <p>{messageText}</p>
+            </div>
+          </Preview>
+        </MessageContainer>
+      </NewMessageContainer>
+    </>
   );
 };
 
-export default withStyles(styles)(MessageModal);
+export default withStyles(styles)(NewMessage);

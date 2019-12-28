@@ -1,25 +1,43 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import { withStyles } from "@material-ui/core/styles";
+import moment from "moment";
 import "@fullcalendar/core/main.css";
 
-import FMN from "../../assets/images/FMN1.png";
-import { Header } from "../../styles/commonStyles";
-import { CalendarPage, CalendarWrapper, Cal, WeekCal, Day } from "../../styles/calendarStyles";
+import requireAuth from "../../hoc/requireAuth";
+import TopNavBar from "../navbar/TopNav";
+import { fetchMessages, deleteMessage, saveCurrentMessage } from "../../store/actions/index";
+
+import { CalendarPage, Cal, WeekCal, Day } from "../../styles/calendarStyles";
 import { Button } from "../../styles/commonStyles";
 import MessagesList from "../message/MessagesList";
-import MessageModal from "../messageModal/MessageModal";
-import RightBar from "../navbar/RightBar";
 
-const Calendar = ({ addMessage, updateMessage, deleteMessage }) => {
+const styles = theme => ({
+  root: {
+    fontSize: "1.7rem"
+  }
+});
+
+const Calendar = ({ history, classes }) => {
+  const dispatch = useDispatch();
   const { messages } = useSelector(state => state.messagesReducer);
 
   const [date, setDate] = useState(Date.now());
-  const [open, setOpen] = useState(false);
   const [events, setEvents] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [id, setId] = React.useState(null);
+
+  useEffect(() => {
+    fetchMessages()(dispatch);
+  }, [dispatch]);
 
   useEffect(() => {
     setEvents(
@@ -29,79 +47,100 @@ const Calendar = ({ addMessage, updateMessage, deleteMessage }) => {
     );
   }, [messages]);
 
-  function handleClickOpen() {
-    setOpen(true);
-  }
-
-  function handleClose() {
-    setOpen(false);
-  }
-  const handleAdd = message => {
-    // dispatch add message
-    addMessage(message);
-  };
-
   const pickDate = arg => {
     const datePicked = arg.date;
     setDate(datePicked);
   };
 
+  const deleteMessageHandler = () => {
+    deleteMessage(id)(dispatch);
+    handleClose();
+  };
+
+  const handleSetUpdate = message => {
+    saveCurrentMessage(message)(dispatch);
+  };
+
+  const handleNewMessage = () => {
+    const message = {
+      date: moment(date).format("YYYY-MM-DD")
+    };
+    handleSetUpdate(message);
+    history.push("/");
+  };
+
+  const handleClickOpen = messageId => {
+    setOpen(true);
+    setId(messageId);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const dates = [date];
   return (
     <>
+      <TopNavBar />
       <CalendarPage>
-        <Header>
-          <img src={FMN} alt='Forget Me Not Flower' />
-          <div>
-            <h1>Welcome to Forget Me Not</h1>
-            <h2>See all your messages.</h2>
-            <h2>Create new ones.</h2>
-          </div>
-        </Header>
-        <CalendarWrapper>
-          <Cal>
-            <FullCalendar
-              defaultView='dayGridMonth'
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              dateClick={pickDate}
-              selectable='true'
-              handleWindowResize='true'
-              eventSources={[
-                {
-                  events: events,
-                  color: "#4c688f",
-                  textColor: "white"
-                }
-              ]}
-            />
-          </Cal>
-          <WeekCal>
-            <FullCalendar
-              defaultView='dayGridWeek'
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              dateClick={pickDate}
-              selectable='true'
-              height='auto'
-              handleWindowResize='true'
-              eventSources={[
-                {
-                  events: events,
-                  color: "#4c688f",
-                  textColor: "white"
-                }
-              ]}
-            />
-          </WeekCal>
-          <Day>
-            <Button onClick={handleClickOpen}>Schedule a message</Button>
-            <MessagesList dates={dates} row updateMessage={updateMessage} deleteMessage={deleteMessage} />
-          </Day>
-        </CalendarWrapper>
-        <MessageModal open={open} handleClose={handleClose} date={date} handleSubmit={handleAdd} />
+        <Cal>
+          <FullCalendar
+            defaultView='dayGridMonth'
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            dateClick={pickDate}
+            selectable='true'
+            handleWindowResize='true'
+            eventSources={[
+              {
+                events: events,
+                color: "#4c688f",
+                textColor: "white"
+              }
+            ]}
+          />
+        </Cal>
+        <WeekCal>
+          <FullCalendar
+            defaultView='dayGridWeek'
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            dateClick={pickDate}
+            selectable='true'
+            height='auto'
+            handleWindowResize='true'
+            eventSources={[
+              {
+                events: events,
+                color: "#4c688f",
+                textColor: "white"
+              }
+            ]}
+          />
+        </WeekCal>
+        <Day>
+          <Button onClick={handleNewMessage}>Schedule a message</Button>
+          <MessagesList dates={dates} row deleteMessage={handleClickOpen} setUpdate={handleSetUpdate} />
+        </Day>
       </CalendarPage>
-      <RightBar updateMessage={updateMessage} deleteMessage={deleteMessage} />
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogContent>
+          <DialogContentText id='alert-dialog-description' classes={{ root: classes.root }}>
+            Are you sure you want to delete this message?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={deleteMessageHandler} autoFocus delete>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
 
-export default Calendar;
+export default withStyles(styles)(requireAuth(Calendar));

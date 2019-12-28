@@ -1,16 +1,17 @@
 import styled from "styled-components";
 
-import { flexColumn } from "./commonStyles";
+import { flexRow } from "./commonStyles";
 
-export const CalendarPage = styled(flexColumn)`
-  width: 60%;
-  justify-content: flex-start;
-  @media (max-width: 1000px) {
-    width: 100%;
+export const CalendarPage = styled(flexRow)`
+  width: 95%;
+  max-width: 1200px;
+  margin: 20px auto;
+  @media (max-width: 750px) {
+    flex-direction: column;
   }
 `;
 
-export const CalendarWrapper = styled(flexColumn)`
+export const CalendarWrapper = styled(flexRow)`
   margin-top: 10px;
   justify-content: space-between;
   align-items: center;
@@ -19,28 +20,45 @@ export const CalendarWrapper = styled(flexColumn)`
 
 export const Cal = styled.div`
   width: 95%;
-  margin: 20px auto;
+  margin: auto;
   background-color: white;
   a {
     margin-bottom: 10px;
   }
-  @media (max-width: 550px) {
+  @media (max-width: 750px) {
     display: none;
   }
 `;
 
 export const WeekCal = styled(Cal)`
   display: none;
-  @media (max-width: 550px) {
+  .fc-content-skeleton {
+    height: 50px;
+  }
+  .fc-left {
+    font-size: 1.2rem;
+  }
+  .fc-right {
+    width: 60%;
+  }
+  @media (max-width: 750px) {
     display: block;
+    margin: 0;
+    margin-bottom: 10px;
+    width: 100%;
   }
 `;
 
 export const Day = styled.div`
-  margin-top: 20px;
+  padding-left: 20px;
   text-align: center;
   width: 95%;
+  background-color: #d7d7d7;
   ul {
     text-align: left;
+  }
+  @media (max-width: 800px) {
+    width: 100%;
+    padding: 0;
   }
 `;

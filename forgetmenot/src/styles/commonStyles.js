@@ -11,13 +11,6 @@ export const flexRow = styled.div`
   align-content: center;
 `;
 
-export const flexColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
 export const Container = styled(flexRow)`
   justify-content: space-between;
   max-width: 1200px;
@@ -26,40 +19,10 @@ export const Container = styled(flexRow)`
   font-family: "Arimo", sans-serif;
 `;
 
-export const Header = styled(flexRow)`
-  align-items: center;
-  line-height: 1.5;
-  background-color: ${headerBgColor};
-  color: white;
-  h1 {
-    font-size: 3rem;
-    font-family: "Trocchi", serif;
-  }
-  h2 {
-    font-size: 2.5rem;
-    font-family: "Arimo", sans-serif;
-  }
-  img {
-    width: 20%;
-    height: 80%;
-  }
-  div {
-    margin: 10px;
-  }
-  @media (max-width: 550px) {
-    h1 {
-      font-size: 1.8rem;
-    }
-    h2 {
-      font-size: 1.4rem;
-    }
-  }
-`;
-
 export const Button = styled.button`
   width: 200px;
   border-radius: 10px;
-  background-color: ${btnBgColor};
+  background-color: ${props => (props.delete ? "red" : btnBgColor)};
   border: 1px solid ${btnBorder};
   padding: 10px 12px;
   color: white;
@@ -102,7 +65,7 @@ export const Message = styled.div`
 `;
 
 export const Group = styled(flexRow)`
-  width: 30%;
+  width: 100%;
   align-items: center;
   justify-content: space-around;
   flex-wrap: wrap;
@@ -117,31 +80,28 @@ export const Group = styled(flexRow)`
   }
 
   #links {
-    display: none;
-  }
-  @media (max-width: 1000px) {
-    padding: 15px 0;
-    width: 100%;
-    background-color: #666680;
-    color: #f3eec3;
-    #links {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 10px;
+    a {
       margin: 0 10px;
-      a {
-        margin: 0 10px;
-        text-decoration: none;
-        color: #f3eec3;
-        padding-bottom: 7px;
-        :hover {
-          color: #b87a71;
-        }
-      }
-      .active {
-        padding-bottom: 4px;
-        border-bottom: 3px solid #284243;
+      text-decoration: none;
+      color: #4c688f;
+      padding-bottom: 7px;
+      :hover {
+        color: #b87a71;
       }
     }
+    .active {
+      padding-bottom: 4px;
+      border-bottom: 3px solid #b87a71;
+    }
   }
+`;
+
+export const Error = styled.div`
+  color: red;
+  font-size: 1.7rem;
+  text-align: center;
 `;

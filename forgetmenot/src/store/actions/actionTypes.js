@@ -13,5 +13,6 @@ export const UPDATING = "UPDATING";
 export const UPDATED = "UPDATED";
 export const DELETING = "DELETING";
 export const DELETED = "DELETED";
+export const SAVECURRENT = "SAVECURRENT";
 
 export const ERROR = "ERROR";

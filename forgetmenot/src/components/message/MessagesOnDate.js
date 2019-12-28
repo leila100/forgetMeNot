@@ -1,16 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import moment from "moment";
 import { useSelector } from "react-redux";
 
 import { Messages } from "../../styles/messagesStyles";
 import { DateFormat } from "../../styles/messagesStyles";
 import Message from "./Message";
-import MessageModal from "../messageModal/MessageModal";
 
-const MessagesOnDate = ({ date, row, updateMessage, deleteMessage, showSent, showType }) => {
-  const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState(null);
-
+const MessagesOnDate = ({ date, row, setUpdate, deleteMessage, showSent, showType }) => {
   const messagesList = useSelector(state => state.messagesReducer).messages;
   let messages = messagesList.filter(
     message => moment(message.date).format("YYYY-MM-DD") === moment(date).format("YYYY-MM-DD")
@@ -25,23 +21,9 @@ const MessagesOnDate = ({ date, row, updateMessage, deleteMessage, showSent, sho
       else return 1;
     });
 
-  function handleClickOpen(message) {
-    if (message && message.sent) return; //If message was sent, can't edit it
-    setOpen(true);
-    setMessage(message);
-  }
-
-  function handleClose() {
-    setOpen(false);
-    setMessage(null);
-  }
-  const handleUpdate = updatedMessage => {
-    updateMessage(message.id, updatedMessage);
-  };
-
   return (
     <>
-      {messages.length > 0 && (
+      {messages.length > 0 ? (
         <>
           <DateFormat textColor={row}>{moment(date).format("dddd, MMMM Do YYYY")}</DateFormat>
           <Messages row={row}>
@@ -49,20 +31,15 @@ const MessagesOnDate = ({ date, row, updateMessage, deleteMessage, showSent, sho
               <Message
                 message={message}
                 row={row}
-                handleOpen={handleClickOpen}
+                setUpdate={setUpdate}
                 deleteMessage={deleteMessage}
                 key={message.id}
               />
             ))}
           </Messages>
-          <MessageModal
-            open={open}
-            handleClose={handleClose}
-            date={date}
-            handleSubmit={handleUpdate}
-            message={message}
-          />
         </>
+      ) : (
+        <div>No message scheduled on {moment(date).format("dddd, MMMM Do YYYY")}</div>
       )}
     </>
   );
