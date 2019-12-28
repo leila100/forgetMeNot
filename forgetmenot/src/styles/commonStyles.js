@@ -11,13 +11,6 @@ export const flexRow = styled.div`
   align-content: center;
 `;
 
-export const flexColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
 export const Container = styled(flexRow)`
   justify-content: space-between;
   max-width: 1200px;

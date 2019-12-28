@@ -109,7 +109,7 @@ export const MessageBox = styled.li`
 `;
 
 export const Info = styled.div`
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
   ${props => props.row && `width: 100%; margin-left: 10px; text-align: start;`}
 `;
 
@@ -119,7 +119,7 @@ export const MessageBody = styled.div`
   justify-content: space-between;
   align-items: ${props => props.row && "center"};
   :hover {
-    background-color: ${messageBgColor};
+    background-color: #4c74ab;
     color: white;
   }
   opacity: ${props => (props.sent ? "0.4" : "1")};
@@ -129,7 +129,7 @@ export const MessageBody = styled.div`
   p {
     line-height: 1.5;
     overflow-wrap: break-word;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     ${props =>
       props.row && `text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 50%; padding-left: 10px`}
   }
@@ -138,18 +138,6 @@ export const MessageBody = styled.div`
     ${props => props.row && `display: none;`}
   }
 `;
-
-// export const MessageType = styled.div`
-//   width: 4%;
-//   background-color: ${props =>
-//     props.type === "family"
-//       ? "#b87a71"
-//       : props.type === "friend"
-//       ? "#4c688f"
-//       : props.type === "work"
-//       ? "#ffff"
-//       : "#F3EEC3"};
-// `;
 
 export const DateFormat = styled.div`
   font-size: 1.6rem;
@@ -174,17 +162,12 @@ export const MessageIcon = styled.div`
   text-align: right;
   i {
     border-radius: 50%;
-    color: #284243;
+    color: red;
     padding: 10px;
     font-size: 1.8rem;
-    background-color: ${props =>
-      props.type === "family"
-        ? "#b87a71"
-        : props.type === "friend"
-        ? "#4c688f"
-        : props.type === "work"
-        ? "#ffff"
-        : "#F3EEC3"};
+    :hover {
+      background-color: #b87a71;
+    }
   }
 `;
 

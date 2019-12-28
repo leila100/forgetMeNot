@@ -7,6 +7,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import moment from "moment";
 import "@fullcalendar/core/main.css";
 
+import requireAuth from "../../hoc/requireAuth";
 import TopNavBar from "../navbar/TopNav";
 import { fetchMessages, deleteMessage, saveCurrentMessage } from "../../store/actions/index";
 
@@ -59,48 +60,46 @@ const Calendar = ({ history }) => {
     <>
       <TopNavBar />
       <CalendarPage>
-        <CalendarWrapper>
-          <Cal>
-            <FullCalendar
-              defaultView='dayGridMonth'
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              dateClick={pickDate}
-              selectable='true'
-              handleWindowResize='true'
-              eventSources={[
-                {
-                  events: events,
-                  color: "#4c688f",
-                  textColor: "white"
-                }
-              ]}
-            />
-          </Cal>
-          <WeekCal>
-            <FullCalendar
-              defaultView='dayGridWeek'
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              dateClick={pickDate}
-              selectable='true'
-              height='auto'
-              handleWindowResize='true'
-              eventSources={[
-                {
-                  events: events,
-                  color: "#4c688f",
-                  textColor: "white"
-                }
-              ]}
-            />
-          </WeekCal>
-          <Day>
-            <Button onClick={handleNewMessage}>Schedule a message</Button>
-            <MessagesList dates={dates} row deleteMessage={deleteMessageHandler} setUpdate={handleSetUpdate} />
-          </Day>
-        </CalendarWrapper>
+        <Cal>
+          <FullCalendar
+            defaultView='dayGridMonth'
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            dateClick={pickDate}
+            selectable='true'
+            handleWindowResize='true'
+            eventSources={[
+              {
+                events: events,
+                color: "#4c688f",
+                textColor: "white"
+              }
+            ]}
+          />
+        </Cal>
+        <WeekCal>
+          <FullCalendar
+            defaultView='dayGridWeek'
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            dateClick={pickDate}
+            selectable='true'
+            height='auto'
+            handleWindowResize='true'
+            eventSources={[
+              {
+                events: events,
+                color: "#4c688f",
+                textColor: "white"
+              }
+            ]}
+          />
+        </WeekCal>
+        <Day>
+          <Button onClick={handleNewMessage}>Schedule a message</Button>
+          <MessagesList dates={dates} row deleteMessage={deleteMessageHandler} setUpdate={handleSetUpdate} />
+        </Day>
       </CalendarPage>
     </>
   );
 };
 
-export default Calendar;
+export default requireAuth(Calendar);

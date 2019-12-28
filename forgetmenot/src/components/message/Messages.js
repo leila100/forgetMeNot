@@ -2,6 +2,12 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { CircularProgress } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import { withStyles } from "@material-ui/core/styles";
 
 import requireAuth from "../../hoc/requireAuth";
 import TopNavBar from "../navbar/TopNav";
@@ -10,9 +16,26 @@ import { Container } from "../../styles/commonStyles";
 import { MessagesContainer } from "../../styles/messagesStyles";
 import MessagesList from "../message/MessagesList";
 
-const Messages = () => {
+const styles = theme => ({
+  root: {
+    fontSize: "1.6rem"
+  },
+  cancel: {
+    fontSize: "1.6rem",
+    color: "#4c688f"
+  },
+  delete: {
+    fontSize: "1.6rem",
+    color: "red"
+  }
+});
+
+const Messages = ({ classes }) => {
   const dispatch = useDispatch();
   const { fetching, adding, updating, messages } = useSelector(state => state.messagesReducer);
+  const [open, setOpen] = React.useState(false);
+  const [id, setId] = React.useState(null);
+
   // Store all the dates in a unique array
   const dates = messages.map(message => message.date);
   const uniqueDates = [];
@@ -21,6 +44,15 @@ const Messages = () => {
   useEffect(() => {
     if (messages.length === 0) fetchMessages()(dispatch);
   }, []);
+
+  const handleClickOpen = messageId => {
+    setOpen(true);
+    setId(messageId);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   dates.forEach(d => {
     if (dt.indexOf(moment(d).format("YYYY-MM-DD")) === -1) {
@@ -35,8 +67,9 @@ const Messages = () => {
     });
   }
 
-  const deleteMessageHandler = messageId => {
-    deleteMessage(messageId)(dispatch);
+  const deleteMessageHandler = () => {
+    deleteMessage(id)(dispatch);
+    handleClose();
   };
 
   const handleSetUpdate = message => {
@@ -49,11 +82,31 @@ const Messages = () => {
       {(fetching || adding || updating) && <CircularProgress />}
       <Container>
         <MessagesContainer>
-          <MessagesList dates={uniqueDates} row deleteMessage={deleteMessageHandler} setUpdate={handleSetUpdate} />
+          <MessagesList dates={uniqueDates} row deleteMessage={handleClickOpen} setUpdate={handleSetUpdate} />
         </MessagesContainer>
       </Container>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
+      >
+        <DialogContent>
+          <DialogContentText id='alert-dialog-description' classes={{ root: classes.root }}>
+            Are you sure you want to delete this message?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} classes={{ root: classes.cancel }}>
+            Cancel
+          </Button>
+          <Button onClick={deleteMessageHandler} autoFocus classes={{ root: classes.delete }}>
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
 
-export default requireAuth(Messages);
+export default withStyles(styles)(requireAuth(Messages));

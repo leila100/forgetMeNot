@@ -32,24 +32,6 @@ const styles = theme => ({
   label: {
     fontSize: "1.6rem",
     color: "#4c688f"
-  },
-  family: {
-    backgroundColor: "#b87a71",
-    "&:clicked": {
-      backgroundColor: "#284243"
-    }
-  },
-  friend: {
-    backgroundColor: "#4c688f"
-  },
-  work: {
-    backgroundColor: "#ffff"
-  },
-  other: {
-    backgroundColor: "#F3EEC3"
-  },
-  all: {
-    backgroundColor: "#666680"
   }
 });
 
