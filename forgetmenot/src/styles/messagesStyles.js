@@ -130,6 +130,7 @@ export const MessageBox = styled.li`
 export const Info = styled.div`
   margin-left: 10px;
   text-align: start;
+  width: 25%;
 `;
 
 export const MessageBody = styled.div`
@@ -147,12 +148,11 @@ export const MessageBody = styled.div`
   p {
     line-height: 1.5;
     overflow-wrap: break-word;
-    ${props =>
-      props.row && `text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 50%; padding-left: 10px`}
-  }
-  span {
-    color: #f3eec3;
-    ${props => props.row && `display: none;`}
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 50%;
+    padding-left: 10px;
   }
   @media (max-width: 500px) {
     width: 80%;

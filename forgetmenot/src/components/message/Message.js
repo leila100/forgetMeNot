@@ -15,9 +15,7 @@ const Message = ({ message, row, setUpdate, deleteMessage, history }) => {
     >
       <MessageType type={message.type} />
       <MessageBody sent={message.sent} row={row}>
-        <Info>
-          <span>To:</span> {message.recipientName}
-        </Info>
+        <Info>{message.recipientName}</Info>
         <p>{message.messageText}</p>
         <Info>{moment(message.date).format("hh:mm a")}</Info>
         <MessageIcon
