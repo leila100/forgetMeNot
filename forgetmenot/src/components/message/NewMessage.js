@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import * as moment from "moment";
 import TextField from "@material-ui/core/TextField";
-import { useSelector, useDispatch } from "react-redux";
-import { addMessage, getCurrentUser, updateMessage } from "../../store/actions/index";
-
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import { withStyles } from "@material-ui/core/styles";
 
+import { addMessage, getCurrentUser, updateMessage } from "../../store/actions/index";
 import loveImage from "../../assets/images/love.jpg";
 import getWellImage from "../../assets/images/getWell.jpg";
 import birthdayImage from "../../assets/images/birthday.jpg";
@@ -48,6 +49,17 @@ const styles = theme => ({
   },
   errors: {
     fontSize: "1.5rem"
+  },
+  select: {
+    fontSize: "1.3rem"
+  },
+  selectText: {
+    paddingRight: 20,
+    width: "276px",
+    fontSize: "1.4rem",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%"
+    }
   }
 });
 
@@ -136,6 +148,20 @@ const NewMessage = ({ classes, history }) => {
   else if (type === "getWell") imgSource = getWellImage;
   else if (type === "thank") imgSource = thankImage;
 
+  const contacts = [
+    { name: "Anissa", email: "anissaselma@gmail.com" },
+    { name: "Aida", email: "aidanora@gmail.com" },
+    { name: "Leila", email: "leila10@gmail.com" },
+    { name: "Kenza", email: "leila10@gmail.com" }
+  ];
+
+  const options = contacts.map(option => {
+    const firstLetter = option.name[0].toUpperCase();
+    return {
+      firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
+      ...option
+    };
+  });
   return (
     <>
       <TopNav />
@@ -190,11 +216,44 @@ const NewMessage = ({ classes, history }) => {
         {error === "update" && errorText && <Error>{errorText}</Error>}
         <MessageContainer>
           <InputGroup>
+            <Autocomplete
+              id='contacts'
+              options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
+              groupBy={option => option.firstLetter}
+              getOptionLabel={option => option.name}
+              style={{ width: "70%" }}
+              onChange={(e, val) => {
+                if (val && val.name) {
+                  setRecipient(val.name);
+                  setEmail(val.email);
+                } else if (!val) {
+                  setRecipient("");
+                  setEmail("");
+                }
+              }}
+              inputValue={recipientName}
+              noOptionsText='No previous contacts'
+              classes={{ input: classes.selectText, option: classes.select }}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  placeholder='Contacts'
+                  margin='normal'
+                  variant='outlined'
+                  fullWidth
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.formTextLabel
+                    }
+                  }}
+                />
+              )}
+            />
             <TextField
               required
               error={error === "recipient"}
               helperText={error === "recipient" ? errorText : ""}
-              autoFocus
+              // autoFocus
               fullWidth
               margin='dense'
               label='Name of Recipient'
