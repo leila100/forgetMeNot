@@ -28,7 +28,6 @@ import { Button, Error } from "../../styles/commonStyles";
 const styles = theme => ({
   textField: {
     paddingRight: 20,
-    width: "276px",
     marginTop: 20,
     fontSize: "1.6rem",
     [theme.breakpoints.down("sm")]: {
@@ -66,6 +65,7 @@ const styles = theme => ({
 const NewMessage = ({ classes, history }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.usersReducer).currentUser;
+  const contacts = useSelector(state => state.contactsReducer).contacts;
   const savedMessage = useSelector(state => state.messagesReducer).currentMessage;
   const [type, setType] = useState("general");
   const [recipientName, setRecipient] = useState("");
@@ -124,7 +124,11 @@ const NewMessage = ({ classes, history }) => {
       setError("");
       setErrorText("");
       if (update) updateMessage(savedMessage.id, newMessage)(dispatch);
-      else addMessage(newMessage)(dispatch);
+      else {
+        // check if recipient in contacts
+        // if not, add him/her
+        addMessage(newMessage)(dispatch);
+      }
       handleReset();
       history.push("/messages");
     }
@@ -147,13 +151,6 @@ const NewMessage = ({ classes, history }) => {
   else if (type === "birthday") imgSource = birthdayImage;
   else if (type === "getWell") imgSource = getWellImage;
   else if (type === "thank") imgSource = thankImage;
-
-  const contacts = [
-    { name: "Anissa", email: "anissaselma@gmail.com" },
-    { name: "Aida", email: "aidanora@gmail.com" },
-    { name: "Leila", email: "leila10@gmail.com" },
-    { name: "Kenza", email: "leila10@gmail.com" }
-  ];
 
   const options = contacts.map(option => {
     const firstLetter = option.name[0].toUpperCase();
@@ -221,7 +218,7 @@ const NewMessage = ({ classes, history }) => {
               options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
               groupBy={option => option.firstLetter}
               getOptionLabel={option => option.name}
-              style={{ width: "70%" }}
+              style={{ width: "95%" }}
               onChange={(e, val) => {
                 if (val && val.name) {
                   setRecipient(val.name);

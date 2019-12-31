@@ -15,4 +15,11 @@ export const DELETING = "DELETING";
 export const DELETED = "DELETED";
 export const SAVECURRENT = "SAVECURRENT";
 
+export const GETTING_CONTACTS = "GETTING_CONTACTS";
+export const GOT_CONTACTS = "GOT_CONTACTS";
+export const ADDING_CONTACT = "ADDING_CONTACT";
+export const ADDED_CONTACT = "ADDED_CONTACT";
+export const DELETING_CONTACT = "DELETING_CONTACT";
+export const DELETED_CONTACT = "DELETED_CONTACT";
+
 export const ERROR = "ERROR";
