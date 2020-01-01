@@ -11,15 +11,18 @@ require("dotenv").config();
 
 function App() {
   return (
-    <div className='App'>
-      <Switch>
-        <Route path='/register' component={Register} />
-        <Route path='/login' component={Login} />
-        <Route exact path='/' component={NewMessage} />
-        <Route path='/messages' component={Messages} />
-        <Route path='/calendar' component={Calendar} />
-      </Switch>
-    </div>
+    <>
+      <div class='bg-image'></div>
+      <div className='App'>
+        <Switch>
+          <Route path='/register' component={Register} />
+          <Route path='/login' component={Login} />
+          <Route exact path='/' component={NewMessage} />
+          <Route path='/messages' component={Messages} />
+          <Route path='/calendar' component={Calendar} />
+        </Switch>
+      </div>
+    </>
   );
 }
 
