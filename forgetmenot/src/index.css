@@ -150,12 +150,12 @@ table {
 html {
   font-size: 62.5%;
   font-family: Roboto, sans-serif;
-  height: 100%
+  height: 100%;
 }
 
 body {
   font-size: 1.5rem;
-  height: 100%
+  height: 100%;
 }
 
 #root {
@@ -163,7 +163,6 @@ body {
 }
 
 .App {
-  height: 100%;
   position: absolute;
   top: 0;
   left: 0;
