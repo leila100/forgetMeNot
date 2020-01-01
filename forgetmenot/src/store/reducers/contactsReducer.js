@@ -8,13 +8,7 @@ import {
 } from "../actions/actionTypes";
 
 const initialState = {
-  contacts: [
-    { name: "Anissa", email: "anissaselma@gmail.com" },
-    { name: "Aida", email: "aidanora@gmail.com" },
-    { name: "Leila", email: "leila10@gmail.com" },
-    { name: "Mama", email: "nb_leila@yahoo.com" },
-    { name: "Kenza", email: "leila10@gmail.com" }
-  ],
+  contacts: [],
   getting: false,
   adding: false,
   deleting: false
@@ -22,34 +16,34 @@ const initialState = {
 
 export const contactsReducer = (state = initialState, action) => {
   switch (action.type) {
-      case GETTING_CONTACTS:
-          return {
-              contacts: [...state.contacts],
-              getting: true,
-              adding: false,
-              deleting: false
-          };
-        case GOT_CONTACTS:
-            return {
-                contacts: action.payload,
-                getting: false,
-                adding: false,
-                deleting: false
-            }
-        case ADDING_CONTACT:
-            return {
-                contacts: [...state.contacts],
-                getting: false,
-                adding: true,
-                deleting: false
-            };
-        case ADDED_CONTACT:
-            return {
-                contacts: [...state.contacts, action.payload],
-                getting: false,
-                adding: false,
-                deleting: false
-            };
+    case GETTING_CONTACTS:
+      return {
+        contacts: [...state.contacts],
+        getting: true,
+        adding: false,
+        deleting: false
+      };
+    case GOT_CONTACTS:
+      return {
+        contacts: action.payload,
+        getting: false,
+        adding: false,
+        deleting: false
+      };
+    case ADDING_CONTACT:
+      return {
+        contacts: [...state.contacts],
+        getting: false,
+        adding: true,
+        deleting: false
+      };
+    case ADDED_CONTACT:
+      return {
+        contacts: [...state.contacts, action.payload],
+        getting: false,
+        adding: false,
+        deleting: false
+      };
     default:
       return state;
   }

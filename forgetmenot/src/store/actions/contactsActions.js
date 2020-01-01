@@ -28,18 +28,19 @@ export const getContacts = () => {
   };
 };
 
-export const addContact = message => {
+export const addContact = contact => {
+  console.log("adding contact: ", contact);
   const endpoint = `${process.env.REACT_APP_API_URL}/api/contacts`;
   return dispatch => {
     dispatch({ type: actionTypes.ADDING_CONTACT });
     axios
-      .post(endpoint, message)
+      .post(endpoint, contact)
       .then(response => {
         console.log("response ", response.data);
         dispatch({ type: actionTypes.ADDED_CONTACT, payload: response.data });
       })
       .catch(error => {
-        dispatch({ type: actionTypes.ERROR, payload: "Can't fetch your messages!" });
+        dispatch({ type: actionTypes.ERROR, payload: "Can't fetch your contacts!" });
       });
   };
 };

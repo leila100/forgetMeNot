@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { withStyles } from "@material-ui/core/styles";
 
-import { addMessage, getCurrentUser, updateMessage } from "../../store/actions/index";
+import { addMessage, getCurrentUser, updateMessage, addContact, getContacts } from "../../store/actions/index";
 import loveImage from "../../assets/images/love.jpg";
 import getWellImage from "../../assets/images/getWell.jpg";
 import birthdayImage from "../../assets/images/birthday.jpg";
@@ -98,6 +98,18 @@ const NewMessage = ({ classes, history }) => {
     }
   }, [savedMessage]);
 
+  useEffect(() => {
+    if (contacts.length === 0) getContacts()(dispatch);
+  }, []);
+
+  const checkContact = email => {
+    console.log("contacts: ", contacts);
+    const exist = contacts.find(contact => contact.contactEmail === email);
+    console.log("exist: ", exist);
+    if (exist) return true;
+    return false;
+  };
+
   const handleSchedule = () => {
     const token = localStorage.getItem("jwt");
     if (!token) history.push("/login");
@@ -125,10 +137,12 @@ const NewMessage = ({ classes, history }) => {
       setErrorText("");
       if (update) updateMessage(savedMessage.id, newMessage)(dispatch);
       else {
-        // check if recipient in contacts
-        // if not, add him/her
         addMessage(newMessage)(dispatch);
       }
+      // check if recipient in contacts
+      console.log("Check if ", newMessage.recipientEmail, " exists");
+      if (!checkContact(newMessage.recipientEmail))
+        addContact({ contactName: newMessage.recipientName, contactEmail: newMessage.recipientEmail })(dispatch);
       handleReset();
       history.push("/messages");
     }
@@ -153,7 +167,7 @@ const NewMessage = ({ classes, history }) => {
   else if (type === "thank") imgSource = thankImage;
 
   const options = contacts.map(option => {
-    const firstLetter = option.name[0].toUpperCase();
+    const firstLetter = option.contactName[0].toUpperCase();
     return {
       firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
       ...option
@@ -217,12 +231,12 @@ const NewMessage = ({ classes, history }) => {
               id='contacts'
               options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
               groupBy={option => option.firstLetter}
-              getOptionLabel={option => option.name}
+              getOptionLabel={option => option.contactName}
               style={{ width: "95%" }}
               onChange={(e, val) => {
-                if (val && val.name) {
-                  setRecipient(val.name);
-                  setEmail(val.email);
+                if (val && val.contactName) {
+                  setRecipient(val.contactName);
+                  setEmail(val.contactEmail);
                 } else if (!val) {
                   setRecipient("");
                   setEmail("");
