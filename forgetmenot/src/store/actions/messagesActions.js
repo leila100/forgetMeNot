@@ -19,7 +19,6 @@ export const fetchMessages = () => {
     axios
       .get(endpoint)
       .then(response => {
-        console.log("responce ", response.data);
         dispatch({ type: actionTypes.FETCHED, payload: response.data });
       })
       .catch(error => {
@@ -32,7 +31,6 @@ export const addMessage = message => {
   const endpoint = `${process.env.REACT_APP_API_URL}/api/reminders`;
   return dispatch => {
     dispatch({ type: actionTypes.ADDING });
-    console.log("in action addMessage: ", message);
     axios
       .post(endpoint, message)
       .then(response => {

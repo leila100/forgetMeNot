@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
 import * as moment from "moment";
 import TextField from "@material-ui/core/TextField";
-import { useSelector, useDispatch } from "react-redux";
-import { addMessage, getCurrentUser, updateMessage } from "../../store/actions/index";
-
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import { withStyles } from "@material-ui/core/styles";
 
+import { addMessage, getCurrentUser, updateMessage, addContact, getContacts } from "../../store/actions/index";
 import loveImage from "../../assets/images/love.jpg";
 import getWellImage from "../../assets/images/getWell.jpg";
 import birthdayImage from "../../assets/images/birthday.jpg";
@@ -27,7 +28,6 @@ import { Button, Error } from "../../styles/commonStyles";
 const styles = theme => ({
   textField: {
     paddingRight: 20,
-    width: "276px",
     marginTop: 20,
     fontSize: "1.6rem",
     [theme.breakpoints.down("sm")]: {
@@ -48,12 +48,24 @@ const styles = theme => ({
   },
   errors: {
     fontSize: "1.5rem"
+  },
+  select: {
+    fontSize: "1.3rem"
+  },
+  selectText: {
+    paddingRight: 20,
+    width: "276px",
+    fontSize: "1.4rem",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%"
+    }
   }
 });
 
 const NewMessage = ({ classes, history }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.usersReducer).currentUser;
+  const contacts = useSelector(state => state.contactsReducer).contacts;
   const savedMessage = useSelector(state => state.messagesReducer).currentMessage;
   const [type, setType] = useState("general");
   const [recipientName, setRecipient] = useState("");
@@ -86,6 +98,18 @@ const NewMessage = ({ classes, history }) => {
     }
   }, [savedMessage]);
 
+  useEffect(() => {
+    if (contacts.length === 0) getContacts()(dispatch);
+  }, []);
+
+  const checkContact = email => {
+    console.log("contacts: ", contacts);
+    const exist = contacts.find(contact => contact.contactEmail === email);
+    console.log("exist: ", exist);
+    if (exist) return true;
+    return false;
+  };
+
   const handleSchedule = () => {
     const token = localStorage.getItem("jwt");
     if (!token) history.push("/login");
@@ -112,7 +136,13 @@ const NewMessage = ({ classes, history }) => {
       setError("");
       setErrorText("");
       if (update) updateMessage(savedMessage.id, newMessage)(dispatch);
-      else addMessage(newMessage)(dispatch);
+      else {
+        addMessage(newMessage)(dispatch);
+      }
+      // check if recipient in contacts
+      console.log("Check if ", newMessage.recipientEmail, " exists");
+      if (!checkContact(newMessage.recipientEmail))
+        addContact({ contactName: newMessage.recipientName, contactEmail: newMessage.recipientEmail })(dispatch);
       handleReset();
       history.push("/messages");
     }
@@ -136,6 +166,13 @@ const NewMessage = ({ classes, history }) => {
   else if (type === "getWell") imgSource = getWellImage;
   else if (type === "thank") imgSource = thankImage;
 
+  const options = contacts.map(option => {
+    const firstLetter = option.contactName[0].toUpperCase();
+    return {
+      firstLetter: /[0-9]/.test(firstLetter) ? "0-9" : firstLetter,
+      ...option
+    };
+  });
   return (
     <>
       <TopNav />
@@ -190,11 +227,44 @@ const NewMessage = ({ classes, history }) => {
         {error === "update" && errorText && <Error>{errorText}</Error>}
         <MessageContainer>
           <InputGroup>
+            <Autocomplete
+              id='contacts'
+              options={options.sort((a, b) => -b.firstLetter.localeCompare(a.firstLetter))}
+              groupBy={option => option.firstLetter}
+              getOptionLabel={option => option.contactName}
+              style={{ width: "95%" }}
+              onChange={(e, val) => {
+                if (val && val.contactName) {
+                  setRecipient(val.contactName);
+                  setEmail(val.contactEmail);
+                } else if (!val) {
+                  setRecipient("");
+                  setEmail("");
+                }
+              }}
+              inputValue={recipientName}
+              noOptionsText='No previous contacts'
+              classes={{ input: classes.selectText, option: classes.select }}
+              renderInput={params => (
+                <TextField
+                  {...params}
+                  placeholder='Contacts'
+                  margin='normal'
+                  variant='outlined'
+                  fullWidth
+                  InputLabelProps={{
+                    classes: {
+                      root: classes.formTextLabel
+                    }
+                  }}
+                />
+              )}
+            />
             <TextField
               required
               error={error === "recipient"}
               helperText={error === "recipient" ? errorText : ""}
-              autoFocus
+              // autoFocus
               fullWidth
               margin='dense'
               label='Name of Recipient'
