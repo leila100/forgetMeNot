@@ -5,6 +5,7 @@ import { flexRow } from "./commonStyles";
 export const Logo = styled(flexRow)`
   img {
     width: 70px;
+    height: 80px;
   }
   div {
     font-size: 3.3rem;
