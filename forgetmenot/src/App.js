@@ -12,7 +12,6 @@ require("dotenv").config();
 function App() {
   return (
     <>
-      <div class='bg-image'></div>
       <div className='App'>
         <Switch>
           <Route path='/register' component={Register} />

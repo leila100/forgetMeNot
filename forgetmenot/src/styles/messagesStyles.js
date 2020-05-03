@@ -46,7 +46,7 @@ export const Preview = styled.div`
 
 export const Type = styled(flexRow)`
   flex-direction: column;
-  margin: 0px 1%;
+  margin: 5px 1%;
 `;
 
 export const MessageType = styled.img`

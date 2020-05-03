@@ -22,7 +22,7 @@ export const Container = styled(flexRow)`
 export const Button = styled.button`
   width: 200px;
   border-radius: 10px;
-  background-color: ${props => (props.delete ? "red" : btnBgColor)};
+  background-color: ${(props) => (props.delete ? "red" : btnBgColor)};
   border: 1px solid ${btnBorder};
   padding: 10px 12px;
   color: white;
@@ -40,7 +40,7 @@ export const Button = styled.button`
 `;
 
 export const Message = styled.div`
-  color: ${props => (props.error ? "palevioletred" : "#284243")};
+  color: ${(props) => (props.error ? "palevioletred" : "#284243")};
   font-size: 2.5rem;
   margin: 20px auto;
   text-align: center;
@@ -104,4 +104,12 @@ export const Error = styled.div`
   color: red;
   font-size: 1.7rem;
   text-align: center;
+`;
+
+export const Instructions = styled.div`
+  font-size: 1.7rem;
+  color: #4c688f;
+  margin: auto;
+  width: 536px;
+  line-height: 1.5;
 `;
