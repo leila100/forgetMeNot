@@ -27,9 +27,9 @@ export const Preview = styled.div`
   padding: 5px;
   width: 100%;
   p {
-    margin-top: 10px;
-    font-size: 1.7rem;
-    font-family: Trocchi;
+    margin-top: 20px;
+    font-size: 2.2rem;
+    font-family: Indie Flower;
   }
   img {
     margin-bottom: 10px;
@@ -53,8 +53,8 @@ export const MessageType = styled.img`
   width: 125px;
   height: 125px;
   background-size: 100% 100%;
-  border: ${props => props.clicked && "6px solid #284243"};
-  content: url(${props =>
+  border: ${(props) => props.clicked && "6px solid #2196f3"};
+  content: url(${(props) =>
     props.type === "love"
       ? loveImage
       : props.type === "birthday"
@@ -94,7 +94,7 @@ export const BtnGroup = styled(flexRow)`
     width: 120px;
     border-radius: 20px;
     color: #132021;
-    background-color: ${props => props.clicked && "#284243"};
+    background-color: ${(props) => props.clicked && "#284243"};
     i {
       margin-right: 5px;
     }
@@ -110,7 +110,7 @@ export const InputGroup = styled(flexRow)`
 
 export const Messages = styled.ul`
   display: flex;
-  flex-direction: ${props => (props.row ? "row" : "column")};
+  flex-direction: ${(props) => (props.row ? "row" : "column")};
   flex-wrap: wrap;
   justify-content: space-around;
   width: 100%;
@@ -119,8 +119,8 @@ export const Messages = styled.ul`
 export const MessageBox = styled.li`
   display: flex;
   margin: 10px 0;
-  width: ${props => (props.row ? "95%" : "100%")};
-  cursor: ${props => (props.disabled ? "not-allowed" : "pointer")};
+  width: ${(props) => (props.row ? "95%" : "100%")};
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   img {
     width: 50px;
     height: 100%;
@@ -135,14 +135,14 @@ export const Info = styled.div`
 
 export const MessageBody = styled.div`
   display: flex;
-  flex-direction: ${props => (props.row === true ? "row" : "column")};
+  flex-direction: ${(props) => (props.row === true ? "row" : "column")};
   justify-content: space-between;
-  align-items: ${props => props.row && "center"};
+  align-items: ${(props) => props.row && "center"};
   :hover {
     background-color: #4c74ab;
     color: white;
   }
-  opacity: ${props => (props.sent ? "0.4" : "1")};
+  opacity: ${(props) => (props.sent ? "0.4" : "1")};
   width: 95%;
   padding: 5px;
   p {
@@ -161,7 +161,7 @@ export const MessageBody = styled.div`
 
 export const DateFormat = styled.div`
   font-size: 1.6rem;
-  color: ${props => (props.textColor ? "#4C688F" : "#F3EEC3")};
+  color: ${(props) => (props.textColor ? "#4C688F" : "#F3EEC3")};
 `;
 
 export const IconGroup = styled(flexRow)`
