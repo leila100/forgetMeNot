@@ -113,6 +113,11 @@ export const Instructions = styled.div`
   font-size: 1.7rem;
   color: #4c688f;
   margin: auto;
-  width: 536px;
+  width: 580px;
   line-height: 1.5;
+
+  @media (max-width: 600px) {
+    width: 95%;
+    font-size: 1.5rem;
+  }
 `;
