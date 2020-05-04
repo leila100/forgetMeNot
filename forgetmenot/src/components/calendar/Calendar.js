@@ -11,6 +11,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import { withStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import "@fullcalendar/core/main.css";
+import "@fullcalendar/daygrid/main.css";
 
 import requireAuth from "../../hoc/requireAuth";
 import TopNavBar from "../navbar/TopNav";
@@ -20,15 +21,15 @@ import { CalendarPage, Cal, WeekCal, Day } from "../../styles/calendarStyles";
 import { Button } from "../../styles/commonStyles";
 import MessagesList from "../message/MessagesList";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
-    fontSize: "1.7rem"
-  }
+    fontSize: "1.7rem",
+  },
 });
 
 const Calendar = ({ history, classes }) => {
   const dispatch = useDispatch();
-  const { messages } = useSelector(state => state.messagesReducer);
+  const { messages } = useSelector((state) => state.messagesReducer);
 
   const [date, setDate] = useState(Date.now());
   const [events, setEvents] = useState([]);
@@ -41,13 +42,16 @@ const Calendar = ({ history, classes }) => {
 
   useEffect(() => {
     setEvents(
-      messages.map(message => {
-        return { start: message.date, end: message.date };
+      messages.map((message) => {
+        return {
+          start: message.date,
+          end: message.date,
+        };
       })
     );
   }, [messages]);
 
-  const pickDate = arg => {
+  const pickDate = (arg) => {
     const datePicked = arg.date;
     setDate(datePicked);
   };
@@ -57,19 +61,19 @@ const Calendar = ({ history, classes }) => {
     handleClose();
   };
 
-  const handleSetUpdate = message => {
+  const handleSetUpdate = (message) => {
     saveCurrentMessage(message)(dispatch);
   };
 
   const handleNewMessage = () => {
     const message = {
-      date: moment(date).format("YYYY-MM-DD")
+      date: moment(new Date(date)).format("YYYY-MM-DD"),
     };
     handleSetUpdate(message);
     history.push("/");
   };
 
-  const handleClickOpen = messageId => {
+  const handleClickOpen = (messageId) => {
     setOpen(true);
     setId(messageId);
   };
@@ -86,7 +90,7 @@ const Calendar = ({ history, classes }) => {
         <Cal>
           <FullCalendar
             defaultView='dayGridMonth'
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
             dateClick={pickDate}
             selectable='true'
             handleWindowResize='true'
@@ -94,15 +98,15 @@ const Calendar = ({ history, classes }) => {
               {
                 events: events,
                 color: "#4c688f",
-                textColor: "white"
-              }
+                textColor: "white",
+              },
             ]}
           />
         </Cal>
         <WeekCal>
           <FullCalendar
             defaultView='dayGridWeek'
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
             dateClick={pickDate}
             selectable='true'
             height='auto'
@@ -111,8 +115,8 @@ const Calendar = ({ history, classes }) => {
               {
                 events: events,
                 color: "#4c688f",
-                textColor: "white"
-              }
+                textColor: "white",
+              },
             ]}
           />
         </WeekCal>

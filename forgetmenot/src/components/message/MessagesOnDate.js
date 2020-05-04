@@ -7,12 +7,12 @@ import { DateFormat } from "../../styles/messagesStyles";
 import Message from "./Message";
 
 const MessagesOnDate = ({ date, row, setUpdate, deleteMessage, showSent, showType }) => {
-  const messagesList = useSelector(state => state.messagesReducer).messages;
+  const messagesList = useSelector((state) => state.messagesReducer).messages;
   let messages = messagesList.filter(
-    message => moment(message.date).format("YYYY-MM-DD") === moment(date).format("YYYY-MM-DD")
+    (message) => moment(message.date).format("YYYY-MM-DD") === moment(date).format("YYYY-MM-DD")
   );
-  if (!showSent) messages = messages.filter(message => !message.sent);
-  if (showType !== "all") messages = messages.filter(message => message.type === showType);
+  if (!showSent) messages = messages.filter((message) => !message.sent);
+  if (showType !== "all") messages = messages.filter((message) => message.type === showType);
   if (messages.length > 0)
     messages.sort((a, b) => {
       const d1 = new Date(a.date);
@@ -27,7 +27,7 @@ const MessagesOnDate = ({ date, row, setUpdate, deleteMessage, showSent, showTyp
         <>
           <DateFormat textColor={row}>{moment(date).format("dddd, MMMM Do YYYY")}</DateFormat>
           <Messages row={row}>
-            {messages.map(message => (
+            {messages.map((message) => (
               <Message
                 message={message}
                 row={row}
