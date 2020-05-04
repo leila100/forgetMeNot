@@ -28,7 +28,6 @@ export const Button = styled.button`
   color: white;
   margin: 10px auto;
   font-size: 1.4rem;
-  outline: none;
   :hover {
     color: #284243;
     background-color: white;
@@ -36,6 +35,10 @@ export const Button = styled.button`
   #button {
     margin: 0;
     padding: 0;
+  }
+  a {
+    color: white;
+    text-decoration: none;
   }
 `;
 

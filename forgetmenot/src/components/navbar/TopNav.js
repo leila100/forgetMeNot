@@ -10,9 +10,9 @@ import UserModal from "../user/UserModal";
 
 import { updateUser } from "../../store/actions/index";
 
-const TopNav = props => {
+const TopNav = (props) => {
   const [open, setOpen] = useState(false);
-  const user = useSelector(state => state.usersReducer).currentUser;
+  const user = useSelector((state) => state.usersReducer).currentUser;
   const dispatch = useDispatch();
   const token = localStorage.getItem("jwt");
 
@@ -39,7 +39,7 @@ const TopNav = props => {
     const updatedUser = {
       ...user,
       name,
-      email
+      email,
     };
     updateUser(user.id, updatedUser)(dispatch);
   };
@@ -75,7 +75,9 @@ const TopNav = props => {
             </Group>
           </>
         ) : (
-          <NavLink to='/login'>Login</NavLink>
+          <Button>
+            <NavLink to='/login'>Login</NavLink>
+          </Button>
         )}
         <UserModal open={open} handleClose={handleClose} update={updateHandler} />
       </>
