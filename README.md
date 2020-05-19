@@ -13,7 +13,7 @@ DEMO: https://forgetmenot.netlify.com/
 - [Technologies](#Technologies)
 - [Setup](#Setup)
 - [Features](#Features)
-- [Authors](#Authors)
+- [Author](#Author)
 - [License](#License)
 
 ## Technologies
@@ -71,11 +71,13 @@ Selecting an existing (not yet sent) message, you can edit it. You can also dele
 
 ---
 
-## Authors
+## Author
 
-- [Leila Berrouayel - Github](https://github.com/leila100)
-- [Leila Berrouayel - LinkedIn](https://www.linkedin.com/in/leila-berrouayel/)
-- [Leila Berrouayel - Website](https://leilaberrouayel.me)
+**Leila Berrouayel**
+
+- [Github](https://github.com/leila100)
+- [LinkedIn](https://www.linkedin.com/in/leila-berrouayel/)
+- [Website](https://leilaberrouayel.me)
 
 ---
 
