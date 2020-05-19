@@ -12,6 +12,7 @@ DEMO: https://forgetmenot.netlify.com/
 
 - [Technologies](#Technologies)
 - [Setup](#Setup)
+- [Features](#Features)
 - [Authors](#Authors)
 - [License](#License)
 
@@ -38,6 +39,17 @@ To run this project, install it locally using yarn:
 Or use our live project to get started:
 
 [ForgetMeNot](https://forgetmenot.netlify.com/)
+
+## Features
+
+- Schedule an email to be sent on a specific day and time
+<p>
+Select a day, and time for your email to be sent. Write a thoughtful message text, select a category for your message (family, friend, work, or other), choose the appropriate date and time, and hit the schedule button. The message will be automatically sent on that day and time and you will have made someone happy on their special day.
+</p>
+<p align="center">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message.1e302e92.png">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message1.fb3bc684.png">
+</p>
 
 ## Authors
 
