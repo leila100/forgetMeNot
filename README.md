@@ -1,7 +1,7 @@
 # forgetMeNot
 
 <p align="center">
-  <img alt="forget Me Not homepage" src="https://github.com/leila100/forgetMeNot/blob/master/forgetmenot/src/assets/images/fmn2.png">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message.1e302e92.png">
 </p>
 
 Forget Me Not is an application that sends thoughtful messages, on your behalf, to people you know on their special day.
