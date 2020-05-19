@@ -55,6 +55,13 @@ Select a day, and time for your email to be sent. Write a thoughtful message tex
   <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message1.fb3bc684.png" width="400" height="250">
 </p>
 
+- **Access all scheduled messages**
+See all your messages. Filter by sent messages, and also by the different categories.
+<p align="center">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_messages.66c441ba.png" width="400" height="250">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_messages1.ac43d901.png" width="400" height="250">
+</p>
+
 ---
 
 ## Authors
