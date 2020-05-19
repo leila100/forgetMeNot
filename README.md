@@ -62,6 +62,13 @@ See all your messages. Filter by sent messages, and also by the different catego
   <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_messages1.ac43d901.png" width="400" height="250">
 </p>
 
+- **Update/Delete a scheduled message**
+Selecting an existing (not yet sent) message, you can edit it. You can also delete it by selecting the trashcan icon.
+<p align="center">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message2.77675d42.png" width="400" height="250">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message3.1bd17e3e.png" width="400" height="250">
+</p>
+
 ---
 
 ## Authors
