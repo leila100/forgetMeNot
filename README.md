@@ -73,7 +73,9 @@ Selecting an existing (not yet sent) message, you can edit it. You can also dele
 
 ## Authors
 
-- [Leila Berrouayel](https://github.com/leila100)
+- [Leila Berrouayel - Github](https://github.com/leila100)
+- [Leila Berrouayel - LinkedIn](https://www.linkedin.com/in/leila-berrouayel/)
+- [Leila Berrouayel - Website](https://leilaberrouayel.me)
 
 ---
 
