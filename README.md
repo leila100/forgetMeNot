@@ -1,7 +1,7 @@
 # forgetMeNot
 
 <p align="center">
-  ![forget Me Not homepage](https://leilaberrouayel.me/static/media/FMN_message.1e302e92.png =100x20)
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message.1e302e92.png" width="400">
 </p>
 
 Forget Me Not is an application that sends thoughtful messages, on your behalf, to people you know on their special day.
@@ -51,8 +51,8 @@ Or use our live project to get started:
 Select a day, and time for your email to be sent. Write a thoughtful message text, select a category for your message (family, friend, work, or other), choose the appropriate date and time, and hit the schedule button. The message will be automatically sent on that day and time and you will have made someone happy on their special day.
 </p>
 <p align="center">
-  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message.1e302e92.png">
-  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message1.fb3bc684.png">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message.1e302e92.png" width="400" height="250">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message1.fb3bc684.png" width="400" height="250">
 </p>
 
 ---
