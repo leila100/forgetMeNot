@@ -7,11 +7,8 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { addMessage, getCurrentUser, updateMessage, addContact, getContacts } from "../../store/actions/index";
-import loveImage from "../../assets/images/love.jpg";
-import getWellImage from "../../assets/images/getWell.jpg";
-import birthdayImage from "../../assets/images/birthday.jpg";
-import messageImage from "../../assets/images/message.jpg";
-import thankImage from "../../assets/images/thankYou.jpg";
+import { typeImages } from "../../utils/typeImages";
+
 import TopNav from "../navbar/TopNav";
 import {
   NewMessageContainer,
@@ -66,10 +63,12 @@ const NewMessage = ({ history }) => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
+
   const user = useSelector((state) => state.usersReducer).currentUser;
   const contacts = useSelector((state) => state.contactsReducer).contacts;
   const savedMessage = useSelector((state) => state.messagesReducer).currentMessage;
 
+  // State variables for form information
   const [type, setType] = useState("other");
   const [recipientName, setRecipient] = useState("");
   const [recipientEmail, setEmail] = useState("");
@@ -79,14 +78,6 @@ const NewMessage = ({ history }) => {
   const [error, setError] = useState("");
   const [errorText, setErrorText] = useState("");
   const [update, setUpdate] = useState(false);
-
-  const images = {
-    love: loveImage,
-    birthday: birthdayImage,
-    getWell: getWellImage,
-    thank: thankImage,
-    other: messageImage,
-  };
 
   useEffect(() => {
     if (savedMessage.date) {
@@ -113,9 +104,7 @@ const NewMessage = ({ history }) => {
   }, []);
 
   const checkContact = (email) => {
-    console.log("contacts: ", contacts);
     const exist = contacts.find((contact) => contact.contactEmail === email);
-    console.log("exist: ", exist);
     if (exist) return true;
     return false;
   };
@@ -150,7 +139,6 @@ const NewMessage = ({ history }) => {
         addMessage(newMessage)(dispatch);
       }
       // check if recipient in contacts
-      console.log("Check if ", newMessage.recipientEmail, " exists");
       if (!checkContact(newMessage.recipientEmail))
         addContact({ contactName: newMessage.recipientName, contactEmail: newMessage.recipientEmail })(dispatch);
       handleReset();
@@ -187,10 +175,11 @@ const NewMessage = ({ history }) => {
       </Instructions>
       <NewMessageContainer>
         <BtnGroup>
-          {Object.keys(images).map((imageType) => (
+          {Object.keys(typeImages).map((imageType) => (
             <Type key={imageType}>
               <MessageType
-                imageUrl={images[imageType]}
+                type={imageType}
+                imageUrl={typeImages[imageType]}
                 alt={`Image for type ${imageType}`}
                 onClick={() => setType(imageType)}
                 clicked={type === imageType}
@@ -375,7 +364,7 @@ const NewMessage = ({ history }) => {
             <Button onClick={handleSchedule}>Schedule</Button>
           </InputGroup>
           <Preview>
-            <img src={images[type]} alt={`Theme ${type}`} />
+            <img src={typeImages[type]} alt={`Theme ${type}`} />
             <div>
               <div>To: {recipientName}</div>
               {user && <div>From: {user.username}</div>}

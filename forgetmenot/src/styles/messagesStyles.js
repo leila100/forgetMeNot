@@ -1,12 +1,6 @@
 import styled from "styled-components";
 import { flexRow, Container } from "./commonStyles";
 
-import loveImage from "../assets/images/love.jpg";
-import getWellImage from "../assets/images/getWell.jpg";
-import birthdayImage from "../assets/images/birthday.jpg";
-import messageImage from "../assets/images/message.jpg";
-import thankImage from "../assets/images/thankYou.jpg";
-
 export const messageBgColor = "#284243";
 
 export const NewMessageContainer = styled(flexRow)`
@@ -48,14 +42,6 @@ export const Type = styled(flexRow)`
   flex-direction: column;
   margin: 5px 1%;
 `;
-
-const images = {
-  love: loveImage,
-  birthday: birthdayImage,
-  getWell: getWellImage,
-  thank: thankImage,
-  other: messageImage,
-};
 
 export const MessageType = styled.img`
   width: 125px;
