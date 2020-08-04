@@ -49,21 +49,20 @@ export const Type = styled(flexRow)`
   margin: 5px 1%;
 `;
 
+const images = {
+  love: loveImage,
+  birthday: birthdayImage,
+  getWell: getWellImage,
+  thank: thankImage,
+  other: messageImage,
+};
+
 export const MessageType = styled.img`
   width: 125px;
   height: 125px;
   background-size: 100% 100%;
   border: ${(props) => props.clicked && "6px solid #2196f3"};
-  content: url(${(props) =>
-    props.type === "love"
-      ? loveImage
-      : props.type === "birthday"
-      ? birthdayImage
-      : props.type === "getWell"
-      ? getWellImage
-      : props.type === "thank"
-      ? thankImage
-      : messageImage});
+  content: url(${(props) => props.imageUrl});
   cursor: pointer;
   @media (max-width: 700px) {
     width: 100px;

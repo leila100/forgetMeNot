@@ -47,5 +47,10 @@
   },
   "resolutions": {
     "moment": "2.24.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.5.0",
+    "@testing-library/react": "^10.0.4",
+    "@testing-library/user-event": "^10.1.0"
   }
 }
