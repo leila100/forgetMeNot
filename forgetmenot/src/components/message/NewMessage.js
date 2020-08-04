@@ -4,14 +4,11 @@ import { useSelector, useDispatch } from "react-redux";
 import * as moment from "moment";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { addMessage, getCurrentUser, updateMessage, addContact, getContacts } from "../../store/actions/index";
-import loveImage from "../../assets/images/love.jpg";
-import getWellImage from "../../assets/images/getWell.jpg";
-import birthdayImage from "../../assets/images/birthday.jpg";
-import messageImage from "../../assets/images/message.jpg";
-import thankImage from "../../assets/images/thankYou.jpg";
+import { typeImages } from "../../utils/typeImages";
+
 import TopNav from "../navbar/TopNav";
 import {
   NewMessageContainer,
@@ -25,7 +22,7 @@ import {
 } from "../../styles/messagesStyles";
 import { Button, Error, Instructions } from "../../styles/commonStyles";
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   textField: {
     paddingRight: 20,
     marginTop: 20,
@@ -60,14 +57,19 @@ const styles = (theme) => ({
       width: "100%",
     },
   },
-});
+}));
 
-const NewMessage = ({ classes, history }) => {
+const NewMessage = ({ history }) => {
+  const classes = useStyles();
+
   const dispatch = useDispatch();
+
   const user = useSelector((state) => state.usersReducer).currentUser;
   const contacts = useSelector((state) => state.contactsReducer).contacts;
   const savedMessage = useSelector((state) => state.messagesReducer).currentMessage;
-  const [type, setType] = useState("general");
+
+  // State variables for form information
+  const [type, setType] = useState("other");
   const [recipientName, setRecipient] = useState("");
   const [recipientEmail, setEmail] = useState("");
   const [messageText, setText] = useState("");
@@ -83,7 +85,6 @@ const NewMessage = ({ classes, history }) => {
       setTime(moment(savedMessage.date).format("HH:mm"));
     }
     if (savedMessage.type) {
-      console.log("here");
       setType(savedMessage.type);
       setRecipient(savedMessage.recipientName);
       setEmail(savedMessage.recipientEmail);
@@ -103,9 +104,7 @@ const NewMessage = ({ classes, history }) => {
   }, []);
 
   const checkContact = (email) => {
-    console.log("contacts: ", contacts);
     const exist = contacts.find((contact) => contact.contactEmail === email);
-    console.log("exist: ", exist);
     if (exist) return true;
     return false;
   };
@@ -140,7 +139,6 @@ const NewMessage = ({ classes, history }) => {
         addMessage(newMessage)(dispatch);
       }
       // check if recipient in contacts
-      console.log("Check if ", newMessage.recipientEmail, " exists");
       if (!checkContact(newMessage.recipientEmail))
         addContact({ contactName: newMessage.recipientName, contactEmail: newMessage.recipientEmail })(dispatch);
       handleReset();
@@ -160,12 +158,6 @@ const NewMessage = ({ classes, history }) => {
     setUpdate(false);
   };
 
-  var imgSource = messageImage;
-  if (type === "love") imgSource = loveImage;
-  else if (type === "birthday") imgSource = birthdayImage;
-  else if (type === "getWell") imgSource = getWellImage;
-  else if (type === "thank") imgSource = thankImage;
-
   const options = contacts.map((option) => {
     const firstLetter = option.contactName[0].toUpperCase();
     return {
@@ -183,51 +175,18 @@ const NewMessage = ({ classes, history }) => {
       </Instructions>
       <NewMessageContainer>
         <BtnGroup>
-          <Type>
-            <MessageType
-              type='love'
-              alt='Love Message'
-              onClick={() => setType("love")}
-              clicked={type === "love"}
-            ></MessageType>
-            <TypeLabel>Love</TypeLabel>
-          </Type>
-          <Type>
-            <MessageType
-              type='birthday'
-              alt='Birthday Message'
-              onClick={() => setType("birthday")}
-              clicked={type === "birthday"}
-            ></MessageType>
-            <TypeLabel>Birthday</TypeLabel>
-          </Type>
-          <Type>
-            <MessageType
-              type='getWell'
-              alt='Get Well Message'
-              onClick={() => setType("getWell")}
-              clicked={type === "getWell"}
-            ></MessageType>
-            <TypeLabel>Get Well</TypeLabel>
-          </Type>
-          <Type>
-            <MessageType
-              type='message'
-              alt='Message'
-              onClick={() => setType("other")}
-              clicked={type === "other"}
-            ></MessageType>
-            <TypeLabel>General</TypeLabel>
-          </Type>
-          <Type>
-            <MessageType
-              type='thank'
-              alt='Thank You Message'
-              onClick={() => setType("thank")}
-              clicked={type === "thank"}
-            ></MessageType>
-            <TypeLabel>Thank You</TypeLabel>
-          </Type>
+          {Object.keys(typeImages).map((imageType) => (
+            <Type key={imageType}>
+              <MessageType
+                type={imageType}
+                imageUrl={typeImages[imageType]}
+                alt={`Image for type ${imageType}`}
+                onClick={() => setType(imageType)}
+                clicked={type === imageType}
+              ></MessageType>
+              <TypeLabel>Love</TypeLabel>
+            </Type>
+          ))}
         </BtnGroup>
         {error === "update" && errorText && <Error>{errorText}</Error>}
         <MessageContainer>
@@ -405,7 +364,7 @@ const NewMessage = ({ classes, history }) => {
             <Button onClick={handleSchedule}>Schedule</Button>
           </InputGroup>
           <Preview>
-            <img src={imgSource} alt={`Theme ${type}`} />
+            <img src={typeImages[type]} alt={`Theme ${type}`} />
             <div>
               <div>To: {recipientName}</div>
               {user && <div>From: {user.username}</div>}
@@ -418,4 +377,4 @@ const NewMessage = ({ classes, history }) => {
   );
 };
 
-export default withStyles(styles)(NewMessage);
+export default NewMessage;

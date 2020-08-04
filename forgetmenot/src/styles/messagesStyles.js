@@ -1,12 +1,6 @@
 import styled from "styled-components";
 import { flexRow, Container } from "./commonStyles";
 
-import loveImage from "../assets/images/love.jpg";
-import getWellImage from "../assets/images/getWell.jpg";
-import birthdayImage from "../assets/images/birthday.jpg";
-import messageImage from "../assets/images/message.jpg";
-import thankImage from "../assets/images/thankYou.jpg";
-
 export const messageBgColor = "#284243";
 
 export const NewMessageContainer = styled(flexRow)`
@@ -54,16 +48,7 @@ export const MessageType = styled.img`
   height: 125px;
   background-size: 100% 100%;
   border: ${(props) => props.clicked && "6px solid #2196f3"};
-  content: url(${(props) =>
-    props.type === "love"
-      ? loveImage
-      : props.type === "birthday"
-      ? birthdayImage
-      : props.type === "getWell"
-      ? getWellImage
-      : props.type === "thank"
-      ? thankImage
-      : messageImage});
+  content: url(${(props) => props.imageUrl});
   cursor: pointer;
   @media (max-width: 700px) {
     width: 100px;

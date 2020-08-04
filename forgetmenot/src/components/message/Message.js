@@ -3,8 +3,10 @@ import moment from "moment";
 import { withRouter } from "react-router-dom";
 
 import { MessageBox, MessageType, MessageBody, MessageIcon, Info } from "../../styles/messagesStyles";
+import { typeImages } from "../../utils/typeImages";
 
 const Message = ({ message, row, setUpdate, deleteMessage, history }) => {
+  const {type, sent, recipientName, messageText, date, id} = message
   return (
     <MessageBox
       row={row}
@@ -13,16 +15,16 @@ const Message = ({ message, row, setUpdate, deleteMessage, history }) => {
         history.push("/");
       }}
     >
-      <MessageType type={message.type} />
-      <MessageBody sent={message.sent} row={row}>
-        <Info>{message.recipientName}</Info>
-        <p>{message.messageText}</p>
-        <Info>{moment(message.date).format("hh:mm a")}</Info>
+      <MessageType type={type} imageUrl={typeImages[type]} />
+      <MessageBody sent={sent} row={row}>
+        <Info>{recipientName}</Info>
+        <p>{messageText}</p>
+        <Info>{moment(date).format("hh:mm a")}</Info>
         <MessageIcon
           id='delete'
           onClick={e => {
             e.stopPropagation();
-            return deleteMessage(message.id);
+            return deleteMessage(id);
           }}
         >
           <i className='far fa-trash-alt' />
