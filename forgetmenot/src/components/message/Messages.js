@@ -15,28 +15,29 @@ import { Container, Button } from "../../styles/commonStyles";
 import { MessagesContainer } from "../../styles/messagesStyles";
 import MessagesList from "../message/MessagesList";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
-    fontSize: "1.6rem"
+    fontSize: "1.6rem",
   },
   cancel: {
     fontSize: "1.6rem",
-    color: "#4c688f"
+    color: "#4c688f",
   },
   delete: {
     fontSize: "1.6rem",
-    color: "red"
-  }
+    color: "red",
+  },
 });
 
-const Messages = ({ classes }) => {
+const Messages = ({ classes, messages: msg }) => {
+  console.log("***** ", msg);
   const dispatch = useDispatch();
-  const { fetching, adding, updating, messages } = useSelector(state => state.messagesReducer);
+  const { fetching, adding, updating, messages } = useSelector((state) => state.messagesReducer);
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState(null);
 
   // Store all the dates in a unique array
-  const dates = messages.map(message => message.date);
+  const dates = messages.map((message) => message.date);
   const uniqueDates = [];
   const dt = [];
 
@@ -44,7 +45,7 @@ const Messages = ({ classes }) => {
     if (messages.length === 0) fetchMessages()(dispatch);
   }, []);
 
-  const handleClickOpen = messageId => {
+  const handleClickOpen = (messageId) => {
     setOpen(true);
     setId(messageId);
   };
@@ -53,7 +54,7 @@ const Messages = ({ classes }) => {
     setOpen(false);
   };
 
-  dates.forEach(d => {
+  dates.forEach((d) => {
     if (dt.indexOf(moment(d).format("YYYY-MM-DD")) === -1) {
       dt.push(moment(d).format("YYYY-MM-DD"));
       uniqueDates.push(d);
@@ -71,7 +72,7 @@ const Messages = ({ classes }) => {
     handleClose();
   };
 
-  const handleSetUpdate = message => {
+  const handleSetUpdate = (message) => {
     saveCurrentMessage(message)(dispatch);
   };
 
