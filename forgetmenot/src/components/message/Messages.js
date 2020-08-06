@@ -6,10 +6,9 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 
 import requireAuth from "../../hoc/requireAuth";
-import TopNavBar from "../navbar/TopNav";
 import { fetchMessages, deleteMessage, saveCurrentMessage } from "../../store/actions/index";
 import { Container, Button } from "../../styles/commonStyles";
 import { MessagesContainer } from "../../styles/messagesStyles";
@@ -80,7 +79,6 @@ const Messages = ({ messages: msg }) => {
 
   return (
     <>
-      <TopNavBar />
       {(fetching || adding || updating) && <CircularProgress />}
       <Container>
         <MessagesContainer>

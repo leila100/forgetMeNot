@@ -27,14 +27,12 @@ const MessageApp = () => {
   }, [status, response]);
   return (
     <>
-      <TopNav />
-      <Switch>
-        <Route path='/register' component={Register} />
-        <Route path='/login' component={Login} />
-        <Route exact path='/' component={NewMessage} />
-        <Route path='/messages' render={(props) => <Messages messages={messages} {...props} />} />
-        <Route path='/calendar' component={Calendar} />
-      </Switch>
+      <Route exact path='/register' component={Register} />
+      <Route exact path='/login' component={Login} />
+      <Route path='/' component={TopNav} />
+      <Route exact path='/' component={NewMessage} />
+      <Route path='/messages' render={(props) => <Messages messages={messages} {...props} />} />
+      <Route path='/calendar' component={Calendar} />
     </>
   );
 };
