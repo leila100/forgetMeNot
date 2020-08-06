@@ -167,7 +167,7 @@ const NewMessage = ({ history }) => {
   });
   return (
     <>
-      <TopNav />
+      {/* <TopNav /> */}
       <Instructions>
         <p>Select a category.</p>
         <p>Fill up the form and hit Schedule.</p>
