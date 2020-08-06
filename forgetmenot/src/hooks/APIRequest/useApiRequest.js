@@ -1,10 +1,21 @@
 import { useReducer, useCallback } from "react";
 import axios from "axios";
 
-import reducer, { initialState } from "../state/reducer";
-import { fetching, success, error } from "../state/actions";
+import reducer, { initialState } from "./reducer";
+import { fetching, success, error } from "./actions";
 
-const useApiRequest = (endpoint, { verb = "get", params = {} } = {}) => {
+axios.interceptors.request.use(
+  (options) => {
+    options.headers.authorization = localStorage.getItem("jwt");
+    return options;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+const useApiRequest = (endpoint, options = {}) => {
+  const { verb = "get", params = {} } = options;
   const [state, dispatch] = useReducer(reducer, initialState);
   const makeRequest = useCallback(async () => {
     dispatch(fetching());
