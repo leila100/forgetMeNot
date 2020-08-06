@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
+import { CircularProgress } from "@material-ui/core";
 
 import Register from "../auth/Register";
 import Login from "../auth/Login";
@@ -9,6 +10,7 @@ import Messages from "./Messages";
 import Calendar from "../calendar/Calendar";
 import useApiRequest from "../../hooks/APIRequest/useApiRequest";
 import { FETCHING, SUCCESS, ERROR } from "../../hooks/APIRequest/actionTypes";
+import { Loader, Error } from "../../styles/commonStyles";
 
 const MessageApp = () => {
   const [messages, setMessages] = useState([]);
@@ -27,12 +29,22 @@ const MessageApp = () => {
   }, [status, response]);
   return (
     <>
-      <Route exact path='/register' component={Register} />
-      <Route exact path='/login' component={Login} />
-      <Route path='/' component={TopNav} />
-      <Route exact path='/' component={NewMessage} />
-      <Route path='/messages' render={(props) => <Messages messages={messages} {...props} />} />
-      <Route path='/calendar' component={Calendar} />
+      {status === FETCHING && (
+        <Loader>
+          <CircularProgress />
+        </Loader>
+      )}
+      {status === ERROR && <Error>Sorry something went wrong!</Error>}
+      {status === SUCCESS && (
+        <>
+          <Route exact path='/register' component={Register} />
+          <Route exact path='/login' component={Login} />
+          <Route path='/' component={TopNav} />
+          <Route exact path='/' component={NewMessage} />
+          <Route exact path='/messages' render={(props) => <Messages messages={messages} {...props} />} />
+          <Route path='/calendar' component={Calendar} />
+        </>
+      )}
     </>
   );
 };

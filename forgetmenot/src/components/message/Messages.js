@@ -79,7 +79,6 @@ const Messages = ({ messages: msg }) => {
 
   return (
     <>
-      {(fetching || adding || updating) && <CircularProgress />}
       <Container>
         <MessagesContainer>
           <MessagesList dates={uniqueDates} row deleteMessage={handleClickOpen} setUpdate={handleSetUpdate} />

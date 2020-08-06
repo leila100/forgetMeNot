@@ -107,6 +107,7 @@ export const Error = styled.div`
   color: red;
   font-size: 1.7rem;
   text-align: center;
+  margin: 15px 0;
 `;
 
 export const Instructions = styled.div`
@@ -120,4 +121,9 @@ export const Instructions = styled.div`
     width: 95%;
     font-size: 1.5rem;
   }
+`;
+
+export const Loader = styled.div`
+  text-align: center;
+  margin: 10px 0;
 `;

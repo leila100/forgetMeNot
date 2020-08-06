@@ -9,7 +9,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { addMessage, getCurrentUser, updateMessage, addContact, getContacts } from "../../store/actions/index";
 import { typeImages } from "../../utils/typeImages";
 
-import TopNav from "../navbar/TopNav";
 import {
   NewMessageContainer,
   BtnGroup,
@@ -167,7 +166,6 @@ const NewMessage = ({ history }) => {
   });
   return (
     <>
-      {/* <TopNav /> */}
       <Instructions>
         <p>Select a category.</p>
         <p>Fill up the form and hit Schedule.</p>
