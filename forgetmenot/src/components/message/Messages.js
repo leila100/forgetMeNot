@@ -6,7 +6,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, makeStyles } from "@material-ui/core/styles";
 
 import requireAuth from "../../hoc/requireAuth";
 import TopNavBar from "../navbar/TopNav";
@@ -15,7 +15,8 @@ import { Container, Button } from "../../styles/commonStyles";
 import { MessagesContainer } from "../../styles/messagesStyles";
 import MessagesList from "../message/MessagesList";
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
+  // const styles = (theme) => ({
   root: {
     fontSize: "1.6rem",
   },
@@ -27,9 +28,10 @@ const styles = (theme) => ({
     fontSize: "1.6rem",
     color: "red",
   },
-});
+}));
 
-const Messages = ({ classes, messages: msg }) => {
+const Messages = ({ messages: msg }) => {
+  const classes = useStyles();
   console.log("***** ", msg);
   const dispatch = useDispatch();
   const { fetching, adding, updating, messages } = useSelector((state) => state.messagesReducer);
@@ -107,4 +109,4 @@ const Messages = ({ classes, messages: msg }) => {
   );
 };
 
-export default withStyles(styles)(requireAuth(Messages));
+export default requireAuth(Messages);
