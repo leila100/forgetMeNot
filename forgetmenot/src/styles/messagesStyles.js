@@ -168,8 +168,7 @@ export const MessageIcon = styled.div`
   i {
     border-radius: 50%;
     color: red;
-    padding: 10px;
-    font-size: 1.8rem;
+    font-size: 1.3rem;
     :hover {
       background-color: #b87a71;
     }

@@ -27,6 +27,7 @@ const MessageApp = () => {
       setMessages(response.data);
     }
   }, [status, response]);
+  console.log("**** ", status, response);
   return (
     <>
       {status === FETCHING && (
@@ -34,17 +35,12 @@ const MessageApp = () => {
           <CircularProgress />
         </Loader>
       )}
-      {status === ERROR && <Error>Sorry something went wrong!</Error>}
-      {status === SUCCESS && (
-        <>
-          <Route exact path='/register' component={Register} />
-          <Route exact path='/login' component={Login} />
-          <Route path='/' component={TopNav} />
-          <Route exact path='/' component={NewMessage} />
-          <Route exact path='/messages' render={(props) => <Messages messages={messages} {...props} />} />
-          <Route path='/calendar' component={Calendar} />
-        </>
-      )}
+      <Route exact path='/register' component={Register} />
+      <Route exact path='/login' component={Login} />
+      <Route path='/' component={TopNav} />
+      <Route exact path='/' component={NewMessage} />
+      <Route exact path='/messages' render={(props) => <Messages messages={messages} {...props} />} />
+      <Route path='/calendar' component={Calendar} />
     </>
   );
 };

@@ -6,7 +6,8 @@ import { fetching, success, error } from "./actions";
 
 axios.interceptors.request.use(
   (options) => {
-    options.headers.authorization = localStorage.getItem("jwt");
+    const token = localStorage.getItem("jwt");
+    if (token) options.headers.authorization = token;
     return options;
   },
   (error) => {
