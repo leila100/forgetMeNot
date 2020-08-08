@@ -68,6 +68,12 @@ const useStyles = makeStyles({
   icon: {
     fontSize: "1.3rem",
   },
+  sent: {
+    color: "red",
+  },
+  notSent: {
+    color: "black",
+  },
 });
 
 const Messages = ({ messages }) => {
@@ -151,6 +157,7 @@ const Messages = ({ messages }) => {
               <StyledTableCell align='left'>Message</StyledTableCell>
               <StyledTableCell align='left'>Email</StyledTableCell>
               <StyledTableCell align='left'>Type</StyledTableCell>
+              <StyledTableCell align='left'>Sent</StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -175,6 +182,9 @@ const Messages = ({ messages }) => {
                 <StyledTableCell align='left'>{row.recipientEmail}</StyledTableCell>
                 <StyledTableCell align='left'>
                   <img src={typeImages[row.type]} alt={row.type} className={classes.img} />
+                </StyledTableCell>
+                <StyledTableCell align='left'>
+                  <i className={`fa fa-check ${row.sent ? classes.sent : classes.notSent}`} />
                 </StyledTableCell>
               </StyledTableRow>
             ))}
