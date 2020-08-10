@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
-import { CircularProgress } from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -76,30 +75,11 @@ const useStyles = makeStyles({
   },
 });
 
-const Messages = ({ messages }) => {
+const Messages = ({ messages, onDelete }) => {
   const classes = useStyles();
-  const [filteredMessages, setFilteredMessages] = useState([...messages]);
   const dispatch = useDispatch();
-  // const { messages } = useSelector((state) => state.messagesReducer);
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState(null);
-
-  // Store all the dates in a unique array
-  // const dates = messages.map((message) => message.date);
-  // const uniqueDates = [];
-  // const dt = [];
-
-  useEffect(() => {
-    // if (messages.length === 0) fetchMessages()(dispatch);
-    if (messages.length > 0) {
-      setFilteredMessages([...messages]);
-    }
-  }, [messages, setFilteredMessages]);
-
-  filteredMessages.sort((a, b) => {
-    if (moment(new Date(a.date)).isSameOrBefore(new Date(b.date))) return 1;
-    else return -1;
-  });
 
   const handleClickOpen = (messageId) => {
     setOpen(true);
@@ -110,21 +90,8 @@ const Messages = ({ messages }) => {
     setOpen(false);
   };
 
-  // dates.forEach((d) => {
-  //   if (dt.indexOf(moment(d).format("YYYY-MM-DD")) === -1) {
-  //     dt.push(moment(d).format("YYYY-MM-DD"));
-  //     uniqueDates.push(d);
-  //   }
-  // });
-  // if (uniqueDates.length > 0) {
-  //   uniqueDates.sort((a, b) => {
-  //     if (moment(new Date(a)).isSameOrBefore(new Date(b))) return -1;
-  //     else return 1;
-  //   });
-  // }
-
   const deleteMessageHandler = () => {
-    deleteMessage(id)(dispatch);
+    onDelete(id);
     handleClose();
   };
 
@@ -161,7 +128,7 @@ const Messages = ({ messages }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredMessages.map((row) => (
+            {messages.map((row) => (
               <StyledTableRow key={row.id}>
                 <StyledTableCell>
                   <MessageIcon

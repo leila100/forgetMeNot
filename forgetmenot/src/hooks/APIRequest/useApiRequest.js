@@ -18,15 +18,19 @@ axios.interceptors.request.use(
 const useApiRequest = (endpoint, options = {}) => {
   const { verb = "get", params = {} } = options;
   const [state, dispatch] = useReducer(reducer, initialState);
-  const makeRequest = useCallback(async () => {
-    dispatch(fetching());
-    try {
-      const response = await axios[verb](endpoint, params);
-      dispatch(success(response));
-    } catch (e) {
-      dispatch(error(e));
-    }
-  }, [endpoint, verb, params]);
+  const makeRequest = useCallback(
+    async (id) => {
+      dispatch(fetching());
+      try {
+        if (id) endpoint += `/${id}`;
+        const response = await axios[verb](endpoint, params);
+        dispatch(success(response));
+      } catch (e) {
+        dispatch(error(e));
+      }
+    },
+    [endpoint, verb, params]
+  );
   return [state, makeRequest];
 };
 
