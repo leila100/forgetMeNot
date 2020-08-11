@@ -144,7 +144,7 @@ const Messages = ({ messages, onDelete }) => {
                 <StyledTableCell component='th' scope='row'>
                   {row.recipientName}
                 </StyledTableCell>
-                <StyledTableCell align='left'>{moment(row.date).format("DD-MMM-YYYY")}</StyledTableCell>
+                <StyledTableCell align='left'>{moment(row.date).format("DD-MMM-YYYY H:MM")}</StyledTableCell>
                 <StyledTableCell align='left'>{row.messageText}</StyledTableCell>
                 <StyledTableCell align='left'>{row.recipientEmail}</StyledTableCell>
                 <StyledTableCell align='left'>
