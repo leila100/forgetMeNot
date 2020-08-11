@@ -15,34 +15,50 @@ import { Loader, Error } from "../../styles/commonStyles";
 
 const MessageApp = () => {
   const [messages, setMessages] = useState([]);
+  const [currentMessage, setCurrentMessage] = useState();
   const [error, setError] = useState();
   const [messageId, setMessageId] = useState();
+  const [deleteEndpoint, setDeleteEndpoint] = useState();
   const endpoint = `${process.env.REACT_APP_API_URL}/api/reminders`;
   const [{ status, response }, fetchRequest] = useApiRequest(endpoint, { verb: "get" });
-  const [{ status: deleteStatus }, deleteRequest] = useApiRequest(endpoint, {
-    verb: "delete",
-  });
+  const [{ status: deleteStatus }, deleteRequest] = useApiRequest(deleteEndpoint, { verb: "delete" });
 
   useEffect(() => {
     fetchRequest();
-  }, []);
+  }, [fetchRequest]);
+
+  useEffect(() => {
+    if (deleteEndpoint) {
+      deleteRequest();
+      setDeleteEndpoint();
+    }
+  }, [deleteEndpoint, deleteRequest]);
+
+  useEffect(() => {
+    if (deleteStatus === ERROR) setError("There was a problem!");
+    if (deleteStatus === SUCCESS) {
+      setMessages((prevMessages) => prevMessages.filter((message) => message.id !== messageId));
+      setError();
+    }
+  }, [deleteStatus]);
 
   useEffect(() => {
     if (status === SUCCESS) {
       setMessages(response.data);
     }
-    if (status === ERROR || deleteStatus === ERROR) setError("There was a problem!");
+    if (status === ERROR) setError("There was a problem!");
     else setError();
-    if (deleteStatus === SUCCESS) {
-      const updatedMessages = messages.filter((message) => message.id !== messageId);
-      setMessages(updatedMessages);
-    }
-  }, [status, response, deleteStatus, messageId, messages]);
+  }, [status, response]);
 
-  const deleteHandler = (id) => {
+  const deleteHandler = async (id) => {
+    setDeleteEndpoint(endpoint + `/${id}`);
     setMessageId(id);
-    deleteRequest(id);
   };
+
+  const messageClickHandler = (message) => {
+    setCurrentMessage(message);
+  };
+
   const filteredMessages = messages.sort((a, b) => {
     if (moment(new Date(a.date)).isSameOrBefore(new Date(b.date))) return 1;
     else return -1;
@@ -58,11 +74,18 @@ const MessageApp = () => {
       <Route exact path='/register' component={Register} />
       <Route exact path='/login' component={Login} />
       <Route path='/' component={TopNav} />
-      <Route exact path='/' component={NewMessage} />
+      <Route exact path='/' render={(props) => <NewMessage currentMessage={currentMessage} {...props} />} />
       <Route
         exact
         path='/messages'
-        render={(props) => <Messages messages={filteredMessages} onDelete={deleteHandler} {...props} />}
+        render={(props) => (
+          <Messages
+            messages={filteredMessages}
+            onDelete={deleteHandler}
+            {...props}
+            onMessageClick={messageClickHandler}
+          />
+        )}
       />
       <Route path='/calendar' component={Calendar} />
     </>

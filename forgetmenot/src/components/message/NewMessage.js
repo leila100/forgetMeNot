@@ -58,7 +58,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NewMessage = ({ history }) => {
+const NewMessage = ({ history, currentMessage }) => {
+  console.log("current message: ", currentMessage);
   const classes = useStyles();
 
   const dispatch = useDispatch();

@@ -1,12 +1,11 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
+
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -16,10 +15,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 import requireAuth from "../../hoc/requireAuth";
-import { fetchMessages, deleteMessage, saveCurrentMessage } from "../../store/actions/index";
-import { Container, Button } from "../../styles/commonStyles";
-import { MessagesContainer, MessageIcon } from "../../styles/messagesStyles";
-import MessagesList from "../message/MessagesList";
+import { Button } from "../../styles/commonStyles";
+import { MessageIcon } from "../../styles/messagesStyles";
 import { typeImages } from "../../utils/typeImages";
 
 const StyledTableCell = withStyles((theme) => ({
@@ -75,9 +72,8 @@ const useStyles = makeStyles({
   },
 });
 
-const Messages = ({ messages, onDelete }) => {
+const Messages = ({ messages, onDelete, onMessageClick, history }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState(null);
 
@@ -95,23 +91,13 @@ const Messages = ({ messages, onDelete }) => {
     handleClose();
   };
 
-  // const handleSetUpdate = (message) => {
-  //   saveCurrentMessage(message)(dispatch);
-  // };
+  const onClickHandler = (message) => {
+    onMessageClick(message);
+    history.push("/");
+  };
 
   return (
     <>
-      {/* <Container>
-        <MessagesContainer>
-          <MessagesList
-            dates={uniqueDates}
-            row
-            deleteMessage={handleClickOpen}
-            setUpdate={handleSetUpdate}
-            filteredMessages={filteredMessages}
-          />
-        </MessagesContainer>
-      </Container> */}
       <TableContainer component={Paper} className={classes.container}>
         <Table className={classes.table} size='small' aria-label='a dense table'>
           <TableHead>
@@ -129,7 +115,7 @@ const Messages = ({ messages, onDelete }) => {
           </TableHead>
           <TableBody>
             {messages.map((row) => (
-              <StyledTableRow key={row.id}>
+              <StyledTableRow key={row.id} onClick={() => onClickHandler(row)}>
                 <StyledTableCell>
                   <MessageIcon
                     id='delete'
@@ -144,7 +130,7 @@ const Messages = ({ messages, onDelete }) => {
                 <StyledTableCell component='th' scope='row'>
                   {row.recipientName}
                 </StyledTableCell>
-                <StyledTableCell align='left'>{moment(row.date).format("DD-MMM-YYYY H:MM")}</StyledTableCell>
+                <StyledTableCell align='left'>{moment(row.date).format("DD-MMM-YYYY HH:mm")}</StyledTableCell>
                 <StyledTableCell align='left'>{row.messageText}</StyledTableCell>
                 <StyledTableCell align='left'>{row.recipientEmail}</StyledTableCell>
                 <StyledTableCell align='left'>
