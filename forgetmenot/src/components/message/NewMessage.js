@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NewMessage = ({ history, currentMessage }) => {
+const NewMessage = ({ history, currentMessage, onAdd }) => {
   console.log("current message: ", currentMessage);
   const classes = useStyles();
 
@@ -136,7 +136,7 @@ const NewMessage = ({ history, currentMessage }) => {
       setErrorText("");
       if (update) updateMessage(savedMessage.id, newMessage)(dispatch);
       else {
-        addMessage(newMessage)(dispatch);
+        onAdd(newMessage);
       }
       // check if recipient in contacts
       if (!checkContact(newMessage.recipientEmail))

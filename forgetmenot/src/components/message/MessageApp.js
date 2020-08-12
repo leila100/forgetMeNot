@@ -19,8 +19,13 @@ const MessageApp = () => {
   const [error, setError] = useState();
   const [messageId, setMessageId] = useState();
   const [deleteEndpoint, setDeleteEndpoint] = useState();
+  // const [update, setUpdate] = useState(false)
   const endpoint = `${process.env.REACT_APP_API_URL}/api/reminders`;
   const [{ status, response }, fetchRequest] = useApiRequest(endpoint, { verb: "get" });
+  const [{ status: addStatus, response: addResponse }, addRequest] = useApiRequest(endpoint, {
+    verb: "post",
+    params: currentMessage,
+  });
   const [{ status: deleteStatus }, deleteRequest] = useApiRequest(deleteEndpoint, { verb: "delete" });
 
   useEffect(() => {
@@ -43,14 +48,34 @@ const MessageApp = () => {
   }, [deleteStatus]);
 
   useEffect(() => {
+    if (currentMessage) {
+      addRequest();
+    }
+  }, [currentMessage, addRequest]);
+
+  useEffect(() => {
+    if (addStatus === SUCCESS) {
+      setMessages((prevMessages) => [addResponse.data, ...prevMessages]);
+      setCurrentMessage();
+      setError();
+    }
+    if (addStatus === ERROR) {
+      setError("There was a problem!");
+    }
+  }, [addStatus, addResponse]);
+
+  useEffect(() => {
     if (status === SUCCESS) {
       setMessages(response.data);
+      setError();
     }
-    if (status === ERROR) setError("There was a problem!");
-    else setError();
+    if (status === ERROR) {
+      setError("There was a problem!");
+      console.log(response);
+    }
   }, [status, response]);
 
-  const deleteHandler = async (id) => {
+  const deleteHandler = (id) => {
     setDeleteEndpoint(endpoint + `/${id}`);
     setMessageId(id);
   };
@@ -59,7 +84,11 @@ const MessageApp = () => {
     setCurrentMessage(message);
   };
 
-  const filteredMessages = messages.sort((a, b) => {
+  const addHandler = (message) => {
+    setCurrentMessage(message);
+  };
+
+  const sortedMessages = messages.sort((a, b) => {
     if (moment(new Date(a.date)).isSameOrBefore(new Date(b.date))) return 1;
     else return -1;
   });
@@ -74,13 +103,17 @@ const MessageApp = () => {
       <Route exact path='/register' component={Register} />
       <Route exact path='/login' component={Login} />
       <Route path='/' component={TopNav} />
-      <Route exact path='/' render={(props) => <NewMessage currentMessage={currentMessage} {...props} />} />
+      <Route
+        exact
+        path='/'
+        render={(props) => <NewMessage currentMessage={currentMessage} onAdd={addHandler} {...props} />}
+      />
       <Route
         exact
         path='/messages'
         render={(props) => (
           <Messages
-            messages={filteredMessages}
+            messages={sortedMessages}
             onDelete={deleteHandler}
             {...props}
             onMessageClick={messageClickHandler}

@@ -35,6 +35,7 @@ const StyledTableRow = withStyles((theme) => ({
     "&:nth-of-type(odd)": {
       backgroundColor: theme.palette.action.hover,
     },
+    cursor: "pointer",
   },
 }))(TableRow);
 
@@ -62,7 +63,7 @@ const useStyles = makeStyles({
     width: "20px",
   },
   icon: {
-    fontSize: "1.3rem",
+    fontSize: "1.5rem",
   },
   sent: {
     color: "red",
