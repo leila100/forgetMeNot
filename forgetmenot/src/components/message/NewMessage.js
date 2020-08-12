@@ -183,7 +183,7 @@ const NewMessage = ({ history, currentMessage, onAdd }) => {
                 onClick={() => setType(imageType)}
                 clicked={type === imageType}
               ></MessageType>
-              <TypeLabel>Love</TypeLabel>
+              <TypeLabel>{imageType}</TypeLabel>
             </Type>
           ))}
         </BtnGroup>
