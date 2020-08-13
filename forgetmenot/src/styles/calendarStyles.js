@@ -4,7 +4,7 @@ import { flexRow } from "./commonStyles";
 
 export const CalendarPage = styled(flexRow)`
   width: 95%;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 20px auto;
   @media (max-width: 750px) {
     flex-direction: column;
@@ -19,7 +19,7 @@ export const CalendarWrapper = styled(flexRow)`
 `;
 
 export const Cal = styled.div`
-  width: 95%;
+  width: 50%;
   margin: auto;
   background-color: white;
   a {
@@ -50,7 +50,7 @@ export const WeekCal = styled(Cal)`
 `;
 
 export const Day = styled.div`
-  padding-left: 20px;
+  padding: 0 10px;
   text-align: center;
   width: 95%;
   background-color: #d7d7d7;
