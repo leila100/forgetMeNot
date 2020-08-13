@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import moment from "moment";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -73,7 +73,11 @@ const useStyles = makeStyles({
   },
 });
 
-const Messages = ({ messages, onDelete, onMessageClick, history }) => {
+const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => {
+  useEffect(() => {
+    setError();
+  }, [setError]);
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState(null);

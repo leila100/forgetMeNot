@@ -151,6 +151,7 @@ const MessageApp = () => {
             onDelete={deleteHandler}
             {...props}
             onMessageClick={messageClickHandler}
+            setError={setError}
           />
         )}
       />
