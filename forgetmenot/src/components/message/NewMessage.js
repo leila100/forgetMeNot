@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { getCurrentUser, addContact, getContacts } from "../../store/actions/index";
+import { getCurrentUser } from "../../store/actions/index";
 import { typeImages } from "../../utils/typeImages";
 
 import {
@@ -64,7 +64,6 @@ const NewMessage = ({ history, savedMessage = {}, onAdd, contacts = {} }) => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.usersReducer).currentUser;
-  // const contacts = useSelector((state) => state.contactsReducer).contacts;
 
   // State variables for form information
   const [type, setType] = useState("other");
@@ -90,16 +89,6 @@ const NewMessage = ({ history, savedMessage = {}, onAdd, contacts = {} }) => {
       setTime(moment(savedMessage.date).format("HH:mm"));
     }
   }, [savedMessage]);
-
-  // useEffect(() => {
-  //   if (contacts.length === 0) getContacts()(dispatch);
-  // }, []);
-
-  const checkContact = (email) => {
-    const exist = contacts.find((contact) => contact.contactEmail === email);
-    if (exist) return true;
-    return false;
-  };
 
   const handleSchedule = () => {
     const token = localStorage.getItem("jwt");
@@ -127,9 +116,6 @@ const NewMessage = ({ history, savedMessage = {}, onAdd, contacts = {} }) => {
       setError("");
       setErrorText("");
       onAdd(newMessage);
-      // check if recipient in contacts
-      if (!checkContact(newMessage.recipientEmail))
-        addContact({ contactName: newMessage.recipientName, contactEmail: newMessage.recipientEmail })(dispatch);
       handleReset();
       history.push("/messages");
     }

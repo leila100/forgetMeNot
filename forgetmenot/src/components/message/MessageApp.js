@@ -17,6 +17,7 @@ const MessageApp = () => {
   const [messages, setMessages] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [currentMessage, setCurrentMessage] = useState();
+  const [currentContact, setCurrentContact] = useState();
   const [updateMessage, setUpdateMessage] = useState();
   const [error, setError] = useState();
   const [messageId, setMessageId] = useState();
@@ -36,6 +37,14 @@ const MessageApp = () => {
     verb: "post",
     params: currentMessage,
   });
+
+  const [{ status: addContactStatus, response: addContactResponse }, addContactRequest] = useApiRequest(
+    contactsEndpoint,
+    {
+      verb: "post",
+      params: currentContact,
+    }
+  );
 
   const [{ status: updateStatus, response: updateResponse }, updateRequest] = useApiRequest(updateEndpoint, {
     verb: "put",
@@ -97,15 +106,32 @@ const MessageApp = () => {
   }, [currentMessage, addRequest, updateRequest, update]);
 
   useEffect(() => {
+    if (currentContact) {
+      addContactRequest();
+    }
+  }, [currentContact, addContactRequest]);
+
+  useEffect(() => {
     if (addStatus === SUCCESS) {
       setMessages((prevMessages) => [addResponse.data, ...prevMessages]);
       setCurrentMessage();
       setError();
     }
     if (addStatus === ERROR) {
-      setError("There was a problem!");
+      setError("There was a problem adding the new message!");
     }
   }, [addStatus, addResponse]);
+
+  useEffect(() => {
+    if (addContactStatus === SUCCESS) {
+      setContacts((prevContacts) => [addContactResponse.data, ...prevContacts]);
+      setCurrentContact();
+      setError();
+    }
+    if (addContactStatus === ERROR) {
+      setError("There was a problem adding the new contact!");
+    }
+  }, [addContactStatus, addContactResponse]);
 
   useEffect(() => {
     if (updateStatus === SUCCESS) {
@@ -141,7 +167,17 @@ const MessageApp = () => {
     }
   };
 
+  const checkContact = (email) => {
+    const exist = contacts.find((contact) => contact.contactEmail === email);
+    if (exist) return true;
+    return false;
+  };
+
   const addHandler = (message) => {
+    // check if recipient in contacts
+    if (!checkContact(message.recipientEmail)) {
+      setCurrentContact({ contactName: message.recipientName, contactEmail: message.recipientEmail });
+    }
     setCurrentMessage(message);
   };
 
