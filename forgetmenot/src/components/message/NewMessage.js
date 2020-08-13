@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { addMessage, getCurrentUser, updateMessage, addContact, getContacts } from "../../store/actions/index";
+import { getCurrentUser, addContact, getContacts } from "../../store/actions/index";
 import { typeImages } from "../../utils/typeImages";
 
 import {
@@ -58,15 +58,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NewMessage = ({ history, currentMessage, onAdd }) => {
-  console.log("current message: ", currentMessage);
+const NewMessage = ({ history, savedMessage = {}, onAdd }) => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.usersReducer).currentUser;
   const contacts = useSelector((state) => state.contactsReducer).contacts;
-  const savedMessage = useSelector((state) => state.messagesReducer).currentMessage;
 
   // State variables for form information
   const [type, setType] = useState("other");
@@ -77,7 +75,6 @@ const NewMessage = ({ history, currentMessage, onAdd }) => {
   const [time, setTime] = useState("00:00");
   const [error, setError] = useState("");
   const [errorText, setErrorText] = useState("");
-  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
     if (savedMessage.date) {
@@ -91,11 +88,6 @@ const NewMessage = ({ history, currentMessage, onAdd }) => {
       setText(savedMessage.messageText);
       setNewDate(moment(savedMessage.date).format("YYYY-MM-DD"));
       setTime(moment(savedMessage.date).format("HH:mm"));
-      if (savedMessage.sent) {
-        setErrorText("This message was already sent!");
-        setError("update");
-        setUpdate(false);
-      } else setUpdate(true);
     }
   }, [savedMessage]);
 
@@ -134,10 +126,7 @@ const NewMessage = ({ history, currentMessage, onAdd }) => {
     } else {
       setError("");
       setErrorText("");
-      if (update) updateMessage(savedMessage.id, newMessage)(dispatch);
-      else {
-        onAdd(newMessage);
-      }
+      onAdd(newMessage);
       // check if recipient in contacts
       if (!checkContact(newMessage.recipientEmail))
         addContact({ contactName: newMessage.recipientName, contactEmail: newMessage.recipientEmail })(dispatch);
@@ -155,7 +144,6 @@ const NewMessage = ({ history, currentMessage, onAdd }) => {
     setType("other");
     setNewDate(moment(newDate).format("YYYY-MM-DD"));
     setTime("00:00");
-    setUpdate(false);
   };
 
   const options = contacts.map((option) => {

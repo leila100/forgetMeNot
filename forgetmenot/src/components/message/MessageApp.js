@@ -16,14 +16,20 @@ import { Loader, Error } from "../../styles/commonStyles";
 const MessageApp = () => {
   const [messages, setMessages] = useState([]);
   const [currentMessage, setCurrentMessage] = useState();
+  const [updateMessage, setUpdateMessage] = useState();
   const [error, setError] = useState();
   const [messageId, setMessageId] = useState();
   const [deleteEndpoint, setDeleteEndpoint] = useState();
-  // const [update, setUpdate] = useState(false)
+  const [updateEndpoint, setUpdateEndpoint] = useState();
+  const [update, setUpdate] = useState(false);
   const endpoint = `${process.env.REACT_APP_API_URL}/api/reminders`;
   const [{ status, response }, fetchRequest] = useApiRequest(endpoint, { verb: "get" });
   const [{ status: addStatus, response: addResponse }, addRequest] = useApiRequest(endpoint, {
     verb: "post",
+    params: currentMessage,
+  });
+  const [{ status: updateStatus, response: updateResponse }, updateRequest] = useApiRequest(updateEndpoint, {
+    verb: "put",
     params: currentMessage,
   });
   const [{ status: deleteStatus }, deleteRequest] = useApiRequest(deleteEndpoint, { verb: "delete" });
@@ -48,10 +54,13 @@ const MessageApp = () => {
   }, [deleteStatus]);
 
   useEffect(() => {
-    if (currentMessage) {
+    if (currentMessage && !update) {
       addRequest();
     }
-  }, [currentMessage, addRequest]);
+    if (currentMessage && update) {
+      updateRequest();
+    }
+  }, [currentMessage, addRequest, updateRequest, update]);
 
   useEffect(() => {
     if (addStatus === SUCCESS) {
@@ -63,6 +72,23 @@ const MessageApp = () => {
       setError("There was a problem!");
     }
   }, [addStatus, addResponse]);
+
+  useEffect(() => {
+    if (updateStatus === SUCCESS) {
+      console.log("current message: ", updateMessage);
+      const updatedMessages = [...messages];
+      const index = updatedMessages.findIndex((message) => message.id === updateMessage.id);
+      updatedMessages[index] = { ...updatedMessages[index], ...currentMessage };
+      setMessages(updatedMessages);
+      setCurrentMessage();
+      setUpdateMessage();
+      setUpdate(false);
+      setError();
+    }
+    if (updateStatus === ERROR) {
+      setError("There was a problem!");
+    }
+  }, [updateStatus, updateResponse]);
 
   useEffect(() => {
     if (status === SUCCESS) {
@@ -81,7 +107,15 @@ const MessageApp = () => {
   };
 
   const messageClickHandler = (message) => {
-    setCurrentMessage(message);
+    if (!message.sent) {
+      setUpdateEndpoint(endpoint + `/${message.id}`);
+      setUpdate(true);
+      setUpdateMessage(message);
+      setError();
+    } else {
+      setUpdateMessage();
+      setError("Sorry, your message was already sent.");
+    }
   };
 
   const addHandler = (message) => {
@@ -99,14 +133,14 @@ const MessageApp = () => {
           <CircularProgress />
         </Loader>
       )}
-      {deleteStatus === ERROR && <Error>{error}</Error>}
+      {error && <Error>{error}</Error>}
       <Route exact path='/register' component={Register} />
       <Route exact path='/login' component={Login} />
       <Route path='/' component={TopNav} />
       <Route
         exact
         path='/'
-        render={(props) => <NewMessage currentMessage={currentMessage} onAdd={addHandler} {...props} />}
+        render={(props) => <NewMessage savedMessage={updateMessage} onAdd={addHandler} {...props} />}
       />
       <Route
         exact
