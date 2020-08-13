@@ -216,7 +216,18 @@ const MessageApp = () => {
           />
         )}
       />
-      <Route path='/calendar' component={Calendar} />
+      <Route
+        path='/calendar'
+        render={(props) => (
+          <Calendar
+            messages={messages}
+            onDelete={deleteHandler}
+            {...props}
+            onMessageClick={messageClickHandler}
+            setError={setError}
+          />
+        )}
+      />
     </>
   );
 };

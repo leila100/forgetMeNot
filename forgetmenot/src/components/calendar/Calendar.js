@@ -1,44 +1,32 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
+
 import moment from "moment";
 import "@fullcalendar/core/main.css";
 import "@fullcalendar/daygrid/main.css";
 
 import requireAuth from "../../hoc/requireAuth";
-import TopNavBar from "../navbar/TopNav";
-import { fetchMessages, deleteMessage, saveCurrentMessage } from "../../store/actions/index";
 
 import { CalendarPage, Cal, WeekCal, Day } from "../../styles/calendarStyles";
 import { Button } from "../../styles/commonStyles";
-import MessagesList from "../message/MessagesList";
+import Messages from "../message/Messages";
 
-const styles = (theme) => ({
-  root: {
-    fontSize: "1.7rem",
-  },
-});
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     fontSize: "1.7rem",
+//   },
+// }));
 
-const Calendar = ({ history, classes }) => {
-  const dispatch = useDispatch();
-  const { messages } = useSelector((state) => state.messagesReducer);
+const Calendar = ({ history, messages, onDelete, onMessageClick, setError }) => {
+  // const classes = useStyles();
 
   const [date, setDate] = useState(Date.now());
+  const [filteredMessages, setFilteredMessages] = useState();
   const [events, setEvents] = useState([]);
-  const [open, setOpen] = React.useState(false);
-  const [id, setId] = React.useState(null);
-
-  useEffect(() => {
-    fetchMessages()(dispatch);
-  }, [dispatch]);
 
   useEffect(() => {
     setEvents(
@@ -49,43 +37,31 @@ const Calendar = ({ history, classes }) => {
         };
       })
     );
+    const msgs = messages.filter(
+      (message) => moment(message.date).format("YYYY-MM-DD") === moment(Date.now()).format("YYYY-MM-DD")
+    );
+    setFilteredMessages(msgs);
   }, [messages]);
 
   const pickDate = (arg) => {
     const datePicked = arg.date;
+    const msgs = messages.filter(
+      (message) => moment(message.date).format("YYYY-MM-DD") === moment(datePicked).format("YYYY-MM-DD")
+    );
     setDate(datePicked);
-  };
-
-  const deleteMessageHandler = () => {
-    deleteMessage(id)(dispatch);
-    handleClose();
-  };
-
-  const handleSetUpdate = (message) => {
-    saveCurrentMessage(message)(dispatch);
+    setFilteredMessages(msgs);
   };
 
   const handleNewMessage = () => {
     const message = {
       date: moment(new Date(date)).format("YYYY-MM-DD"),
     };
-    handleSetUpdate(message);
+    onMessageClick(message);
     history.push("/");
   };
 
-  const handleClickOpen = (messageId) => {
-    setOpen(true);
-    setId(messageId);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const dates = [date];
   return (
     <>
-      <TopNavBar />
       <CalendarPage>
         <Cal>
           <FullCalendar
@@ -122,29 +98,17 @@ const Calendar = ({ history, classes }) => {
         </WeekCal>
         <Day>
           <Button onClick={handleNewMessage}>Schedule a message</Button>
-          <MessagesList dates={dates} row deleteMessage={handleClickOpen} setUpdate={handleSetUpdate} />
+          <Messages
+            messages={filteredMessages}
+            onDelete={onDelete}
+            onMessageClick={onMessageClick}
+            setError={setError}
+            history={history}
+          />
         </Day>
       </CalendarPage>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby='alert-dialog-title'
-        aria-describedby='alert-dialog-description'
-      >
-        <DialogContent>
-          <DialogContentText id='alert-dialog-description' classes={{ root: classes.root }}>
-            Are you sure you want to delete this message?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={deleteMessageHandler} autoFocus delete>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 };
 
-export default withStyles(styles)(requireAuth(Calendar));
+export default requireAuth(Calendar);

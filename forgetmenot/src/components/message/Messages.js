@@ -119,33 +119,34 @@ const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => 
             </TableRow>
           </TableHead>
           <TableBody>
-            {messages.map((row) => (
-              <StyledTableRow key={row.id} onClick={() => onClickHandler(row)}>
-                <StyledTableCell>
-                  <MessageIcon
-                    id='delete'
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleClickOpen(row.id);
-                    }}
-                  >
-                    <i className='far fa-trash-alt' />
-                  </MessageIcon>
-                </StyledTableCell>
-                <StyledTableCell component='th' scope='row'>
-                  {row.recipientName}
-                </StyledTableCell>
-                <StyledTableCell align='left'>{moment(row.date).format("DD-MMM-YYYY HH:mm")}</StyledTableCell>
-                <StyledTableCell align='left'>{row.messageText}</StyledTableCell>
-                <StyledTableCell align='left'>{row.recipientEmail}</StyledTableCell>
-                <StyledTableCell align='left'>
-                  <img src={typeImages[row.type]} alt={row.type} className={classes.img} />
-                </StyledTableCell>
-                <StyledTableCell align='left'>
-                  <i className={`fa fa-check ${row.sent ? classes.sent : classes.notSent}`} />
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+            {messages &&
+              messages.map((row) => (
+                <StyledTableRow key={row.id} onClick={() => onClickHandler(row)}>
+                  <StyledTableCell>
+                    <MessageIcon
+                      id='delete'
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleClickOpen(row.id);
+                      }}
+                    >
+                      <i className='far fa-trash-alt' />
+                    </MessageIcon>
+                  </StyledTableCell>
+                  <StyledTableCell component='th' scope='row'>
+                    {row.recipientName}
+                  </StyledTableCell>
+                  <StyledTableCell align='left'>{moment(row.date).format("DD-MMM-YYYY HH:mm")}</StyledTableCell>
+                  <StyledTableCell align='left'>{row.messageText}</StyledTableCell>
+                  <StyledTableCell align='left'>{row.recipientEmail}</StyledTableCell>
+                  <StyledTableCell align='left'>
+                    <img src={typeImages[row.type]} alt={row.type} className={classes.img} />
+                  </StyledTableCell>
+                  <StyledTableCell align='left'>
+                    <i className={`fa fa-check ${row.sent ? classes.sent : classes.notSent}`} />
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
