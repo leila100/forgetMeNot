@@ -15,6 +15,7 @@ import { Loader, Error } from "../../styles/commonStyles";
 
 const MessageApp = () => {
   const [messages, setMessages] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const [currentMessage, setCurrentMessage] = useState();
   const [updateMessage, setUpdateMessage] = useState();
   const [error, setError] = useState();
@@ -23,20 +24,53 @@ const MessageApp = () => {
   const [updateEndpoint, setUpdateEndpoint] = useState();
   const [update, setUpdate] = useState(false);
   const endpoint = `${process.env.REACT_APP_API_URL}/api/reminders`;
+  const contactsEndpoint = `${process.env.REACT_APP_API_URL}/api/contacts`;
+
   const [{ status, response }, fetchRequest] = useApiRequest(endpoint, { verb: "get" });
+  const [{ status: contactsStatus, response: contactsResponse }, fetchContactsRequest] = useApiRequest(
+    contactsEndpoint,
+    { verb: "get" }
+  );
+
   const [{ status: addStatus, response: addResponse }, addRequest] = useApiRequest(endpoint, {
     verb: "post",
     params: currentMessage,
   });
+
   const [{ status: updateStatus, response: updateResponse }, updateRequest] = useApiRequest(updateEndpoint, {
     verb: "put",
     params: currentMessage,
   });
+
   const [{ status: deleteStatus }, deleteRequest] = useApiRequest(deleteEndpoint, { verb: "delete" });
 
   useEffect(() => {
+    // TODO: fetch only when user exists/changes
     fetchRequest();
-  }, [fetchRequest]);
+    fetchContactsRequest();
+  }, [fetchRequest, fetchContactsRequest]);
+
+  useEffect(() => {
+    if (status === SUCCESS) {
+      setMessages(response.data);
+      setError();
+    }
+    if (status === ERROR) {
+      // setError("There was a problem getting your previous messages. Please login");
+      console.log(response);
+    }
+  }, [status, response]);
+
+  useEffect(() => {
+    if (contactsStatus === SUCCESS) {
+      setContacts(contactsResponse.data);
+      setError();
+    }
+    if (contactsStatus === ERROR) {
+      // setError("There was a problem getting the contacts. Please login");
+      console.log(contactsResponse);
+    }
+  }, [contactsStatus, contactsResponse]);
 
   useEffect(() => {
     if (deleteEndpoint) {
@@ -90,17 +124,6 @@ const MessageApp = () => {
     }
   }, [updateStatus, updateResponse]);
 
-  useEffect(() => {
-    if (status === SUCCESS) {
-      setMessages(response.data);
-      setError();
-    }
-    if (status === ERROR) {
-      setError("There was a problem!");
-      console.log(response);
-    }
-  }, [status, response]);
-
   const deleteHandler = (id) => {
     setDeleteEndpoint(endpoint + `/${id}`);
     setMessageId(id);
@@ -140,7 +163,9 @@ const MessageApp = () => {
       <Route
         exact
         path='/'
-        render={(props) => <NewMessage savedMessage={updateMessage} onAdd={addHandler} {...props} />}
+        render={(props) => (
+          <NewMessage savedMessage={updateMessage} onAdd={addHandler} contacts={contacts} {...props} />
+        )}
       />
       <Route
         exact

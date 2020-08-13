@@ -58,13 +58,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NewMessage = ({ history, savedMessage = {}, onAdd }) => {
+const NewMessage = ({ history, savedMessage = {}, onAdd, contacts = {} }) => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.usersReducer).currentUser;
-  const contacts = useSelector((state) => state.contactsReducer).contacts;
+  // const contacts = useSelector((state) => state.contactsReducer).contacts;
 
   // State variables for form information
   const [type, setType] = useState("other");
@@ -91,9 +91,9 @@ const NewMessage = ({ history, savedMessage = {}, onAdd }) => {
     }
   }, [savedMessage]);
 
-  useEffect(() => {
-    if (contacts.length === 0) getContacts()(dispatch);
-  }, []);
+  // useEffect(() => {
+  //   if (contacts.length === 0) getContacts()(dispatch);
+  // }, []);
 
   const checkContact = (email) => {
     const exist = contacts.find((contact) => contact.contactEmail === email);
