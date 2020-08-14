@@ -6,7 +6,8 @@ import { fetching, success, error } from "./actions";
 
 axios.interceptors.request.use(
   (options) => {
-    options.headers.authorization = localStorage.getItem("jwt");
+    const token = localStorage.getItem("jwt");
+    if (token) options.headers.authorization = token;
     return options;
   },
   (error) => {
@@ -14,8 +15,8 @@ axios.interceptors.request.use(
   }
 );
 
-const useApiRequest = (endpoint, options = {}) => {
-  const { verb = "get", params = {} } = options;
+const useApiRequest = (endpoint, options) => {
+  const { verb = "get", params } = options;
   const [state, dispatch] = useReducer(reducer, initialState);
   const makeRequest = useCallback(async () => {
     dispatch(fetching());

@@ -1,21 +1,53 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
-import { CircularProgress } from "@material-ui/core";
+
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import { withStyles } from "@material-ui/core/styles";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 
 import requireAuth from "../../hoc/requireAuth";
-import TopNavBar from "../navbar/TopNav";
-import { fetchMessages, deleteMessage, saveCurrentMessage } from "../../store/actions/index";
-import { Container, Button } from "../../styles/commonStyles";
-import { MessagesContainer } from "../../styles/messagesStyles";
-import MessagesList from "../message/MessagesList";
+import { Button } from "../../styles/commonStyles";
+import { MessageIcon } from "../../styles/messagesStyles";
+import { typeImages } from "../../utils/typeImages";
 
-const styles = (theme) => ({
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: "#4C688F",
+    color: theme.palette.common.white,
+    fontSize: 14,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 13,
+      padding: 4,
+    },
+  },
+  body: {
+    fontSize: 14,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 13,
+      padding: 4,
+    },
+  },
+}))(TableCell);
+
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    cursor: "pointer",
+  },
+}))(TableRow);
+
+const useStyles = makeStyles((theme) => ({
   root: {
     fontSize: "1.6rem",
   },
@@ -27,23 +59,41 @@ const styles = (theme) => ({
     fontSize: "1.6rem",
     color: "red",
   },
-});
+  table: {
+    minWidth: 500,
+  },
+  container: {
+    maxWidth: 1500,
+    margin: "auto",
+    marginTop: "50px",
+  },
+  img: {
+    width: "20px",
+  },
+  icon: {
+    fontSize: "1.5rem",
+  },
+  sent: {
+    color: "red",
+  },
+  notSent: {
+    color: "black",
+  },
+  invisible: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+}));
 
-const Messages = ({ classes, messages: msg }) => {
-  console.log("***** ", msg);
-  const dispatch = useDispatch();
-  const { fetching, adding, updating, messages } = useSelector((state) => state.messagesReducer);
+const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => {
+  useEffect(() => {
+    setError();
+  }, [setError]);
+
+  const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [id, setId] = React.useState(null);
-
-  // Store all the dates in a unique array
-  const dates = messages.map((message) => message.date);
-  const uniqueDates = [];
-  const dt = [];
-
-  useEffect(() => {
-    if (messages.length === 0) fetchMessages()(dispatch);
-  }, []);
 
   const handleClickOpen = (messageId) => {
     setOpen(true);
@@ -54,37 +104,71 @@ const Messages = ({ classes, messages: msg }) => {
     setOpen(false);
   };
 
-  dates.forEach((d) => {
-    if (dt.indexOf(moment(d).format("YYYY-MM-DD")) === -1) {
-      dt.push(moment(d).format("YYYY-MM-DD"));
-      uniqueDates.push(d);
-    }
-  });
-  if (uniqueDates.length > 0) {
-    uniqueDates.sort((a, b) => {
-      if (moment(new Date(a)).isSameOrBefore(new Date(b))) return -1;
-      else return 1;
-    });
-  }
-
   const deleteMessageHandler = () => {
-    deleteMessage(id)(dispatch);
+    onDelete(id);
     handleClose();
   };
 
-  const handleSetUpdate = (message) => {
-    saveCurrentMessage(message)(dispatch);
+  const onClickHandler = (message) => {
+    onMessageClick(message);
+    history.push("/");
   };
 
   return (
     <>
-      <TopNavBar />
-      {(fetching || adding || updating) && <CircularProgress />}
-      <Container>
-        <MessagesContainer>
-          <MessagesList dates={uniqueDates} row deleteMessage={handleClickOpen} setUpdate={handleSetUpdate} />
-        </MessagesContainer>
-      </Container>
+      <TableContainer component={Paper} className={classes.container}>
+        <Table className={classes.table} size='small' aria-label='a dense table'>
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align='right'>
+                <i className={`far fa-trash-alt ${classes.icon}`} />
+              </StyledTableCell>
+              <StyledTableCell>Name</StyledTableCell>
+              <StyledTableCell align='left'>Date</StyledTableCell>
+              <StyledTableCell align='left'>Message</StyledTableCell>
+              <StyledTableCell align='left' className={classes.invisible}>
+                Email
+              </StyledTableCell>
+              <StyledTableCell align='left' className={classes.invisible}>
+                Type
+              </StyledTableCell>
+              <StyledTableCell align='left'>Sent</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {messages &&
+              messages.map((row) => (
+                <StyledTableRow key={row.id} onClick={() => onClickHandler(row)}>
+                  <StyledTableCell align='left'>
+                    <MessageIcon
+                      id='delete'
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleClickOpen(row.id);
+                      }}
+                    >
+                      <i className='far fa-trash-alt' />
+                    </MessageIcon>
+                  </StyledTableCell>
+                  <StyledTableCell component='th' scope='row'>
+                    {row.recipientName}
+                  </StyledTableCell>
+                  <StyledTableCell align='left'>{moment(row.date).format("DD-MMM-YYYY HH:mm")}</StyledTableCell>
+                  <StyledTableCell align='left'>{row.messageText.slice(0, 10)}...</StyledTableCell>
+                  <StyledTableCell align='left' className={classes.invisible}>
+                    {row.recipientEmail}
+                  </StyledTableCell>
+                  <StyledTableCell align='left' className={classes.invisible}>
+                    <img src={typeImages[row.type]} alt={row.type} className={classes.img} />
+                  </StyledTableCell>
+                  <StyledTableCell align='left'>
+                    <i className={`fa fa-check ${row.sent ? classes.sent : classes.notSent}`} />
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
       <Dialog
         open={open}
         onClose={handleClose}
@@ -107,4 +191,4 @@ const Messages = ({ classes, messages: msg }) => {
   );
 };
 
-export default withStyles(styles)(requireAuth(Messages));
+export default requireAuth(Messages);

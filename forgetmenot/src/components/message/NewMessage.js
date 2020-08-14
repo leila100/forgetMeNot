@@ -6,10 +6,9 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { addMessage, getCurrentUser, updateMessage, addContact, getContacts } from "../../store/actions/index";
+import { getCurrentUser } from "../../store/actions/index";
 import { typeImages } from "../../utils/typeImages";
 
-import TopNav from "../navbar/TopNav";
 import {
   NewMessageContainer,
   BtnGroup,
@@ -59,14 +58,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NewMessage = ({ history }) => {
+const NewMessage = ({ history, savedMessage = {}, onAdd, contacts = {} }) => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.usersReducer).currentUser;
-  const contacts = useSelector((state) => state.contactsReducer).contacts;
-  const savedMessage = useSelector((state) => state.messagesReducer).currentMessage;
 
   // State variables for form information
   const [type, setType] = useState("other");
@@ -77,7 +74,6 @@ const NewMessage = ({ history }) => {
   const [time, setTime] = useState("00:00");
   const [error, setError] = useState("");
   const [errorText, setErrorText] = useState("");
-  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
     if (savedMessage.date) {
@@ -91,23 +87,8 @@ const NewMessage = ({ history }) => {
       setText(savedMessage.messageText);
       setNewDate(moment(savedMessage.date).format("YYYY-MM-DD"));
       setTime(moment(savedMessage.date).format("HH:mm"));
-      if (savedMessage.sent) {
-        setErrorText("This message was already sent!");
-        setError("update");
-        setUpdate(false);
-      } else setUpdate(true);
     }
   }, [savedMessage]);
-
-  useEffect(() => {
-    if (contacts.length === 0) getContacts()(dispatch);
-  }, []);
-
-  const checkContact = (email) => {
-    const exist = contacts.find((contact) => contact.contactEmail === email);
-    if (exist) return true;
-    return false;
-  };
 
   const handleSchedule = () => {
     const token = localStorage.getItem("jwt");
@@ -134,13 +115,7 @@ const NewMessage = ({ history }) => {
     } else {
       setError("");
       setErrorText("");
-      if (update) updateMessage(savedMessage.id, newMessage)(dispatch);
-      else {
-        addMessage(newMessage)(dispatch);
-      }
-      // check if recipient in contacts
-      if (!checkContact(newMessage.recipientEmail))
-        addContact({ contactName: newMessage.recipientName, contactEmail: newMessage.recipientEmail })(dispatch);
+      onAdd(newMessage);
       handleReset();
       history.push("/messages");
     }
@@ -155,7 +130,6 @@ const NewMessage = ({ history }) => {
     setType("other");
     setNewDate(moment(newDate).format("YYYY-MM-DD"));
     setTime("00:00");
-    setUpdate(false);
   };
 
   const options = contacts.map((option) => {
@@ -167,7 +141,6 @@ const NewMessage = ({ history }) => {
   });
   return (
     <>
-      {/* <TopNav /> */}
       <Instructions>
         <p>Select a category.</p>
         <p>Fill up the form and hit Schedule.</p>
@@ -184,7 +157,7 @@ const NewMessage = ({ history }) => {
                 onClick={() => setType(imageType)}
                 clicked={type === imageType}
               ></MessageType>
-              <TypeLabel>Love</TypeLabel>
+              <TypeLabel>{imageType}</TypeLabel>
             </Type>
           ))}
         </BtnGroup>
