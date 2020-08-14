@@ -24,9 +24,17 @@ const StyledTableCell = withStyles((theme) => ({
     backgroundColor: "#4C688F",
     color: theme.palette.common.white,
     fontSize: 14,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 13,
+      padding: 4,
+    },
   },
   body: {
     fontSize: 14,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 13,
+      padding: 4,
+    },
   },
 }))(TableCell);
 
@@ -39,7 +47,7 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
     fontSize: "1.6rem",
   },
@@ -71,7 +79,12 @@ const useStyles = makeStyles({
   notSent: {
     color: "black",
   },
-});
+  invisible: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+}));
 
 const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => {
   useEffect(() => {
@@ -113,8 +126,12 @@ const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => 
               <StyledTableCell>Name</StyledTableCell>
               <StyledTableCell align='left'>Date</StyledTableCell>
               <StyledTableCell align='left'>Message</StyledTableCell>
-              <StyledTableCell align='left'>Email</StyledTableCell>
-              <StyledTableCell align='left'>Type</StyledTableCell>
+              <StyledTableCell align='left' className={classes.invisible}>
+                Email
+              </StyledTableCell>
+              <StyledTableCell align='left' className={classes.invisible}>
+                Type
+              </StyledTableCell>
               <StyledTableCell align='left'>Sent</StyledTableCell>
             </TableRow>
           </TableHead>
@@ -122,7 +139,7 @@ const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => 
             {messages &&
               messages.map((row) => (
                 <StyledTableRow key={row.id} onClick={() => onClickHandler(row)}>
-                  <StyledTableCell>
+                  <StyledTableCell align='left'>
                     <MessageIcon
                       id='delete'
                       onClick={(e) => {
@@ -137,9 +154,11 @@ const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => 
                     {row.recipientName}
                   </StyledTableCell>
                   <StyledTableCell align='left'>{moment(row.date).format("DD-MMM-YYYY HH:mm")}</StyledTableCell>
-                  <StyledTableCell align='left'>{row.messageText}</StyledTableCell>
-                  <StyledTableCell align='left'>{row.recipientEmail}</StyledTableCell>
-                  <StyledTableCell align='left'>
+                  <StyledTableCell align='left'>{row.messageText.slice(0, 10)}...</StyledTableCell>
+                  <StyledTableCell align='left' className={classes.invisible}>
+                    {row.recipientEmail}
+                  </StyledTableCell>
+                  <StyledTableCell align='left' className={classes.invisible}>
                     <img src={typeImages[row.type]} alt={row.type} className={classes.img} />
                   </StyledTableCell>
                   <StyledTableCell align='left'>
