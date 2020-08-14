@@ -3,7 +3,6 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { makeStyles } from "@material-ui/core/styles";
 
 import moment from "moment";
 import "@fullcalendar/core/main.css";
@@ -15,15 +14,7 @@ import { CalendarPage, Cal, WeekCal, Day } from "../../styles/calendarStyles";
 import { Button } from "../../styles/commonStyles";
 import Messages from "../message/Messages";
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     fontSize: "1.7rem",
-//   },
-// }));
-
 const Calendar = ({ history, messages, onDelete, onMessageClick, setError }) => {
-  // const classes = useStyles();
-
   const [date, setDate] = useState(Date.now());
   const [filteredMessages, setFilteredMessages] = useState();
   const [events, setEvents] = useState([]);

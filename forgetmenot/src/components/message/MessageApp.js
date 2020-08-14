@@ -28,6 +28,7 @@ const MessageApp = () => {
   const contactsEndpoint = `${process.env.REACT_APP_API_URL}/api/contacts`;
 
   const [{ status, response }, fetchRequest] = useApiRequest(endpoint, { verb: "get" });
+
   const [{ status: contactsStatus, response: contactsResponse }, fetchContactsRequest] = useApiRequest(
     contactsEndpoint,
     { verb: "get" }
@@ -89,12 +90,12 @@ const MessageApp = () => {
   }, [deleteEndpoint, deleteRequest]);
 
   useEffect(() => {
-    if (deleteStatus === ERROR) setError("There was a problem!");
+    if (deleteStatus === ERROR) setError("There was a problem deleting the message!");
     if (deleteStatus === SUCCESS) {
       setMessages((prevMessages) => prevMessages.filter((message) => message.id !== messageId));
       setError();
     }
-  }, [deleteStatus]);
+  }, [deleteStatus, messageId]);
 
   useEffect(() => {
     if (currentMessage && !update) {
@@ -135,7 +136,6 @@ const MessageApp = () => {
 
   useEffect(() => {
     if (updateStatus === SUCCESS) {
-      console.log("current message: ", updateMessage);
       const updatedMessages = [...messages];
       const index = updatedMessages.findIndex((message) => message.id === updateMessage.id);
       updatedMessages[index] = { ...updatedMessages[index], ...currentMessage };
@@ -146,7 +146,7 @@ const MessageApp = () => {
       setError();
     }
     if (updateStatus === ERROR) {
-      setError("There was a problem!");
+      setError("There was a problem updating your message!");
     }
   }, [updateStatus, updateResponse]);
 
@@ -157,8 +157,10 @@ const MessageApp = () => {
 
   const messageClickHandler = (message) => {
     if (!message.sent) {
-      setUpdateEndpoint(endpoint + `/${message.id}`);
-      setUpdate(true);
+      if (message.id) {
+        setUpdateEndpoint(endpoint + `/${message.id}`);
+        setUpdate(true);
+      }
       setUpdateMessage(message);
       setError();
     } else {
