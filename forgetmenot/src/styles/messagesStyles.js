@@ -96,76 +96,6 @@ export const InputGroup = styled(flexRow)`
   justify-content: flex-start;
 `;
 
-export const Messages = styled.ul`
-  display: flex;
-  flex-direction: ${(props) => (props.row ? "row" : "column")};
-  flex-wrap: wrap;
-  justify-content: space-around;
-  width: 100%;
-`;
-
-export const MessageBox = styled.li`
-  display: flex;
-  margin: 10px 0;
-  width: ${(props) => (props.row ? "95%" : "100%")};
-  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
-  img {
-    width: 50px;
-    height: 100%;
-  }
-`;
-
-export const Info = styled.div`
-  margin-left: 10px;
-  text-align: start;
-  width: 25%;
-`;
-
-export const MessageBody = styled.div`
-  display: flex;
-  flex-direction: ${(props) => (props.row === true ? "row" : "column")};
-  justify-content: space-between;
-  align-items: ${(props) => props.row && "center"};
-  :hover {
-    background-color: #4c74ab;
-    color: white;
-  }
-  opacity: ${(props) => (props.sent ? "0.4" : "1")};
-  width: 95%;
-  padding: 5px;
-  p {
-    line-height: 1.5;
-    overflow-wrap: break-word;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    width: 50%;
-    padding-left: 10px;
-  }
-  @media (max-width: 500px) {
-    width: 80%;
-  }
-`;
-
-export const DateFormat = styled.div`
-  font-size: 1.6rem;
-  color: ${(props) => (props.textColor ? "#4C688F" : "#F3EEC3")};
-`;
-
-export const IconGroup = styled(flexRow)`
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 10px;
-  #delete {
-    cursor: pointer;
-    :hover {
-      i {
-        background-color: red;
-      }
-    }
-  }
-`;
-
 export const MessageIcon = styled.div`
   text-align: right;
   i {
@@ -176,10 +106,4 @@ export const MessageIcon = styled.div`
       background-color: #b87a71;
     }
   }
-`;
-
-export const MessagesContainer = styled.div`
-  margin-top: 50px;
-  padding: 10px;
-  width: 100%;
 `;
