@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import moment from "moment";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -15,8 +16,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 import requireAuth from "../../hoc/requireAuth";
-import { Button } from "../../styles/commonStyles";
-import { MessageIcon } from "../../styles/messagesStyles";
+import { Button, Error } from "../../styles/commonStyles";
+import { MessageIcon, Preview } from "../../styles/messagesStyles";
 import { typeImages } from "../../utils/typeImages";
 
 const StyledTableCell = withStyles((theme) => ({
@@ -26,14 +27,14 @@ const StyledTableCell = withStyles((theme) => ({
     fontSize: 14,
     [theme.breakpoints.down("xs")]: {
       fontSize: 13,
-      padding: 4,
+      padding: "6px 3px",
     },
   },
   body: {
     fontSize: 14,
     [theme.breakpoints.down("xs")]: {
       fontSize: 13,
-      padding: 4,
+      padding: "6px 3px",
     },
   },
 }))(TableCell);
@@ -91,17 +92,30 @@ const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => 
     setError();
   }, [setError]);
 
+  const user = useSelector((state) => state.usersReducer).currentUser;
+
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [detailOpen, setDetailOpen] = React.useState(false);
   const [id, setId] = React.useState(null);
+  const [updateMessage, setUpdateMessage] = React.useState(null);
 
   const handleClickOpen = (messageId) => {
     setOpen(true);
     setId(messageId);
   };
 
+  const handleDetailOpen = (message) => {
+    setDetailOpen(true);
+    setUpdateMessage(message);
+  };
+
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleDetailClose = () => {
+    setDetailOpen(false);
   };
 
   const deleteMessageHandler = () => {
@@ -109,8 +123,8 @@ const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => 
     handleClose();
   };
 
-  const onClickHandler = (message) => {
-    onMessageClick(message);
+  const onClickHandler = () => {
+    onMessageClick(updateMessage);
     history.push("/");
   };
 
@@ -138,7 +152,7 @@ const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => 
           <TableBody>
             {messages &&
               messages.map((row) => (
-                <StyledTableRow key={row.id} onClick={() => onClickHandler(row)}>
+                <StyledTableRow key={row.id} onClick={() => handleDetailOpen(row)}>
                   <StyledTableCell align='left'>
                     <MessageIcon
                       id='delete'
@@ -186,6 +200,29 @@ const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => 
             Delete
           </Button>
         </DialogActions>
+      </Dialog>
+      <Dialog open={detailOpen} onClose={handleDetailClose}>
+        <DialogContent classes={{ root: classes.root }}>
+          {updateMessage && (
+            <>
+              <Preview>
+                <img src={typeImages[updateMessage.type]} alt={`Theme ${updateMessage.type}`} />
+                <div>
+                  <div>To: {updateMessage.recipientName}</div>
+                  {user && <div>From: {user.username}</div>}
+                  <p>{updateMessage.messageText}</p>
+                </div>
+              </Preview>
+              {updateMessage.sent && <Error>Message was already sent. Can not update it.</Error>}
+            </>
+          )}
+          <DialogActions>
+            <Button onClick={handleDetailClose}>Cancel</Button>
+            <Button onClick={onClickHandler} autoFocus delete disabled={updateMessage && updateMessage.sent}>
+              Update
+            </Button>
+          </DialogActions>
+        </DialogContent>
       </Dialog>
     </>
   );

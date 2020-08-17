@@ -25,6 +25,10 @@ export const Button = styled.button`
   background-color: ${(props) => (props.delete ? "red" : btnBgColor)};
   border: 1px solid ${btnBorder};
   padding: 10px 12px;
+  :disabled {
+    background-color: grey;
+    cursor: not-allowed;
+  }
   color: white;
   margin: 10px auto;
   font-size: 1.4rem;

@@ -13,6 +13,11 @@ export const MessageContainer = styled(Container)`
   width: 100%;
   padding: 10px;
   align-content: start;
+  @media (max-width: 450px) {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 45px;
+  }
 `;
 
 export const Preview = styled.div`
@@ -24,6 +29,7 @@ export const Preview = styled.div`
     margin-top: 20px;
     font-size: 2.2rem;
     font-family: Indie Flower;
+    word-break: break-word;
   }
   img {
     margin-bottom: 10px;
@@ -32,9 +38,6 @@ export const Preview = styled.div`
   }
   div {
     margin: 10px 0;
-  }
-  @media (max-width: 450px) {
-    display: none;
   }
 `;
 
