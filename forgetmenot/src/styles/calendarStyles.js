@@ -4,18 +4,10 @@ import { flexRow } from "./commonStyles";
 
 export const CalendarPage = styled(flexRow)`
   width: 95%;
-  /* max-width: 1200px; */
   margin: 20px auto;
   @media (max-width: 960px) {
     flex-direction: column;
   }
-`;
-
-export const CalendarWrapper = styled(flexRow)`
-  margin-top: 10px;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
 `;
 
 export const Cal = styled.div`

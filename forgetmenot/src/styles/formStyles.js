@@ -54,22 +54,3 @@ export const Footer = styled.div`
     }
   }
 `;
-
-export const FormLink = styled.div`
-  padding: 10px 5%;
-  width: 50%;
-  margin-left: 10%;
-  margin-top: 15px;
-  background-color: #274759;
-  border: none;
-  border-radius: 5px;
-  outline: none;
-  text-align: center;
-  a {
-    color: white;
-    font-size: 2rem;
-  }
-  :hover {
-    background: #b21028;
-  }
-`;
