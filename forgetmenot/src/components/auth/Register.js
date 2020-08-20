@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
@@ -8,37 +7,38 @@ import { CircularProgress } from "@material-ui/core";
 import { Message, Button } from "../../styles/commonStyles";
 import { FormWrapper, FormGroup, Footer } from "../../styles/formStyles";
 
-import { addUser } from "../../store/actions/index";
+import { useUser } from "../user/userContext";
+import useApiRequest from "../../hooks/APIRequest/useApiRequest";
+import { FETCHING, SUCCESS, ERROR } from "../../hooks/APIRequest/actionTypes";
 
 require("dotenv").config();
 
-const styles = theme => ({
+const styles = (theme) => ({
   textField: {
     paddingRight: 20,
     width: "276px",
     marginTop: 20,
     fontSize: "1.6rem",
     [theme.breakpoints.down("sm")]: {
-      width: "100%"
-    }
+      width: "100%",
+    },
   },
   formTextLabel: {
     fontSize: "1.5rem",
-    color: "#4c688f"
+    color: "#4c688f",
   },
   formTextInput: {
-    fontSize: "1.5rem"
+    fontSize: "1.5rem",
   },
   errors: {
-    fontSize: "1.5rem"
-  }
+    fontSize: "1.5rem",
+  },
 });
 
-const Register = props => {
+const Register = (props) => {
   const { classes } = props;
 
-  const state = useSelector(state => state.usersReducer);
-  const dispatch = useDispatch();
+  const [user, setUser] = useUser();
 
   const [error, setError] = useState("");
   const [errorText, setErrorText] = useState("");
@@ -48,12 +48,36 @@ const Register = props => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
 
-  useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (state.currentUser && token) props.history.push("/");
+  const endpoint = `${process.env.REACT_APP_API_URL}/api/register`;
+  const newUser = {
+    username,
+    password,
+    name,
+    email,
+  };
+  const [{ status: registerStatus, response: registerResponse }, registerRequest] = useApiRequest(endpoint, {
+    verb: "post",
+    params: newUser,
   });
 
-  const registerHandler = event => {
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (user && token) props.history.push("/");
+  });
+
+  useEffect(() => {
+    if (registerStatus === SUCCESS) {
+      localStorage.setItem("jwt", registerResponse.data.token);
+      setUser(registerResponse.data.user);
+    }
+    if (registerStatus === ERROR) {
+      setError("register");
+      setErrorText("There was a problem registering user");
+      console.log(registerResponse);
+    }
+  }, [registerStatus, registerResponse, setUser]);
+
+  const registerHandler = (event) => {
     event.preventDefault();
     if (!username.trim()) {
       setError("username");
@@ -64,20 +88,14 @@ const Register = props => {
     } else {
       setError("");
       setErrorText("");
-      const newUser = {
-        username,
-        password,
-        name,
-        email
-      };
-      addUser(newUser)(dispatch);
+      registerRequest();
     }
   };
 
   return (
     <FormWrapper>
-      {state.adding && <CircularProgress />}
-      <Message error>{state.errorMessage}</Message>
+      {registerStatus === FETCHING && <CircularProgress />}
+      {registerStatus === ERROR && <Message error>{errorText}</Message>}
       <form onSubmit={registerHandler}>
         <FormGroup>
           <i className='fas fa-user' />
@@ -90,21 +108,21 @@ const Register = props => {
             margin='dense'
             label='Username'
             value={username}
-            onChange={e => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             InputLabelProps={{
               classes: {
-                root: classes.formTextLabel
-              }
+                root: classes.formTextLabel,
+              },
             }}
             InputProps={{
               classes: {
-                input: classes.formTextInput
-              }
+                input: classes.formTextInput,
+              },
             }}
             FormHelperTextProps={{
               classes: {
-                error: classes.errors
-              }
+                error: classes.errors,
+              },
             }}
             classes={{ root: classes.textField }}
           />
@@ -120,21 +138,21 @@ const Register = props => {
             margin='dense'
             label='Password'
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             InputLabelProps={{
               classes: {
-                root: classes.formTextLabel
-              }
+                root: classes.formTextLabel,
+              },
             }}
             InputProps={{
               classes: {
-                input: classes.formTextInput
-              }
+                input: classes.formTextInput,
+              },
             }}
             FormHelperTextProps={{
               classes: {
-                error: classes.errors
-              }
+                error: classes.errors,
+              },
             }}
             classes={{ root: classes.textField }}
           />
@@ -146,16 +164,16 @@ const Register = props => {
             margin='dense'
             label='Full Name'
             value={name}
-            onChange={e => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             InputLabelProps={{
               classes: {
-                root: classes.formTextLabel
-              }
+                root: classes.formTextLabel,
+              },
             }}
             InputProps={{
               classes: {
-                input: classes.formTextInput
-              }
+                input: classes.formTextInput,
+              },
             }}
             classes={{ root: classes.textField }}
           />
@@ -168,16 +186,16 @@ const Register = props => {
             margin='dense'
             label='Email'
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             InputLabelProps={{
               classes: {
-                root: classes.formTextLabel
-              }
+                root: classes.formTextLabel,
+              },
             }}
             InputProps={{
               classes: {
-                input: classes.formTextInput
-              }
+                input: classes.formTextInput,
+              },
             }}
             classes={{ root: classes.textField }}
           />

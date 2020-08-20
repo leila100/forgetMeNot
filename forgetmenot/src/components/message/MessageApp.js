@@ -3,6 +3,8 @@ import { Route } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
 import moment from "moment";
 
+import { useUser } from "../user/userContext";
+
 import Register from "../auth/Register";
 import Login from "../auth/Login";
 import TopNav from "../navbar/TopNav";
@@ -14,6 +16,7 @@ import { FETCHING, SUCCESS, ERROR } from "../../hooks/APIRequest/actionTypes";
 import { Loader, Error } from "../../styles/commonStyles";
 
 const MessageApp = () => {
+  const [user, setUser] = useUser();
   const [messages, setMessages] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [currentMessage, setCurrentMessage] = useState();
@@ -26,19 +29,18 @@ const MessageApp = () => {
   const [update, setUpdate] = useState(false);
   const endpoint = `${process.env.REACT_APP_API_URL}/api/reminders`;
   const contactsEndpoint = `${process.env.REACT_APP_API_URL}/api/contacts`;
+  const userEndpoint = `${process.env.REACT_APP_API_URL}/api/user`;
 
+  const [{ status: userStatus, response: userResponse }, userRequest] = useApiRequest(userEndpoint, { verb: "get" });
   const [{ status, response }, fetchRequest] = useApiRequest(endpoint, { verb: "get" });
-
   const [{ status: contactsStatus, response: contactsResponse }, fetchContactsRequest] = useApiRequest(
     contactsEndpoint,
     { verb: "get" }
   );
-
   const [{ status: addStatus, response: addResponse }, addRequest] = useApiRequest(endpoint, {
     verb: "post",
     params: currentMessage,
   });
-
   const [{ status: addContactStatus, response: addContactResponse }, addContactRequest] = useApiRequest(
     contactsEndpoint,
     {
@@ -46,19 +48,28 @@ const MessageApp = () => {
       params: currentContact,
     }
   );
-
   const [{ status: updateStatus, response: updateResponse }, updateRequest] = useApiRequest(updateEndpoint, {
     verb: "put",
     params: currentMessage,
   });
-
   const [{ status: deleteStatus }, deleteRequest] = useApiRequest(deleteEndpoint, { verb: "delete" });
 
   useEffect(() => {
-    // TODO: fetch only when user exists/changes
-    fetchRequest();
-    fetchContactsRequest();
-  }, [fetchRequest, fetchContactsRequest]);
+    if (user) {
+      // fetch only when user exists/changes
+      fetchRequest();
+      fetchContactsRequest();
+    } else {
+      // Get current user
+      userRequest();
+    }
+  }, [fetchRequest, fetchContactsRequest, user, userRequest]);
+
+  useEffect(() => {
+    if (userStatus === SUCCESS) {
+      setUser(userResponse.data.user);
+    }
+  }, [userStatus, userResponse, setUser]);
 
   useEffect(() => {
     if (status === SUCCESS) {
@@ -197,37 +208,45 @@ const MessageApp = () => {
       {error && <Error>{error}</Error>}
       <Route exact path='/register' component={Register} />
       <Route exact path='/login' component={Login} />
-      <Route path='/' component={TopNav} />
       <Route
         exact
         path='/'
         render={(props) => (
-          <NewMessage savedMessage={updateMessage} onAdd={addHandler} contacts={contacts} {...props} />
+          <>
+            <TopNav />
+            <NewMessage savedMessage={updateMessage} onAdd={addHandler} contacts={contacts} {...props} />
+          </>
         )}
       />
       <Route
         exact
         path='/messages'
         render={(props) => (
-          <Messages
-            messages={sortedMessages}
-            onDelete={deleteHandler}
-            {...props}
-            onMessageClick={messageClickHandler}
-            setError={setError}
-          />
+          <>
+            <TopNav />
+            <Messages
+              messages={sortedMessages}
+              onDelete={deleteHandler}
+              {...props}
+              onMessageClick={messageClickHandler}
+              setError={setError}
+            />
+          </>
         )}
       />
       <Route
         path='/calendar'
         render={(props) => (
-          <Calendar
-            messages={messages}
-            onDelete={deleteHandler}
-            {...props}
-            onMessageClick={messageClickHandler}
-            setError={setError}
-          />
+          <>
+            <TopNav />
+            <Calendar
+              messages={messages}
+              onDelete={deleteHandler}
+              {...props}
+              onMessageClick={messageClickHandler}
+              setError={setError}
+            />
+          </>
         )}
       />
     </>

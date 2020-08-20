@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 
 import * as moment from "moment";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { getCurrentUser } from "../../store/actions/index";
+import { useUser } from "../user/userContext";
+
 import { typeImages } from "../../utils/typeImages";
 
 import {
@@ -61,9 +61,7 @@ const useStyles = makeStyles((theme) => ({
 const NewMessage = ({ history, savedMessage = {}, onAdd, contacts = {} }) => {
   const classes = useStyles();
 
-  const dispatch = useDispatch();
-
-  const user = useSelector((state) => state.usersReducer).currentUser;
+  const [user] = useUser();
 
   // State variables for form information
   const [type, setType] = useState("other");
@@ -93,7 +91,6 @@ const NewMessage = ({ history, savedMessage = {}, onAdd, contacts = {} }) => {
   const handleSchedule = () => {
     const token = localStorage.getItem("jwt");
     if (!token) history.push("/login");
-    if (!user && token) getCurrentUser()(dispatch);
     const year = moment(newDate).format("YYYY");
     const month = moment(newDate).format("MM");
     const day = moment(newDate).format("DD");
@@ -340,7 +337,7 @@ const NewMessage = ({ history, savedMessage = {}, onAdd, contacts = {} }) => {
             <img src={typeImages[type]} alt={`Theme ${type}`} />
             <div>
               <div>To: {recipientName}</div>
-              {user && <div>From: {user.username}</div>}
+              {user && <div>From: {user.name ? user.name : user.email ? user.email : "Someone you know"}</div>}
               <p>{messageText}</p>
             </div>
           </Preview>

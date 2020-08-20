@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -11,6 +11,10 @@ import { CircularProgress } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
 
+import { useUser } from "../user/userContext";
+import useApiRequest from "../../hooks/APIRequest/useApiRequest";
+import { FETCHING, SUCCESS, ERROR } from "../../hooks/APIRequest/actionTypes";
+
 import { FormWrapper, FormGroup } from "../../styles/formStyles";
 import { Message, Button } from "../../styles/commonStyles";
 
@@ -18,20 +22,20 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     backgroundColor: "#284243",
-    fontSize: "1.6rem"
+    fontSize: "1.6rem",
   },
   dialogContent: {
     [theme.breakpoints.down("sm")]: {
-      flexGrow: 0
-    }
+      flexGrow: 0,
+    },
   },
   title: {
     fontFamily: "Arimo",
     fontSize: "3rem",
-    color: "#666680"
+    color: "#666680",
   },
   textField: {
     paddingRight: 20,
@@ -39,33 +43,38 @@ const styles = theme => ({
     marginTop: 20,
     fontSize: "1.6rem",
     [theme.breakpoints.down("sm")]: {
-      width: "100%"
-    }
+      width: "100%",
+    },
   },
   formTextLabel: {
     fontSize: "1.5rem",
-    color: "#4c688f"
+    color: "#4c688f",
   },
   formTextInput: {
     fontSize: "1.5rem",
     [theme.breakpoints.down("sm")]: {
       width: "100%",
-      padding: 0
-    }
+      padding: 0,
+    },
   },
   errors: {
-    fontSize: "1.5rem"
-  }
+    fontSize: "1.5rem",
+  },
 });
 
 const UserModal = ({ open, handleClose, update, classes }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const state = useSelector(state => state.usersReducer);
-  const user = state.currentUser;
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+
+  const [user, setUser] = useUser();
+  const updateEndpoint = user && `${process.env.REACT_APP_API_URL}/api/user/${user.id}`;
+  let [{ status: updateStatus, response: updateResponse }, updateRequest] = useApiRequest(updateEndpoint, {
+    verb: "put",
+    params: { ...user, name, email },
+  });
 
   useEffect(() => {
     if (user) {
@@ -85,11 +94,18 @@ const UserModal = ({ open, handleClose, update, classes }) => {
     handleClose();
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    update({ name, email });
+    updateRequest();
     handleCancel();
   };
+
+  useEffect(() => {
+    if (updateStatus === SUCCESS) {
+      const newUser = updateResponse.data.user;
+      setUser(newUser);
+    }
+  }, [updateStatus, name, email, setUser, updateResponse]);
 
   return (
     <>
@@ -109,7 +125,7 @@ const UserModal = ({ open, handleClose, update, classes }) => {
           </DialogTitle>
           <DialogContent classes={{ root: classes.dialogContent }}>
             <FormWrapper style={{ margin: "auto" }}>
-              {state.updating && <CircularProgress />}
+              {updateStatus === FETCHING && <CircularProgress />}
               <Message error>{user.errorMessage}</Message>
               <form onSubmit={handleSubmit}>
                 <FormGroup>
@@ -120,16 +136,16 @@ const UserModal = ({ open, handleClose, update, classes }) => {
                     margin='dense'
                     label='Full Name'
                     value={name}
-                    onChange={e => setName(e.target.value)}
+                    onChange={(e) => setName(e.target.value)}
                     InputLabelProps={{
                       classes: {
-                        root: classes.formTextLabel
-                      }
+                        root: classes.formTextLabel,
+                      },
                     }}
                     InputProps={{
                       classes: {
-                        input: classes.formTextInput
-                      }
+                        input: classes.formTextInput,
+                      },
                     }}
                     classes={{ root: classes.textField }}
                   />
@@ -142,16 +158,16 @@ const UserModal = ({ open, handleClose, update, classes }) => {
                     margin='dense'
                     label='Email'
                     value={email}
-                    onChange={e => setEmail(e.target.value)}
+                    onChange={(e) => setEmail(e.target.value)}
                     InputLabelProps={{
                       classes: {
-                        root: classes.formTextLabel
-                      }
+                        root: classes.formTextLabel,
+                      },
                     }}
                     InputProps={{
                       classes: {
-                        input: classes.formTextInput
-                      }
+                        input: classes.formTextInput,
+                      },
                     }}
                     classes={{ root: classes.textField }}
                   />

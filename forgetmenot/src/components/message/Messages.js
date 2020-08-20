@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
 import moment from "moment";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -16,7 +15,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 import requireAuth from "../../hoc/requireAuth";
-import { Button, Error } from "../../styles/commonStyles";
+import { useUser } from "../user/userContext";
+
+import { Button, Error, Message } from "../../styles/commonStyles";
 import { MessageIcon, Preview } from "../../styles/messagesStyles";
 import { typeImages } from "../../utils/typeImages";
 
@@ -92,7 +93,7 @@ const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => 
     setError();
   }, [setError]);
 
-  const user = useSelector((state) => state.usersReducer).currentUser;
+  const [user] = useUser();
 
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -127,31 +128,30 @@ const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => 
     onMessageClick(updateMessage);
     history.push("/");
   };
-
   return (
     <>
-      <TableContainer component={Paper} className={classes.container}>
-        <Table className={classes.table} size='small' aria-label='a dense table'>
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align='right'>
-                <i className={`far fa-trash-alt ${classes.icon}`} />
-              </StyledTableCell>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell align='left'>Date</StyledTableCell>
-              <StyledTableCell align='left'>Message</StyledTableCell>
-              <StyledTableCell align='left' className={classes.invisible}>
-                Email
-              </StyledTableCell>
-              <StyledTableCell align='left' className={classes.invisible}>
-                Type
-              </StyledTableCell>
-              <StyledTableCell align='left'>Sent</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {messages &&
-              messages.map((row) => (
+      {messages && messages.length > 0 ? (
+        <TableContainer component={Paper} className={classes.container}>
+          <Table className={classes.table} size='small' aria-label='a dense table'>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell align='right'>
+                  <i className={`far fa-trash-alt ${classes.icon}`} />
+                </StyledTableCell>
+                <StyledTableCell>Name</StyledTableCell>
+                <StyledTableCell align='left'>Date</StyledTableCell>
+                <StyledTableCell align='left'>Message</StyledTableCell>
+                <StyledTableCell align='left' className={classes.invisible}>
+                  Email
+                </StyledTableCell>
+                <StyledTableCell align='left' className={classes.invisible}>
+                  Type
+                </StyledTableCell>
+                <StyledTableCell align='left'>Sent</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {messages.map((row) => (
                 <StyledTableRow key={row.id} onClick={() => handleDetailOpen(row)}>
                   <StyledTableCell align='left'>
                     <MessageIcon
@@ -180,9 +180,13 @@ const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => 
                   </StyledTableCell>
                 </StyledTableRow>
               ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <Message>No scheduled/sent messages</Message>
+      )}
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -209,7 +213,7 @@ const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => 
                 <img src={typeImages[updateMessage.type]} alt={`Theme ${updateMessage.type}`} />
                 <div>
                   <div>To: {updateMessage.recipientName}</div>
-                  {user && <div>From: {user.username}</div>}
+                  {user && <div>From: {user.name ? user.name : user.email ? user.email : "Someone you know"}</div>}
                   <p>{updateMessage.messageText}</p>
                 </div>
               </Preview>
