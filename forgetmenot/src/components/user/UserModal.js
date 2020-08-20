@@ -77,7 +77,6 @@ const UserModal = ({ open, handleClose, update, classes }) => {
   });
 
   useEffect(() => {
-    console.log("user: ", user);
     if (user) {
       setName(user.name);
       setEmail(user.email);
@@ -104,7 +103,6 @@ const UserModal = ({ open, handleClose, update, classes }) => {
   useEffect(() => {
     if (updateStatus === SUCCESS) {
       const newUser = updateResponse.data.user;
-      console.log("Setting user to: ", newUser);
       setUser(newUser);
     }
   }, [updateStatus, name, email, setUser, updateResponse]);
