@@ -55,11 +55,12 @@ const MessageApp = () => {
   const [{ status: deleteStatus }, deleteRequest] = useApiRequest(deleteEndpoint, { verb: "delete" });
 
   useEffect(() => {
-    // TODO: fetch only when user exists/changes
     if (user) {
+      // fetch only when user exists/changes
       fetchRequest();
       fetchContactsRequest();
     } else {
+      // Get current user
       userRequest();
     }
   }, [fetchRequest, fetchContactsRequest, user, userRequest]);
