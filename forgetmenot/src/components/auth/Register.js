@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
@@ -8,7 +7,6 @@ import { CircularProgress } from "@material-ui/core";
 import { Message, Button } from "../../styles/commonStyles";
 import { FormWrapper, FormGroup, Footer } from "../../styles/formStyles";
 
-import { addUser } from "../../store/actions/index";
 import { useUser } from "../user/userContext";
 import useApiRequest from "../../hooks/APIRequest/useApiRequest";
 import { FETCHING, SUCCESS, ERROR } from "../../hooks/APIRequest/actionTypes";
@@ -41,9 +39,6 @@ const Register = (props) => {
   const { classes } = props;
 
   const [user, setUser] = useUser();
-
-  const state = useSelector((state) => state.usersReducer);
-  const dispatch = useDispatch();
 
   const [error, setError] = useState("");
   const [errorText, setErrorText] = useState("");
@@ -93,13 +88,6 @@ const Register = (props) => {
     } else {
       setError("");
       setErrorText("");
-      // const newUser = {
-      //   username,
-      //   password,
-      //   name,
-      //   email
-      // };
-      // addUser(newUser)(dispatch);
       registerRequest();
     }
   };

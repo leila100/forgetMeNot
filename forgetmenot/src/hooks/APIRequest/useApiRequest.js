@@ -19,9 +19,12 @@ const useApiRequest = (endpoint, options) => {
   const { verb = "get", params } = options;
   const [state, dispatch] = useReducer(reducer, initialState);
   const makeRequest = useCallback(async () => {
+    if (!endpoint) return;
     dispatch(fetching());
     try {
+      console.log("request: ", endpoint, { verb, params });
       const response = await axios[verb](endpoint, params);
+      console.log("response: ", response);
       dispatch(success(response));
     } catch (e) {
       dispatch(error(e));

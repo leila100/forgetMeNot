@@ -16,7 +16,7 @@ import { FETCHING, SUCCESS, ERROR } from "../../hooks/APIRequest/actionTypes";
 import { Loader, Error } from "../../styles/commonStyles";
 
 const MessageApp = () => {
-  const [user] = useUser();
+  const [user, setUser] = useUser();
   const [messages, setMessages] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [currentMessage, setCurrentMessage] = useState();
@@ -29,7 +29,9 @@ const MessageApp = () => {
   const [update, setUpdate] = useState(false);
   const endpoint = `${process.env.REACT_APP_API_URL}/api/reminders`;
   const contactsEndpoint = `${process.env.REACT_APP_API_URL}/api/contacts`;
+  const userEndpoint = `${process.env.REACT_APP_API_URL}/api/user`;
 
+  const [{ status: userStatus, response: userResponse }, userRequest] = useApiRequest(userEndpoint, { verb: "get" });
   const [{ status, response }, fetchRequest] = useApiRequest(endpoint, { verb: "get" });
   const [{ status: contactsStatus, response: contactsResponse }, fetchContactsRequest] = useApiRequest(
     contactsEndpoint,
@@ -54,12 +56,19 @@ const MessageApp = () => {
 
   useEffect(() => {
     // TODO: fetch only when user exists/changes
-    console.log("user: ", user);
     if (user) {
       fetchRequest();
       fetchContactsRequest();
+    } else {
+      userRequest();
     }
-  }, [fetchRequest, fetchContactsRequest, user]);
+  }, [fetchRequest, fetchContactsRequest, user, userRequest]);
+
+  useEffect(() => {
+    if (userStatus === SUCCESS) {
+      setUser(userResponse.data.user);
+    }
+  }, [userStatus, userResponse, setUser]);
 
   useEffect(() => {
     if (status === SUCCESS) {
