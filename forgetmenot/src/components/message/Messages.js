@@ -213,7 +213,7 @@ const Messages = ({ messages, onDelete, onMessageClick, history, setError }) => 
                 <img src={typeImages[updateMessage.type]} alt={`Theme ${updateMessage.type}`} />
                 <div>
                   <div>To: {updateMessage.recipientName}</div>
-                  {user && <div>From: {user.name ? user.name : user.email}</div>}
+                  {user && <div>From: {user.name ? user.name : user.email ? user.email : "Someone you know"}</div>}
                   <p>{updateMessage.messageText}</p>
                 </div>
               </Preview>

@@ -337,7 +337,7 @@ const NewMessage = ({ history, savedMessage = {}, onAdd, contacts = {} }) => {
             <img src={typeImages[type]} alt={`Theme ${type}`} />
             <div>
               <div>To: {recipientName}</div>
-              {user && <div>From: {user.username}</div>}
+              {user && <div>From: {user.name ? user.name : user.email ? user.email : "Someone you know"}</div>}
               <p>{messageText}</p>
             </div>
           </Preview>
