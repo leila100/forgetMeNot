@@ -3,7 +3,6 @@ import { Route, Switch } from "react-router-dom";
 
 import MessageApp from "./components/message/MessageApp";
 import { UserProvider } from "./components/user/userContext";
-import TopNav from "./components/navbar/TopNav";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 

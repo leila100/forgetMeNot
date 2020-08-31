@@ -5,8 +5,6 @@ import moment from "moment";
 
 import { useUser } from "../user/userContext";
 
-import Register from "../auth/Register";
-import Login from "../auth/Login";
 import TopNav from "../navbar/TopNav";
 import NewMessage from "./NewMessage";
 import Messages from "./Messages";
