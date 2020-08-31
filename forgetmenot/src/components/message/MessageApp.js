@@ -5,8 +5,6 @@ import moment from "moment";
 
 import { useUser } from "../user/userContext";
 
-import Register from "../auth/Register";
-import Login from "../auth/Login";
 import TopNav from "../navbar/TopNav";
 import NewMessage from "./NewMessage";
 import Messages from "./Messages";
@@ -77,7 +75,7 @@ const MessageApp = () => {
       setError();
     }
     if (status === ERROR) {
-      // setError("There was a problem getting your previous messages. Please login");
+      setError("There was a problem getting your previous messages. Please login");
       console.log(response);
     }
   }, [status, response]);
@@ -88,7 +86,7 @@ const MessageApp = () => {
       setError();
     }
     if (contactsStatus === ERROR) {
-      // setError("There was a problem getting the contacts. Please login");
+      setError("There was a problem getting the contacts. Please login");
       console.log(contactsResponse);
     }
   }, [contactsStatus, contactsResponse]);
@@ -200,53 +198,43 @@ const MessageApp = () => {
   });
   return (
     <>
+      <TopNav />
       {(status === FETCHING || deleteStatus === FETCHING) && (
         <Loader>
           <CircularProgress />
         </Loader>
       )}
       {error && <Error>{error}</Error>}
-      <Route exact path='/register' component={Register} />
-      <Route exact path='/login' component={Login} />
       <Route
         exact
         path='/'
         render={(props) => (
-          <>
-            <TopNav />
-            <NewMessage savedMessage={updateMessage} onAdd={addHandler} contacts={contacts} {...props} />
-          </>
+          <NewMessage savedMessage={updateMessage} onAdd={addHandler} contacts={contacts} {...props} />
         )}
       />
       <Route
         exact
         path='/messages'
         render={(props) => (
-          <>
-            <TopNav />
-            <Messages
-              messages={sortedMessages}
-              onDelete={deleteHandler}
-              {...props}
-              onMessageClick={messageClickHandler}
-              setError={setError}
-            />
-          </>
+          <Messages
+            messages={sortedMessages}
+            onDelete={deleteHandler}
+            {...props}
+            onMessageClick={messageClickHandler}
+            setError={setError}
+          />
         )}
       />
       <Route
         path='/calendar'
         render={(props) => (
-          <>
-            <TopNav />
-            <Calendar
-              messages={messages}
-              onDelete={deleteHandler}
-              {...props}
-              onMessageClick={messageClickHandler}
-              setError={setError}
-            />
-          </>
+          <Calendar
+            messages={messages}
+            onDelete={deleteHandler}
+            {...props}
+            onMessageClick={messageClickHandler}
+            setError={setError}
+          />
         )}
       />
     </>

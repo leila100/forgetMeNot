@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-// import { useSelector } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
@@ -16,13 +15,13 @@ import useApiRequest from "../../hooks/APIRequest/useApiRequest";
 import { FETCHING, SUCCESS, ERROR } from "../../hooks/APIRequest/actionTypes";
 
 import { FormWrapper, FormGroup } from "../../styles/formStyles";
-import { Message, Button } from "../../styles/commonStyles";
+import { Message, Button, Loader, Error } from "../../styles/commonStyles";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: "#284243",
     fontSize: "1.6rem",
@@ -60,14 +59,17 @@ const styles = (theme) => ({
   errors: {
     fontSize: "1.5rem",
   },
-});
+}));
 
-const UserModal = ({ open, handleClose, update, classes }) => {
+const UserModal = ({ open, handleClose }) => {
+  const classes = useStyles();
+
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
   const [user, setUser] = useUser();
   const updateEndpoint = user && `${process.env.REACT_APP_API_URL}/api/user/${user.id}`;
@@ -91,6 +93,7 @@ const UserModal = ({ open, handleClose, update, classes }) => {
       setName("");
       setEmail("");
     }
+    setError("");
     handleClose();
   };
 
@@ -105,10 +108,19 @@ const UserModal = ({ open, handleClose, update, classes }) => {
       const newUser = updateResponse.data.user;
       setUser(newUser);
     }
+    if (updateStatus === ERROR) {
+      setError("There was a problem updating your information!");
+    }
   }, [updateStatus, name, email, setUser, updateResponse]);
 
   return (
     <>
+      {updateStatus === FETCHING && (
+        <Loader>
+          <CircularProgress />
+        </Loader>
+      )}
+      {error && <Error>{error}</Error>}
       {user && (
         <Dialog
           fullScreen={fullScreen}
@@ -185,4 +197,4 @@ const UserModal = ({ open, handleClose, update, classes }) => {
   );
 };
 
-export default withStyles(styles)(UserModal);
+export default UserModal;

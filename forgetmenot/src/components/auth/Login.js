@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import TextField from "@material-ui/core/TextField";
-import { withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { CircularProgress } from "@material-ui/core";
 
 import { Message, Button } from "../../styles/commonStyles";
@@ -11,7 +11,7 @@ import { useUser } from "../user/userContext";
 import useApiRequest from "../../hooks/APIRequest/useApiRequest";
 import { FETCHING, SUCCESS, ERROR } from "../../hooks/APIRequest/actionTypes";
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   textField: {
     paddingRight: 20,
     width: "276px",
@@ -31,10 +31,11 @@ const styles = (theme) => ({
   errors: {
     fontSize: "1.5rem",
   },
-});
+}));
 
 const Login = (props) => {
-  const { classes } = props;
+  const classes = useStyles();
+
   const [user, setUser] = useUser();
 
   const [error, setError] = useState("");
@@ -158,4 +159,4 @@ const Login = (props) => {
   );
 };
 
-export default withStyles(styles)(Login);
+export default Login;
