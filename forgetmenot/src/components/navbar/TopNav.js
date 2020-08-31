@@ -10,7 +10,7 @@ import UserModal from "../user/UserModal";
 
 const TopNav = (props) => {
   const [open, setOpen] = useState(false);
-  const [user] = useUser();
+  const [user, setUser] = useUser();
   const token = localStorage.getItem("jwt");
 
   function handleOpen() {
@@ -23,6 +23,7 @@ const TopNav = (props) => {
 
   const logout = () => {
     localStorage.removeItem("jwt");
+    setUser();
     props.history.push("/login");
   };
 

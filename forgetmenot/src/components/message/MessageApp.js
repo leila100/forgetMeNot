@@ -77,7 +77,7 @@ const MessageApp = () => {
       setError();
     }
     if (status === ERROR) {
-      // setError("There was a problem getting your previous messages. Please login");
+      setError("There was a problem getting your previous messages. Please login");
       console.log(response);
     }
   }, [status, response]);
@@ -88,7 +88,7 @@ const MessageApp = () => {
       setError();
     }
     if (contactsStatus === ERROR) {
-      // setError("There was a problem getting the contacts. Please login");
+      setError("There was a problem getting the contacts. Please login");
       console.log(contactsResponse);
     }
   }, [contactsStatus, contactsResponse]);
