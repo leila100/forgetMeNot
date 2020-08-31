@@ -200,53 +200,43 @@ const MessageApp = () => {
   });
   return (
     <>
+      <TopNav />
       {(status === FETCHING || deleteStatus === FETCHING) && (
         <Loader>
           <CircularProgress />
         </Loader>
       )}
       {error && <Error>{error}</Error>}
-      <Route exact path='/register' component={Register} />
-      <Route exact path='/login' component={Login} />
       <Route
         exact
         path='/'
         render={(props) => (
-          <>
-            <TopNav />
-            <NewMessage savedMessage={updateMessage} onAdd={addHandler} contacts={contacts} {...props} />
-          </>
+          <NewMessage savedMessage={updateMessage} onAdd={addHandler} contacts={contacts} {...props} />
         )}
       />
       <Route
         exact
         path='/messages'
         render={(props) => (
-          <>
-            <TopNav />
-            <Messages
-              messages={sortedMessages}
-              onDelete={deleteHandler}
-              {...props}
-              onMessageClick={messageClickHandler}
-              setError={setError}
-            />
-          </>
+          <Messages
+            messages={sortedMessages}
+            onDelete={deleteHandler}
+            {...props}
+            onMessageClick={messageClickHandler}
+            setError={setError}
+          />
         )}
       />
       <Route
         path='/calendar'
         render={(props) => (
-          <>
-            <TopNav />
-            <Calendar
-              messages={messages}
-              onDelete={deleteHandler}
-              {...props}
-              onMessageClick={messageClickHandler}
-              setError={setError}
-            />
-          </>
+          <Calendar
+            messages={messages}
+            onDelete={deleteHandler}
+            {...props}
+            onMessageClick={messageClickHandler}
+            setError={setError}
+          />
         )}
       />
     </>
