@@ -8,7 +8,7 @@ import { TopBar, Logo } from "../../styles/navBarStyles";
 import { Button, Group } from "../../styles/commonStyles";
 import UserModal from "../user/UserModal";
 
-const TopNav = (props) => {
+const TopNav = ({ history }) => {
   const [open, setOpen] = useState(false);
   const [user, setUser] = useUser();
   const token = localStorage.getItem("jwt");
@@ -24,7 +24,7 @@ const TopNav = (props) => {
   const logout = () => {
     localStorage.removeItem("jwt");
     setUser();
-    props.history.push("/login");
+    history.push("/login");
   };
 
   return (
@@ -58,9 +58,7 @@ const TopNav = (props) => {
             </Group>
           </>
         ) : (
-          <Button>
-            <NavLink to='/login'>Login</NavLink>
-          </Button>
+          <Button onClick={() => history.push("/login")}>Login</Button>
         )}
         <UserModal open={open} handleClose={handleClose} />
       </>
