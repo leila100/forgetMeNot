@@ -1,19 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
 import { NavLink, withRouter, Link } from "react-router-dom";
+
+import { useUser } from "../user/userContext";
 
 import logo from "../../assets/images/logo.png";
 import { TopBar, Logo } from "../../styles/navBarStyles";
 import { Button, Group } from "../../styles/commonStyles";
-import { getCurrentUser } from "../../store/actions/index";
 import UserModal from "../user/UserModal";
-
-import { updateUser } from "../../store/actions/index";
 
 const TopNav = (props) => {
   const [open, setOpen] = useState(false);
-  const user = useSelector((state) => state.usersReducer).currentUser;
-  const dispatch = useDispatch();
+  const [user] = useUser();
   const token = localStorage.getItem("jwt");
 
   function handleOpen() {
@@ -27,21 +24,6 @@ const TopNav = (props) => {
   const logout = () => {
     localStorage.removeItem("jwt");
     props.history.push("/login");
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    // if (!token) props.history.push("/login");
-    if (!user && token) getCurrentUser()(dispatch);
-  }, [user, token, dispatch, props.history]);
-
-  const updateHandler = ({ name, email }) => {
-    const updatedUser = {
-      ...user,
-      name,
-      email,
-    };
-    updateUser(user.id, updatedUser)(dispatch);
   };
 
   return (
@@ -79,7 +61,7 @@ const TopNav = (props) => {
             <NavLink to='/login'>Login</NavLink>
           </Button>
         )}
-        <UserModal open={open} handleClose={handleClose} update={updateHandler} />
+        <UserModal open={open} handleClose={handleClose} />
       </>
     </TopBar>
   );
