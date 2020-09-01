@@ -22,12 +22,11 @@ Project is created with:
 
 - react
 - react-router
-- redux
 - fullcalendar
 - moment
 - material-ui
 - styled-components
-
+- SASS
 ---
 
 ## Setup
@@ -52,21 +51,21 @@ Select a day, and time for your email to be sent. Write a thoughtful message tex
 </p>
 <p align="center">
   <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message.1e302e92.png" width="400" height="250">
-  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message1.fb3bc684.png" width="400" height="250">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message1.9eadede2.png" width="400" height="250">
 </p>
 
 - **Access all scheduled messages**
-See all your messages. Filter by sent messages, and also by the different categories.
+See all your messages. Filtered by date.
 <p align="center">
-  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_messages.66c441ba.png" width="400" height="250">
-  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_messages1.ac43d901.png" width="400" height="250">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_messages.95c1ac7a.png" width="400" height="250">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_messages1.7b240aef.png" width="400" height="250">
 </p>
 
 - **Update/Delete a scheduled message**
 Selecting an existing (not yet sent) message, you can edit it. You can also delete it by selecting the trashcan icon.
 <p align="center">
-  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message2.77675d42.png" width="400" height="250">
-  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message3.1bd17e3e.png" width="400" height="250">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message2.347f3eee.png" width="400" height="250">
+  <img alt="forget Me Not homepage" src="https://leilaberrouayel.me/static/media/FMN_message3.d75b3cc7.png" width="400" height="250">
 </p>
 
 ---
